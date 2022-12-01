@@ -1,4 +1,4 @@
-workspace "game_engine"
+workspace "start_game_engine"
 	architecture "x86_64"
 	startproject "Sandbox"
 
@@ -13,6 +13,7 @@ outputdir="%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["Hazel"] = "Hazel/src"
+IncludeDir["spdlog"] = "3rdparty/spdlog/include"
 
 project "Hazel"
 	location "Hazel"
@@ -22,6 +23,8 @@ project "Hazel"
 
 	targetdir ("build/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("build/int/" .. outputdir .. "/%{prj.name}")
+	pchheader "hzpch.h"
+	pchsource "Hazel/src/hzpch.cpp"
 
 	files
 	{
@@ -32,7 +35,6 @@ project "Hazel"
 	{
 		"%{IncludeDir.Hazel}",
 		"%{IncludeDir.spdlog}",
-		"%{IncludeDir.glfw}",
 	}
 	filter "system:windows"
 		cppdialect "C++17"
@@ -40,7 +42,6 @@ project "Hazel"
 		defines
 		{
 			"HZ_PLATFORM_WINDOWS",
-			"HZ_BUILD_DLL"
 		}
 		postbuildcommands
 		{
@@ -74,6 +75,7 @@ project "Sandbox"
 	includedirs
 	{
 		"%{IncludeDir.Hazel}",
+		"%{IncludeDir.spdlog}",
 	}
 	links
 	{
