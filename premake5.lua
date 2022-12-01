@@ -1,4 +1,4 @@
-workspace "start_game_engine"
+workspace "game_engine"
 	architecture "x86_64"
 	startproject "Sandbox"
 
@@ -14,6 +14,10 @@ outputdir="%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["Hazel"] = "Hazel/src"
 IncludeDir["spdlog"] = "3rdparty/spdlog/include"
+IncludeDir["glfw"]= "3rdparty/glfw/include"
+
+include "3rdparty"
+
 
 project "Hazel"
 	location "Hazel"
@@ -35,6 +39,12 @@ project "Hazel"
 	{
 		"%{IncludeDir.Hazel}",
 		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.glfw}",
+	}
+	links
+	{
+		"opengl32.lib",
+		"glfw"
 	}
 	filter "system:windows"
 		cppdialect "C++17"
@@ -76,6 +86,7 @@ project "Sandbox"
 	{
 		"%{IncludeDir.Hazel}",
 		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.glfw}"
 	}
 	links
 	{

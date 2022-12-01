@@ -1,4 +1,5 @@
 #pragma once
+#include "Hazel/Window.h"
 namespace Hazel
 {
 	class Applicaiton
@@ -7,6 +8,8 @@ namespace Hazel
 		Applicaiton();
 		virtual ~Applicaiton();
 		void Run();
+	private:
+		std::unique_ptr<Window> m_Window;
 	};
 	//to be define in client
 	Applicaiton* CreateApplication();
