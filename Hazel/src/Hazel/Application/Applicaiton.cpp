@@ -1,5 +1,6 @@
 #include "hzpch.h"
 #include "Applicaiton.h"
+#include "Hazel/Events/ApplicationEvent.h"
 
 namespace Hazel {
 	Applicaiton::Applicaiton()

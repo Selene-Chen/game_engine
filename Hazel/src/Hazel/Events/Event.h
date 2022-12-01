@@ -2,7 +2,6 @@
 #include "hzpch.h"
 
 namespace Hazel {
-	
 	enum class EventType
 	{
 		None = 0,
