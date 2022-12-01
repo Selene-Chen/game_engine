@@ -1,7 +1,7 @@
 #pragma once
-#include "hzpch.h"
+#include "Hazel/Log/Log.h"
 #ifdef HZ_PLATFORM_WINDOWS
-extern Hazel::Applicaiton* Hazel::CreateApplication();
+extern Hazel::Application* Hazel::CreateApplication();
 
 int main(int argc,char** argv)
 {

@@ -1,13 +1,13 @@
 #include <Hazel.h>
 
-class Sanbox : public Hazel::Applicaiton
+class Sanbox : public Hazel::Application
 {
 public:
 	Sanbox() {}
 	~Sanbox() {}
 };
 
-Hazel::Applicaiton* Hazel::CreateApplication()
+Hazel::Application* Hazel::CreateApplication()
 {
 	return new Sanbox();
 }
