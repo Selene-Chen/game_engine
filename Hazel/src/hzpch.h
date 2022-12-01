@@ -14,6 +14,7 @@
 
 #include "Hazel/Core.h"
 #include "Hazel/Log/Log.h"
+#include "Hazel/Events/ApplicationEvent.h"
 
 #ifdef HZ_PLATFORM_WINDOWS
 	#include <windows.h>

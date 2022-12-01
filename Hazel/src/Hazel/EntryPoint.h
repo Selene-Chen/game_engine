@@ -8,7 +8,7 @@ int main(int argc,char** argv)
 	printf("Hello Hazel!\n");
 	Hazel::Log::Init();
 	HZ_CORE_TRACE("Hello Hazel core loging");
-	HZ_Client_TRACE("Hello Hazel client loging");
+	HZ_TRACE("Hello Hazel client loging");
 
 	auto app = Hazel::CreateApplication();
 	app->Run();
