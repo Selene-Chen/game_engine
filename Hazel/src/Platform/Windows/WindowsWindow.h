@@ -1,7 +1,8 @@
 #pragma once
 #include "Hazel/Window.h"
-#include "glad/glad.h"
-#include <GLFW/glfw3.h>
+#include "Hazel/Renderer/GraphicsContext.h"
+
+struct GLFWwindow;
 namespace Hazel
 {
 	class WindowsWindow :public Window
@@ -19,13 +20,14 @@ namespace Hazel
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 
-		inline virtual void* GetNativeWindow() const override { return m_Window; }
+		inline virtual void* GetNativeWindow() const override { return m_WindowHandle; }
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
 
 	private:
-		GLFWwindow* m_Window;
+		GLFWwindow* m_WindowHandle;
+		GraphicsContext* m_Context;
 		struct WindowData
 		{
 			std::string Title;
