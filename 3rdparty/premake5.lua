@@ -50,19 +50,48 @@ project "Glfw"
         optimize "on"
 
 project "Glad"
-        kind "staticLib"
-        language "C"
-        targetdir ("build/bin/" .. outputdir .. "/%{prj.name}")
+    kind "staticLib"
+    language "C"
+    targetdir ("build/bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("build/int/" .. outputdir .. "/%{prj.name}")
+    files
+    {
+        "glad/include/glad/glad.h",
+        "glad/include/KHR/khrplatform.h",
+        "glad/src/glad.c",
+    }
+    includedirs
+    {
+        "glad/include"
+    }
+    filter "system:windows"
+        systemversion "latest"
+        staticruntime "on"
+    filter "configurations:Debug"
+        runtime "Debug"
+        symbols "on"
+    filter { "system:windows", "configurations:Release" }
+        runtime "Release"
+        optimize "on"
+
+project "Imgui"
+    kind "staticLib"
+    language "C++"
+    targetdir ("build/bin/" .. outputdir .. "/%{prj.name}")
         objdir ("build/int/" .. outputdir .. "/%{prj.name}")
         files
         {
-            "glad/include/glad/glad.h",
-            "glad/include/KHR/khrplatform.h",
-            "glad/src/glad.c",
-        }
-        includedirs
-        {
-            "glad/include"
+            "imgui/imconfig.h",
+            "imgui/imgui.h",
+            "imgui/imgui_internal.h",
+            "imgui/imstb_rectpack.h",
+            "imgui/imstb_textedit.h",
+            "imgui/imstb_truetype.h",
+            "imgui/imgui.cpp",
+            "imgui/imgui_draw.cpp",
+            "imgui/imgui_widgets.cpp",
+            "imgui/imgui_tables.cpp",
+            "imgui/imgui_demo.cpp",
         }
         filter "system:windows"
             systemversion "latest"
@@ -74,31 +103,30 @@ project "Glad"
             runtime "Release"
             optimize "on"
 
-project "Imgui"
-            kind "staticLib"
-            language "C++"
-            targetdir ("build/bin/" .. outputdir .. "/%{prj.name}")
-            objdir ("build/int/" .. outputdir .. "/%{prj.name}")
-            files
-            {
-                "imgui/imconfig.h",
-                "imgui/imgui.h",
-                "imgui/imgui_internal.h",
-                "imgui/imstb_rectpack.h",
-                "imgui/imstb_textedit.h",
-                "imgui/imstb_truetype.h",
-                "imgui/imgui.cpp",
-                "imgui/imgui_draw.cpp",
-                "imgui/imgui_widgets.cpp",
-                "imgui/imgui_tables.cpp",
-                "imgui/imgui_demo.cpp",
-            }
-            filter "system:windows"
-                systemversion "latest"
-                staticruntime "on"
-            filter "configurations:Debug"
-                runtime "Debug"
-                symbols "on"
-            filter { "system:windows", "configurations:Release" }
-                runtime "Release"
-                optimize "on"
+project "glm"
+    kind "staticLib"
+    language "C++"
+    targetdir ("build/bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("build/int/" .. outputdir .. "/%{prj.name}")
+    files
+    {
+        "glm/glm/**"
+    }
+    includedirs 
+    {
+        "glm"
+    }
+    filter "system:windows"
+        systemversion "latest"
+        staticruntime "on"
+        defines
+        { 
+            "_GLM_WIN32",
+            "_CRT_SECURE_NO_WARNINGS"
+        }
+    filter "configurations:Debug"
+        runtime "Debug"
+        symbols "on"
+    filter { "system:windows", "configurations:Release" }
+        runtime "Release"
+        optimize "on"
