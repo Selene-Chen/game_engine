@@ -32,6 +32,7 @@ virtual int GetCategoryFlags() const override { return category; }
 	{
 		friend class EventDispatcher;
 	public:
+		bool Handled = false;//事件是否以及被处理
 		virtual EventType GetEventType() const = 0;
 		virtual int GetCategoryFlags() const = 0;
 		virtual const char* GetName() const = 0;
@@ -42,8 +43,6 @@ virtual int GetCategoryFlags() const override { return category; }
 		{
 			return GetCategoryFlags() & category;
 		}
-	protected:
-		bool m_Handled = false;
 	};
 	//事件调度
 	//如果事件Type和事件处理函数Type相同，则执行事件处理函数
@@ -61,7 +60,7 @@ virtual int GetCategoryFlags() const override { return category; }
 		{
 			if (m_Event.GetEventType() == T::GetStaticType())
 			{
-				m_Event.m_Handled = func(*(T*)&m_Event);
+				m_Event.Handled = func(*(T*)&m_Event);
 				return true;
 			}
 			return false;
