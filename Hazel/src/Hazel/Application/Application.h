@@ -2,6 +2,7 @@
 #include "Hazel/Window.h"
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Hazel/Layer/Layerstack.h"
+#include "Hazel/Input.h"
 
 namespace Hazel
 {
@@ -14,8 +15,10 @@ namespace Hazel
 		void Run();
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
+
 		inline static Application& GetInstance() { return *s_instance; }
 		inline Window& GetWindow() { return *m_Window; }
+
 	private:
 		static Application* s_instance;
 	private:
