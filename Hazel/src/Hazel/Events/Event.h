@@ -1,6 +1,6 @@
 #pragma once
 #include "hzpch.h"
-
+#include <spdlog/fmt/ostr.h> 
 namespace Hazel {
 	enum class EventType
 	{
@@ -68,7 +68,8 @@ virtual int GetCategoryFlags() const override { return category; }
 	private:
 		Event& m_Event;
 	};
-	inline std::ostream& operator<<(std::ostream& os, const Event& e)
+
+	inline std::ostream& operator<< (std::ostream& os, const Event& e)
 	{
 		return os << e.ToString();
 	}
