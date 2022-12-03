@@ -1,6 +1,5 @@
 #include "hzpch.h"
 #include "Application.h"
-#include "glfw/glfw3.h"
 
 namespace Hazel {
 

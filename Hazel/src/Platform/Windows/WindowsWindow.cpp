@@ -1,6 +1,5 @@
 #include "hzpch.h"
 #include "WindowsWindow.h"
-
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Hazel/Events/MouseEvent.h"
 #include "Hazel/Events/KeyEvent.h"
@@ -47,7 +46,6 @@ namespace Hazel
 		glfwMakeContextCurrent(m_Window);
 		glfwSetWindowUserPointer(m_Window, &m_WinData);
 		SetVSync(true);
-
 		// 设置 GLFW 回调函数
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -118,6 +116,10 @@ namespace Hazel
 				MouseMovedEvent event((float)xPos, (float)yPos);
 				data.EventCallback(event);
 			});
+
+		//init glad
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		HZ_CORE_ASSERT(status, "Failed to initialize Glad!");
 	}
 
 	void WindowsWindow::OnUpdate()

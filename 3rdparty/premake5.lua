@@ -48,3 +48,28 @@ project "glfw"
     filter { "system:windows", "configurations:Release" }
         runtime "Release"
         optimize "on"
+
+project "glad"
+        kind "staticLib"
+        language "C"
+        targetdir ("build/bin/" .. outputdir .. "/%{prj.name}")
+        objdir ("build/int/" .. outputdir .. "/%{prj.name}")
+        files
+        {
+            "glad/include/glad/glad.h",
+            "glad/include/KHR/khrplatform.h",
+            "glad/src/glad.c",
+        }
+        includedirs
+        {
+            "glad/include"
+        }
+        filter "system:windows"
+            systemversion "latest"
+            staticruntime "on"
+        filter "configurations:Debug"
+            runtime "Debug"
+            symbols "on"
+        filter { "system:windows", "configurations:Release" }
+            runtime "Release"
+            optimize "on"

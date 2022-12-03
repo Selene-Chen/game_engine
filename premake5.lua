@@ -15,6 +15,7 @@ IncludeDir = {}
 IncludeDir["Hazel"] = "Hazel/src"
 IncludeDir["spdlog"] = "3rdparty/spdlog/include"
 IncludeDir["glfw"]= "3rdparty/glfw/include"
+IncludeDir["glad"]= "3rdparty/glad/include"
 
 include "3rdparty"
 
@@ -40,11 +41,13 @@ project "Hazel"
 		"%{IncludeDir.Hazel}",
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.glfw}",
+		"%{IncludeDir.glad}",
 	}
 	links
 	{
 		"opengl32.lib",
-		"glfw"
+		"glfw",
+		"glad"
 	}
 	filter "system:windows"
 		cppdialect "C++17"
@@ -52,6 +55,8 @@ project "Hazel"
 		defines
 		{
 			"HZ_PLATFORM_WINDOWS",
+			"HZ_ENABLE_ASSERTS",
+			"GLFW_INCLUDE_NONE"
 		}
 		postbuildcommands
 		{

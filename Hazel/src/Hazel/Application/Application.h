@@ -2,6 +2,7 @@
 #include "Hazel/Window.h"
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Hazel/Layer/Layerstack.h"
+#include "glad/glad.h"
 
 namespace Hazel
 {
