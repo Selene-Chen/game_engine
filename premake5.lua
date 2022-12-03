@@ -16,9 +16,9 @@ IncludeDir["Hazel"] = "Hazel/src"
 IncludeDir["spdlog"] = "3rdparty/spdlog/include"
 IncludeDir["glfw"]= "3rdparty/glfw/include"
 IncludeDir["glad"]= "3rdparty/glad/include"
+IncludeDir["imgui"]= "3rdparty/imgui/"
 
 include "3rdparty"
-
 
 project "Hazel"
 	location "Hazel"
@@ -42,12 +42,14 @@ project "Hazel"
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.glfw}",
 		"%{IncludeDir.glad}",
+		"%{IncludeDir.imgui}",
 	}
 	links
 	{
 		"opengl32.lib",
-		"glfw",
-		"glad"
+		"Glfw",
+		"Glad",
+		"Imgui"
 	}
 	filter "system:windows"
 		cppdialect "C++17"

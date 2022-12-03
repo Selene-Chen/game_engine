@@ -13,17 +13,18 @@ public:
 		HZ_TRACE("{0}", event.ToString());
 	}
 };
-class Sanbox : public Hazel::Application
+class Sandbox : public Hazel::Application
 {
 public:
-	Sanbox() 
+	Sandbox() 
 	{
 		PushLayer(new ExampleLayer());
+		PushOverlay(new Hazel::ImguiLayer());
 	}
-	~Sanbox() {}
+	~Sandbox() {}
 };
 
 Hazel::Application* Hazel::CreateApplication()
 {
-	return new Sanbox();
+	return new Sandbox();
 }
