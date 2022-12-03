@@ -12,6 +12,8 @@ namespace Hazel {
 		s_instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_HZ_EVENT_FN(Application::OnEvent));
+		m_ImGuiLayer = new ImGuiLayer();
+		PushLayer(m_ImGuiLayer);
 	}
 
 	Application::~Application()
@@ -46,9 +48,13 @@ namespace Hazel {
 		{
 			glClearColor(1, 0, 1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
-	
+
+			m_ImGuiLayer->Begin();
+
 			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate();
+				layer->OnImguiRender();
+
+			m_ImGuiLayer->End();
 
 			//auto [x, y] = Input::GetMousePosition();
 			//HZ_CORE_TRACE("{0},{1}", x, y);

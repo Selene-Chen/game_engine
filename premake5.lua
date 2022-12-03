@@ -107,7 +107,9 @@ project "Sandbox"
 		systemversion "latest"
 		defines
 		{
-			"HZ_PLATFORM_WINDOWS"
+			"HZ_PLATFORM_WINDOWS",
+			"HZ_ENABLE_ASSERTS",
+			"GLFW_INCLUDE_NONE"
 		}
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
