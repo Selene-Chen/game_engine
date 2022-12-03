@@ -3,7 +3,6 @@
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Hazel/Layer/Layerstack.h"
 
-
 namespace Hazel
 {
 	class Application

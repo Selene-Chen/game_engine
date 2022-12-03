@@ -19,7 +19,6 @@ namespace Hazel {
 	private:
 		float m_MouseX, m_MouseY;
 	};
-
 	class MouseScrolledEvent : public Event
 	{
 	public:
@@ -37,7 +36,6 @@ namespace Hazel {
 	private:
 		float m_XOffset, m_YOffset;
 	};
-
 	class MouseButtonEvent : public Event
 	{
 	public:
@@ -47,7 +45,6 @@ namespace Hazel {
 		MouseButtonEvent(int button): m_Button(button) {}
 		int m_Button;
 	};
-
 	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:

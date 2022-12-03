@@ -1,3 +1,4 @@
+#pragma once
 #include "Event.h"
 namespace Hazel
 {
@@ -18,7 +19,6 @@ namespace Hazel
 	private:
 		unsigned int m_Width, m_Height;
 	};
-
 	class WindowCloseEvent : public Event
 	{
 	public:
@@ -26,7 +26,6 @@ namespace Hazel
 		EVENT_CLASS_TYPE(WindowClose)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
-
 	class AppTickEvent : public Event
 	{
 	public:
@@ -35,7 +34,6 @@ namespace Hazel
 		EVENT_CLASS_TYPE(AppTick)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
-
 	class AppUpdateEvent : public Event
 	{
 	public:

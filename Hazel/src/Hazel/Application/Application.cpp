@@ -1,10 +1,9 @@
 #include "hzpch.h"
 #include "Application.h"
-#include "glad/glad.h"
+#include <glad/glad.h>
 
 namespace Hazel {
 
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 	Application* Application::s_instance = nullptr;
 
 	Application::Application()
@@ -14,7 +13,7 @@ namespace Hazel {
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		//设置事件调度
-		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+		m_Window->SetEventCallback(BIND_HZ_EVENT_FN(Application::OnEvent));
 	}
 
 	Application::~Application()
@@ -28,7 +27,7 @@ namespace Hazel {
 		//HZ_CORE_TRACE("{0}", e.ToString());
 		// 设置事件调度处理函数，这里是关闭窗口就结束程序
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+		dispatcher.Dispatch<WindowCloseEvent>(BIND_HZ_EVENT_FN(Application::OnWindowClose));
 		// 处理层事件(反向）
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
 		{
