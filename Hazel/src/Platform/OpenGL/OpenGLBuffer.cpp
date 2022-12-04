@@ -26,7 +26,6 @@ namespace Hazel {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)
 		:m_Count(count)
 	{
