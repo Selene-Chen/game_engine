@@ -69,7 +69,7 @@ namespace Hazel {
 		ImGui::DestroyContext();
 	}
 
-	void ImGuiLayer::OnImguiRender()
+	void ImGuiLayer::OnImGuiRender()
 	{
 		bool show_demo_window = true;
 		if (show_demo_window)
@@ -87,7 +87,7 @@ namespace Hazel {
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::GetInstance();
-		io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
+		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
 
 		// Rendering
 		ImGui::Render();
