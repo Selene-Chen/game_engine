@@ -74,10 +74,7 @@ namespace Hazel {
 		m_Shader.reset(new Shader(vertextSrc, fragmentSrc));
 	}
 
-	Application::~Application()
-	{
-		
-	}
+
 
 	void Application::OnEvent(Event& e)
 	{

@@ -6,7 +6,7 @@ namespace Hazel
 	class LayerStack
 	{
 	public:
-		LayerStack();
+		LayerStack() = default;
 		~LayerStack();
 		//普通层，push到列表前半部分，先处理
 		void PushLayer(Layer* layer);
