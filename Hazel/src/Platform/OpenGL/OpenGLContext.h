@@ -15,4 +15,3 @@ namespace Hazel
 		GLFWwindow* m_WindowHandle;
 	};
 }
-

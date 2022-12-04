@@ -48,6 +48,7 @@ namespace Hazel
 			s_GLFWInitialized = true;
 		}
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_WinData.Title.c_str(), nullptr, nullptr);
+
 		m_Context = new OpenGlContext(m_Window);
 		m_Context->Init();
 
@@ -130,9 +131,6 @@ namespace Hazel
 				KeyTypedEvent event(keycode);
 				data.EventCallback(event);
 			});
-		//init glad
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		HZ_CORE_ASSERT(status, "Failed to initialize Glad!");
 	}
 
 	void WindowsWindow::OnUpdate()
