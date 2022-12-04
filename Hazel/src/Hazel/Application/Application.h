@@ -6,7 +6,9 @@
 #include "Hazel/Layer/Layerstack.h"
 #include "Hazel/Imgui/ImguiLayer.h"
 #include "Hazel/Input.h"
+
 #include "Hazel/Renderer/Shader.h"
+#include "hazel/Renderer/Buffer.h"
 
 namespace Hazel
 {
@@ -27,8 +29,10 @@ namespace Hazel
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 		ImGuiLayer* m_ImGuiLayer;
-		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		unsigned int m_VertexArray;
 		std::unique_ptr<Shader> m_Shader;
+		std::unique_ptr<VertexBuffer> m_VertexBuffer;
+		std::unique_ptr<IndexBuffer> m_IndexBuffer;
 	private:
 		static Application* s_instance;
 	};
