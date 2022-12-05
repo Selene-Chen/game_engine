@@ -1,8 +1,7 @@
 #pragma once
-
+#include "hzpch.h"
 namespace Hazel
 {
-
     enum class ShaderDataType
     {
         None = 0,
@@ -83,9 +82,7 @@ namespace Hazel
         std::vector<BufferElement>::iterator       end() { return m_Elements.end(); }
         std::vector<BufferElement>::const_iterator begin() const { return m_Elements.begin(); }
         std::vector<BufferElement>::const_iterator end() const { return m_Elements.end(); }
-
-    private:
-        void CalculateOffsetAandStride()
+        void                                       CalculateOffsetAandStride()
         {
             uint32_t offset = 0;
             m_Stride        = 0;
