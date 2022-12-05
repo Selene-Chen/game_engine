@@ -11,5 +11,3 @@
 #include "Hazel/Imgui/ImguiLayer.h"
 
 #include "Hazel/EntryPoint.h"
-
-
