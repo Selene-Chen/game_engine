@@ -40,7 +40,9 @@ namespace Hazel
             0.0f,  0.5f,  0.0f, 0.8f, 0.8f, 0.2f, 1.0f  // top
         };
         unsigned int indices[3] = {0, 1, 2};
-    
+        std::shared_ptr<VertexBuffer> m_VertexBuffer;
+        std::shared_ptr<IndexBuffer>  m_IndexBuffer;
+
         // 1.vertexbuffer
         m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
         BufferLayout layout = {
@@ -106,7 +108,9 @@ namespace Hazel
             0.0f // left top
         };
         unsigned int Squareindices[6] = {0, 1, 2, 2, 3, 0};
-     
+        std::shared_ptr<IndexBuffer> m_SquareIndexBuffer;
+        std::shared_ptr<VertexBuffer> m_SquareVertexBuffer;
+
         // 1.vertexbuffer
         m_SquareVertexBuffer.reset(VertexBuffer::Create(Squarevertices, sizeof(Squarevertices)));
         BufferLayout Squarelayout = {
