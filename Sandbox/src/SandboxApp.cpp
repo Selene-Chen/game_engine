@@ -11,7 +11,7 @@ public:
             0.5f,  -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f, // right
             0.0f,  0.5f,  0.0f, 0.8f, 0.8f, 0.2f, 1.0f  // top
         };
-        unsigned int                  indices[3] = {0, 1, 2};
+        unsigned int                         indices[3] = {0, 1, 2};
         std::shared_ptr<Hazel::VertexBuffer> m_VertexBuffer;
         std::shared_ptr<Hazel::IndexBuffer>  m_IndexBuffer;
 
@@ -81,8 +81,8 @@ public:
             0.5f,
             0.0f // left top
         };
-        unsigned int                  Squareindices[6] = {0, 1, 2, 2, 3, 0};
-        std::shared_ptr<Hazel::IndexBuffer> m_SquareIndexBuffer;
+        unsigned int                         Squareindices[6] = {0, 1, 2, 2, 3, 0};
+        std::shared_ptr<Hazel::IndexBuffer>  m_SquareIndexBuffer;
         std::shared_ptr<Hazel::VertexBuffer> m_SquareVertexBuffer;
 
         // 1.vertexbuffer
@@ -129,10 +129,28 @@ public:
     }
     void OnUpdate() override
     {
+        //按键事件
+        if (Hazel::Input::IsKeyPressed(HZ_KEY_LEFT))
+            m_CameraPosition.x -= m_CameraMoveSpeed;
+        else if (Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT))
+            m_CameraPosition.x += m_CameraMoveSpeed;
+        if (Hazel::Input::IsKeyPressed(HZ_KEY_UP))
+            m_CameraPosition.y += m_CameraMoveSpeed;
+        else if (Hazel::Input::IsKeyPressed(HZ_KEY_DOWN))
+            m_CameraPosition.y -= m_CameraMoveSpeed;
+        
+        if (Hazel::Input::IsKeyPressed(HZ_KEY_A))
+            m_CameraRotation += m_CameraRotationSpeed;
+        if (Hazel::Input::IsKeyPressed(HZ_KEY_D))
+            m_CameraRotation -= m_CameraRotationSpeed;
+
         // TODO:清理屏
         Hazel::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
         Hazel::RenderCommand::Clear();
 
+        // 移动、旋转相机
+        m_Camera.SetPosition(m_CameraPosition);
+        m_Camera.SetRotation(m_CameraRotation);
         // TODO:开始绘制场景
         Hazel::Renderer::BeginScene(m_Camera);
 
@@ -144,36 +162,25 @@ public:
         // TODO:结束绘制场景
         Hazel::Renderer::EndScene();
     }
-    void OnEvent(Hazel::Event& event) override
-    {
-        // HZ_INFO("exampleLayer:onupdate");
-        // HZ_TRACE("{0}", event);
-        if (event.GetEventType() == Hazel::EventType::KeyPressed)
-        {
-            Hazel::KeyPressedEvent& e = (Hazel::KeyPressedEvent&)event;
-            if (e.GetKeyCode() == HZ_KEY_TAB)
-                HZ_TRACE("tab key is pressed!(event)");
-            HZ_TRACE("{0}", (char)e.GetKeyCode());
-        }
-    }
+    void OnEvent(Hazel::Event& event) override {}
 
 private:
     // 三角形
-    std::shared_ptr<Hazel::Shader> m_Shader;
+    std::shared_ptr<Hazel::Shader>      m_Shader;
     std::shared_ptr<Hazel::VertexArray> m_VertexArray;
     // 正方形
     std::shared_ptr<Hazel::VertexArray> m_SquareVertexArray;
     std::shared_ptr<Hazel::Shader>      m_SquareShader;
     Hazel::OrthographicCamera           m_Camera;
+    float                               m_CameraRotation = 0.0f;
+    glm::vec3                           m_CameraPosition = {0.0f, 0.0f, 0.0f};
+    float                               m_CameraMoveSpeed = 0.1f;
+    float                               m_CameraRotationSpeed = 1.0f;
 };
 class Sandbox : public Hazel::Application
 {
 public:
-    Sandbox()
-    {
-        PushLayer(new ExampleLayer());
-        // PushOverlay(new Hazel::ImGuiLayer());
-    }
+    Sandbox() { PushLayer(new ExampleLayer()); }
     ~Sandbox() {}
 };
 
