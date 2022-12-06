@@ -7,7 +7,8 @@
 #include "Hazel/Input.h"
 #include "Hazel/KeyCode.h"
 #include "Hazel/MouseButtonCode.h"
-
 #include "Hazel/Imgui/ImguiLayer.h"
+
+#include "Hazel/Renderer/Renderer.h"
 
 #include "Hazel/EntryPoint.h"
