@@ -6,13 +6,13 @@
 
 namespace Hazel
 {
-    Application*  Application::s_instance = nullptr;
- 
-    Application::Application() 
+    Application* Application::s_instance = nullptr;
+
+    Application::Application()
     {
         HZ_CORE_ASSERT(!s_instance, "Application aready exists!")
         s_instance = this;
-        m_Window   = std::unique_ptr<Window>(Window::Create());
+        m_Window   = Scope<Window>(Window::Create());
         m_Window->SetEventCallback(BIND_HZ_EVENT_FN(Application::OnEvent));
 
         m_ImGuiLayer = new ImGuiLayer();
@@ -45,9 +45,9 @@ namespace Hazel
     {
         while (m_Running)
         {
-            float time = glfwGetTime();//GetTime();
+            float    time     = glfwGetTime(); // GetTime();
             Timestep timestep = time - m_LastFrameTime;
-            m_LastFrameTime = time;
+            m_LastFrameTime   = time;
 
             for (Layer* layer : m_LayerStack)
                 layer->OnUpdate(timestep);
