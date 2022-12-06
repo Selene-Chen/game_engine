@@ -21,12 +21,13 @@ namespace Hazel
         inline Window&             GetWindow() { return *m_Window; }
 
     private:
-        bool                    OnWindowClose(WindowCloseEvent& e);
-        std::unique_ptr<Window> m_Window;
-        bool                    m_Running = true;
-        LayerStack              m_LayerStack;
-        ImGuiLayer*             m_ImGuiLayer;
-        float                   m_LastFrameTime = 0.0f;
+        bool          OnWindowClose(WindowCloseEvent& e);
+        Scope<Window> m_Window;
+        bool          m_Running = true;
+        LayerStack    m_LayerStack;
+        ImGuiLayer*   m_ImGuiLayer;
+        float         m_LastFrameTime = 0.0f;
+
     private:
         static Application* s_instance;
     };
