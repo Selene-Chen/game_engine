@@ -9,10 +9,11 @@ namespace Hazel
     {
         switch (Renderer::GetAPI())
         {
-            case RendererAPI::None:
+            case RenderAPI::API::None:
                 HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supperted!");
                 return nullptr;
-            case RendererAPI::OpenGL: return new OpenGLVertexBuffer(vertices, size);
+            case RenderAPI::API::OpenGL:
+                return new OpenGLVertexBuffer(vertices, size);
         }
         HZ_CORE_ASSERT(false, "Unknow RendererAPI!");
         return nullptr;
@@ -22,10 +23,10 @@ namespace Hazel
     {
         switch (Renderer::GetAPI())
         {
-            case RendererAPI::None:
+            case RenderAPI::API::None:
                 HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supperted!");
                 return nullptr;
-            case RendererAPI::OpenGL: return new OpenGLIndexBuffer(indices, count);
+            case RenderAPI::API::OpenGL: return new OpenGLIndexBuffer(indices, count);
         }
         HZ_CORE_ASSERT(false, "Unknow RendererAPI!");
         return nullptr;

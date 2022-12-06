@@ -1,6 +1,7 @@
 #include "hzpch.h"
 #include <glad/glad.h>
 #include "Application.h"
+#include "Hazel/Renderer/Renderer.h"
 
 namespace Hazel
 {
@@ -178,18 +179,32 @@ namespace Hazel
     {
         while (m_Running)
         {
-            glClearColor(0.1f, 0.1f, 0.1f, 1);
-            glClear(GL_COLOR_BUFFER_BIT);
+            // TODO:清理屏
+            RenderCommand::SetClearColor({0.1f,0.1f,0.1f,1});
+            RenderCommand::Clear();
 
-            // 正方形
+            // TODO:开始绘制场景
+            Renderer::BeginScene();
+
+            // TODO:绘制1
             m_SquareShader->Bind();
-            m_SquareVertexArray->Bind();
-            glDrawElements(GL_TRIANGLES, m_SquareVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+            Renderer::Submit(m_SquareVertexArray);
 
-            // 三角形 
+            // TODO:绘制2
             m_Shader->Bind();
-            m_VertexArray->Bind();
-            glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+            Renderer::Submit(m_VertexArray);
+            // TODO:结束绘制场景
+            Renderer::EndScene();
+
+            //// 正方形
+            //m_SquareShader->Bind();
+            //m_SquareVertexArray->Bind();
+            //glDrawElements(GL_TRIANGLES, m_SquareVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+            //// 三角形 
+            //m_Shader->Bind();
+            //m_VertexArray->Bind();
+            //glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 
             for (Layer* layer : m_LayerStack)
