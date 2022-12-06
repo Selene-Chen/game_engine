@@ -1,5 +1,4 @@
 #pragma once
-#include "hzpch.h"
 namespace Hazel
 {
     enum class ShaderDataType
@@ -71,7 +70,8 @@ namespace Hazel
     class BufferLayout
     {
     public:
-        BufferLayout() = default;
+        BufferLayout()  = default;
+        ~BufferLayout() = default;
         BufferLayout(const std::initializer_list<BufferElement>& elements) : m_Elements(elements)
         {
             CalculateOffsetAandStride();
@@ -101,7 +101,8 @@ namespace Hazel
     class VertexBuffer
     {
     public:
-        ~VertexBuffer()                                                   = default;
+        VertexBuffer()                                                    = default;
+        virtual ~VertexBuffer()                                           = default;
         virtual void                Bind() const                          = 0;
         virtual void                UnBind() const                        = 0;
         virtual void                SetLayout(const BufferLayout& layout) = 0;
@@ -111,7 +112,8 @@ namespace Hazel
     class IndexBuffer
     {
     public:
-        ~IndexBuffer()                       = default;
+        IndexBuffer()                        = default;
+        virtual ~IndexBuffer()               = default;
         virtual void        Bind() const     = 0;
         virtual void        UnBind() const   = 0;
         virtual uint32_t    GetCount() const = 0;

@@ -33,4 +33,11 @@ git submodule add https://github.com/g-truc/glm 3rdparty/glm
 - PushLayer
 - PushOverlay
 
+## Renderer 头文件层次关系
+
+renderer->RenderCommand->renderAPI->vertexArray->buffer
+renderer->shader
+renderer->OrthographicCamera
+
+
 

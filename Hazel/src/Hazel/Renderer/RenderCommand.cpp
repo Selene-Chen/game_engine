@@ -1,5 +1,6 @@
 
 #include "hzpch.h"
+#include "Shader.h"
 #include "RenderCommand.h"
 #include "Platform/OpenGL/OpenGLRenderAPI.h"
 

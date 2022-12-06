@@ -65,7 +65,7 @@ public:
 				color = v_Color;
 			}
 		)";
-        m_Shader.reset(new Hazel::Shader(vertextSrc, fragmentSrc));
+        m_Shader.reset(Hazel::Shader::Create(vertextSrc, fragmentSrc));
 
         //--------正方形（Square）------------------------------------
         float Squarevertices[3 * 4] = {
@@ -127,7 +127,7 @@ public:
 				color = vec4(0.2,0.3,0.8,1.0);
 			}
 		)";
-        m_SquareShader.reset(new Hazel::Shader(SquarevertextSrc, SquarefragmentSrc));
+        m_SquareShader.reset(Hazel::Shader::Create(SquarevertextSrc, SquarefragmentSrc));
     }
     void OnUpdate(Hazel::Timestep timestep) override
     {

@@ -1,11 +1,14 @@
 #pragma once
 #include "RenderCommand.h"
-
+#include "OrthographicCamera.h"
+#include "Shader.h"
 namespace Hazel
 {
     class Renderer
     {
     public:
+        Renderer() = default;
+        ~Renderer() = default;
         inline static RenderAPI::API GetAPI() { return RenderAPI::GetAPI(); }
         static void                  BeginScene(OrthographicCamera& camera);
         static void                  EndScene();

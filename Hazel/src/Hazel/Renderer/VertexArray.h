@@ -5,7 +5,8 @@ namespace Hazel
     class VertexArray
     {
     public:
-        ~VertexArray()                                                                    = default;
+        VertexArray()                                                                     = default;
+        virtual ~VertexArray()                                                            = default;
 
         virtual void Bind() const                                                         = 0;
         virtual void UnBind() const                                                       = 0;
