@@ -97,8 +97,10 @@ project "Sandbox"
 	{
 		"%{IncludeDir.Hazel}",
 		"%{IncludeDir.spdlog}",
-		"%{IncludeDir.glm}",
+		"%{IncludeDir.imgui}",
+		"%{IncludeDir.glm}"
 	}
+
 	links
 	{
 		"Hazel"

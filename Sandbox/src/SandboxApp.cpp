@@ -1,5 +1,9 @@
 #include <Hazel.h>
 #include <glm/gtc/matrix_transform.hpp>
+
+#include "Platform/OpenGL/OpenGLShader.h"
+#include "imgui.h"
+
 // 窗口默认1280:720=16:9，正交相机必须设置成相同比例图形才不会变形
 class ExampleLayer : public Hazel::Layer
 {
@@ -122,9 +126,11 @@ public:
 			
 			in vec3 v_Position;
 
+            uniform vec3 u_Color;
+
 			void main()
 			{
-				color = vec4(0.2,0.3,0.8,1.0);
+				color = vec4(u_Color,1.0);
 			}
 		)";
         m_SquareShader.reset(Hazel::Shader::Create(SquarevertextSrc, SquarefragmentSrc));
@@ -172,6 +178,11 @@ public:
 
         // 正方形变换
         glm::mat4 squareScale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
+        // 颜色
+        std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_SquareShader)->Bind();
+        std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_SquareShader)->UploadUniformFloat3("u_Color",m_SquareColor);
+
         for (int x = 0; x < 15; x++)
         {
             for (int y = 0; y < 15; y++)
@@ -187,6 +198,12 @@ public:
 
         // TODO:结束绘制场景
         Hazel::Renderer::EndScene();
+    }
+    virtual void OnImGuiRender() override 
+    { 
+        ImGui::Begin("Settings");
+        ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
+        ImGui::End();
     }
     void OnEvent(Hazel::Event& event) override {}
 
@@ -207,6 +224,8 @@ private:
     // Square Transform
     glm::vec3 m_SquarePosition   = {0.0f, 0.0f, 0.0f};
     float     m_SqauareMoveSpeed = 1.0f;
+    // Square Color
+    glm::vec3 m_SquareColor = {0.0f, 0.0f, 0.0f};
 };
 class Sandbox : public Hazel::Application
 {
