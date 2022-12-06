@@ -1,5 +1,7 @@
 #pragma once
 #include "RenderAPI.h"
+#include "Shader.h"
+#include "OrthographicCamera.h"
 namespace Hazel
 {
     class RenderCommand

@@ -11,6 +11,7 @@
 #include "hazel/Renderer/Buffer.h"
 #include "hazel/Renderer/VertexArray.h"
 
+#include "Hazel/Renderer/OrthographicCamera.h"
 namespace Hazel
 {
     class Application
@@ -26,17 +27,19 @@ namespace Hazel
         inline Window&             GetWindow() { return *m_Window; }
 
     private:
-        bool                          OnWindowClose(WindowCloseEvent& e);
-        std::unique_ptr<Window>       m_Window;
-        bool                          m_Running = true;
-        LayerStack                    m_LayerStack;
-        ImGuiLayer*                   m_ImGuiLayer;
-        //三角形
-        std::shared_ptr<Shader>       m_Shader;
-        std::shared_ptr<VertexArray>  m_VertexArray;
-        //正方形
+        bool                    OnWindowClose(WindowCloseEvent& e);
+        std::unique_ptr<Window> m_Window;
+        bool                    m_Running = true;
+        LayerStack              m_LayerStack;
+        ImGuiLayer*             m_ImGuiLayer;
+        // 三角形
+        std::shared_ptr<Shader>      m_Shader;
+        std::shared_ptr<VertexArray> m_VertexArray;
+        // 正方形
         std::shared_ptr<VertexArray> m_SquareVertexArray;
-        std::shared_ptr<Shader>       m_SquareShader;
+        std::shared_ptr<Shader>      m_SquareShader;
+        OrthographicCamera           m_Camera;
+
     private:
         static Application* s_instance;
     };

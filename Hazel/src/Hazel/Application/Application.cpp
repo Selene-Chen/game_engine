@@ -25,7 +25,7 @@ namespace Hazel
         HZ_CORE_ASSERT(false, "Unknow ShaderDataType!");
         return 0;
     }
-    Application::Application()
+    Application::Application() : m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
     {
         HZ_CORE_ASSERT(!s_instance, "Application aready exists!")
         s_instance = this;
@@ -40,7 +40,7 @@ namespace Hazel
             0.5f,  -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f, // right
             0.0f,  0.5f,  0.0f, 0.8f, 0.8f, 0.2f, 1.0f  // top
         };
-        unsigned int indices[3] = {0, 1, 2};
+        unsigned int                  indices[3] = {0, 1, 2};
         std::shared_ptr<VertexBuffer> m_VertexBuffer;
         std::shared_ptr<IndexBuffer>  m_IndexBuffer;
 
@@ -51,10 +51,10 @@ namespace Hazel
             {ShaderDataType::Float4, "a_Color"},
         };
         m_VertexBuffer->SetLayout(layout);
-     
+
         // 2.indexbuffer
         m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
-        
+
         // 3.vertexarray
         m_VertexArray.reset(VertexArray::Create());
         m_VertexArray->AddVertexBuffer(m_VertexBuffer);
@@ -66,6 +66,8 @@ namespace Hazel
 
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Color;
+            
+            uniform mat4 u_ViewProjection;
 
 			out vec3 v_Position;
 			out vec4 v_Color;
@@ -74,7 +76,7 @@ namespace Hazel
 			{
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 		)";
         std::string fragmentSrc = R"(
@@ -108,8 +110,8 @@ namespace Hazel
             0.5f,
             0.0f // left top
         };
-        unsigned int Squareindices[6] = {0, 1, 2, 2, 3, 0};
-        std::shared_ptr<IndexBuffer> m_SquareIndexBuffer;
+        unsigned int                  Squareindices[6] = {0, 1, 2, 2, 3, 0};
+        std::shared_ptr<IndexBuffer>  m_SquareIndexBuffer;
         std::shared_ptr<VertexBuffer> m_SquareVertexBuffer;
 
         // 1.vertexbuffer
@@ -119,7 +121,7 @@ namespace Hazel
         };
         m_SquareVertexBuffer->SetLayout(Squarelayout);
         // 2.indexbuffer
-        m_SquareIndexBuffer.reset(IndexBuffer::Create(Squareindices, sizeof(Squareindices)/sizeof(uint32_t)));
+        m_SquareIndexBuffer.reset(IndexBuffer::Create(Squareindices, sizeof(Squareindices) / sizeof(uint32_t)));
         // 3.vertexarray
         m_SquareVertexArray.reset(VertexArray::Create());
         m_SquareVertexArray->AddVertexBuffer(m_SquareVertexBuffer);
@@ -131,11 +133,13 @@ namespace Hazel
 			layout(location = 0) in vec3 a_Position;
 
 			out vec3 v_Position;
+
+            uniform mat4 u_ViewProjection;
 		
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 		)";
         std::string SquarefragmentSrc = R"(
@@ -180,32 +184,31 @@ namespace Hazel
         while (m_Running)
         {
             // TODO:清理屏
-            RenderCommand::SetClearColor({0.1f,0.1f,0.1f,1});
+            RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
             RenderCommand::Clear();
 
             // TODO:开始绘制场景
-            Renderer::BeginScene();
+            Renderer::BeginScene(m_Camera);
 
             // TODO:绘制1
-            m_SquareShader->Bind();
-            Renderer::Submit(m_SquareVertexArray);
+            Renderer::Submit(m_SquareShader, m_SquareVertexArray);
 
             // TODO:绘制2
-            m_Shader->Bind();
-            Renderer::Submit(m_VertexArray);
+            Renderer::Submit(m_Shader, m_VertexArray);
+
             // TODO:结束绘制场景
             Renderer::EndScene();
 
             //// 正方形
-            //m_SquareShader->Bind();
-            //m_SquareVertexArray->Bind();
-            //glDrawElements(GL_TRIANGLES, m_SquareVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+            // m_SquareShader->Bind();
+            // m_SquareVertexArray->Bind();
+            // glDrawElements(GL_TRIANGLES, m_SquareVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT,
+            // nullptr);
 
-            //// 三角形 
-            //m_Shader->Bind();
-            //m_VertexArray->Bind();
-            //glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
-
+            //// 三角形
+            // m_Shader->Bind();
+            // m_VertexArray->Bind();
+            // glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
             for (Layer* layer : m_LayerStack)
                 layer->OnUpdate();
