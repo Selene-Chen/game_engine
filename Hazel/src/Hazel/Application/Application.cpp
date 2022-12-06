@@ -25,7 +25,8 @@ namespace Hazel
         HZ_CORE_ASSERT(false, "Unknow ShaderDataType!");
         return 0;
     }
-    Application::Application() : m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
+    //窗口默认1280:720=16:9，正交相机必须设置成相同比例图形才不会变形
+    Application::Application() : m_Camera(-1.6f,1.6f, -0.9f, 0.9f)
     {
         HZ_CORE_ASSERT(!s_instance, "Application aready exists!")
         s_instance = this;
@@ -195,7 +196,6 @@ namespace Hazel
 
             // TODO:绘制2
             Renderer::Submit(m_Shader, m_VertexArray);
-
             // TODO:结束绘制场景
             Renderer::EndScene();
 
