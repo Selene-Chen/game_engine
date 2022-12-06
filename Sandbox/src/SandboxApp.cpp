@@ -165,16 +165,26 @@ public:
         // 移动、旋转相机
         m_Camera.SetPosition(m_CameraPosition);
         m_Camera.SetRotation(m_CameraRotation);
-        glm::mat4 squareTransform = glm::translate(glm::mat4(1.0f), m_SquarePosition);
 
         // TODO:开始绘制场景
         Hazel::Renderer::BeginScene(m_Camera);
-
         // TODO:绘制1
-        Hazel::Renderer::Submit(m_SquareShader, m_SquareVertexArray, squareTransform);
+
+        // 正方形变换
+        glm::mat4 squareScale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+        for (int x = 0; x < 15; x++)
+        {
+            for (int y = 0; y < 15; y++)
+            {
+                glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
+                glm::mat4 squareTransform = glm::translate(glm::mat4(1.0f), pos) * squareScale;
+                Hazel::Renderer::Submit(m_SquareShader, m_SquareVertexArray, squareTransform);
+            }
+        }
 
         // TODO:绘制2
         Hazel::Renderer::Submit(m_Shader, m_VertexArray);
+
         // TODO:结束绘制场景
         Hazel::Renderer::EndScene();
     }
@@ -188,15 +198,15 @@ private:
     std::shared_ptr<Hazel::VertexArray> m_SquareVertexArray;
     std::shared_ptr<Hazel::Shader>      m_SquareShader;
     Hazel::OrthographicCamera           m_Camera;
-    //Camera
-    float                               m_CameraRotation      = 0.0f;
-    glm::vec3                           m_CameraPosition      = {0.0f, 0.0f, 0.0f};
-    //Camera speed
-    float                               m_CameraMoveSpeed     = 1.0f;
-    float                               m_CameraRotationSpeed = 180.0f;
-    //Square Transform
-    glm::vec3                           m_SquarePosition      = {0.0f, 0.0f, 0.0f};
-    float                               m_SqauareMoveSpeed    = 1.0f;
+    // Camera
+    float     m_CameraRotation = 0.0f;
+    glm::vec3 m_CameraPosition = {0.0f, 0.0f, 0.0f};
+    // Camera speed
+    float m_CameraMoveSpeed     = 1.0f;
+    float m_CameraRotationSpeed = 180.0f;
+    // Square Transform
+    glm::vec3 m_SquarePosition   = {0.0f, 0.0f, 0.0f};
+    float     m_SqauareMoveSpeed = 1.0f;
 };
 class Sandbox : public Hazel::Application
 {
