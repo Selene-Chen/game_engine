@@ -1,7 +1,8 @@
 #include "hzpch.h"
+#include <glfw/glfw3.h>
 #include <glad/glad.h>
 #include "Application.h"
-#include "Hazel/Renderer/Renderer.h"
+#include "Hazel/Core/Timestep.h"
 
 namespace Hazel
 {
@@ -44,8 +45,12 @@ namespace Hazel
     {
         while (m_Running)
         {
+            float time = glfwGetTime();//GetTime();
+            Timestep timestep = time - m_LastFrameTime;
+            m_LastFrameTime = time;
+
             for (Layer* layer : m_LayerStack)
-                layer->OnUpdate();
+                layer->OnUpdate(timestep);
 
             m_ImGuiLayer->Begin();
             for (Layer* layer : m_LayerStack)

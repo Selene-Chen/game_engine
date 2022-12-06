@@ -127,22 +127,24 @@ public:
 		)";
         m_SquareShader.reset(new Hazel::Shader(SquarevertextSrc, SquarefragmentSrc));
     }
-    void OnUpdate() override
+    void OnUpdate(Hazel::Timestep timestep) override
     {
+        //HZ_TRACE("Delta time: {0}s ({1}ms)", timestep.GetSeconds(), timestep.GetMilliseconds());
+
         //按键事件
         if (Hazel::Input::IsKeyPressed(HZ_KEY_LEFT))
-            m_CameraPosition.x -= m_CameraMoveSpeed;
+            m_CameraPosition.x -= m_CameraMoveSpeed * timestep;
         else if (Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT))
-            m_CameraPosition.x += m_CameraMoveSpeed;
+            m_CameraPosition.x += m_CameraMoveSpeed * timestep;
         if (Hazel::Input::IsKeyPressed(HZ_KEY_UP))
-            m_CameraPosition.y += m_CameraMoveSpeed;
+            m_CameraPosition.y += m_CameraMoveSpeed * timestep;
         else if (Hazel::Input::IsKeyPressed(HZ_KEY_DOWN))
-            m_CameraPosition.y -= m_CameraMoveSpeed;
+            m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
         
         if (Hazel::Input::IsKeyPressed(HZ_KEY_A))
-            m_CameraRotation += m_CameraRotationSpeed;
+            m_CameraRotation += m_CameraRotationSpeed * timestep;
         if (Hazel::Input::IsKeyPressed(HZ_KEY_D))
-            m_CameraRotation -= m_CameraRotationSpeed;
+            m_CameraRotation -= m_CameraRotationSpeed * timestep;
 
         // TODO:清理屏
         Hazel::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
@@ -172,10 +174,10 @@ private:
     std::shared_ptr<Hazel::VertexArray> m_SquareVertexArray;
     std::shared_ptr<Hazel::Shader>      m_SquareShader;
     Hazel::OrthographicCamera           m_Camera;
-    float                               m_CameraRotation = 0.0f;
+    float                               m_CameraRotation = 5.0f;
     glm::vec3                           m_CameraPosition = {0.0f, 0.0f, 0.0f};
     float                               m_CameraMoveSpeed = 0.1f;
-    float                               m_CameraRotationSpeed = 1.0f;
+    float                               m_CameraRotationSpeed = 180.0f;
 };
 class Sandbox : public Hazel::Application
 {
