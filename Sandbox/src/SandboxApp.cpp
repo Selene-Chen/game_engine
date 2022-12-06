@@ -1,5 +1,5 @@
 #include <Hazel.h>
-
+#include <glm/gtc/matrix_transform.hpp>
 // 窗口默认1280:720=16:9，正交相机必须设置成相同比例图形才不会变形
 class ExampleLayer : public Hazel::Layer
 {
@@ -39,6 +39,7 @@ public:
 			layout(location = 1) in vec4 a_Color;
             
             uniform mat4 u_ViewProjection;
+            uniform mat4 u_Transform;
 
 			out vec3 v_Position;
 			out vec4 v_Color;
@@ -47,7 +48,7 @@ public:
 			{
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
         std::string fragmentSrc = R"(
@@ -106,11 +107,12 @@ public:
 			out vec3 v_Position;
 
             uniform mat4 u_ViewProjection;
-		
+            uniform mat4 u_Transform;		    
+
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
         std::string SquarefragmentSrc = R"(
@@ -129,9 +131,9 @@ public:
     }
     void OnUpdate(Hazel::Timestep timestep) override
     {
-        //HZ_TRACE("Delta time: {0}s ({1}ms)", timestep.GetSeconds(), timestep.GetMilliseconds());
+        // HZ_TRACE("Delta time: {0}s ({1}ms)", timestep.GetSeconds(), timestep.GetMilliseconds());
 
-        //按键事件
+        // Camera
         if (Hazel::Input::IsKeyPressed(HZ_KEY_LEFT))
             m_CameraPosition.x -= m_CameraMoveSpeed * timestep;
         else if (Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT))
@@ -140,11 +142,21 @@ public:
             m_CameraPosition.y += m_CameraMoveSpeed * timestep;
         else if (Hazel::Input::IsKeyPressed(HZ_KEY_DOWN))
             m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
-        
+
         if (Hazel::Input::IsKeyPressed(HZ_KEY_A))
             m_CameraRotation += m_CameraRotationSpeed * timestep;
         if (Hazel::Input::IsKeyPressed(HZ_KEY_D))
             m_CameraRotation -= m_CameraRotationSpeed * timestep;
+
+        // transform
+        if (Hazel::Input::IsKeyPressed(HZ_KEY_J))
+            m_SquarePosition.x -= m_SqauareMoveSpeed * timestep;
+        else if (Hazel::Input::IsKeyPressed(HZ_KEY_L))
+            m_SquarePosition.x += m_SqauareMoveSpeed * timestep;
+        if (Hazel::Input::IsKeyPressed(HZ_KEY_I))
+            m_SquarePosition.y += m_SqauareMoveSpeed * timestep;
+        else if (Hazel::Input::IsKeyPressed(HZ_KEY_K))
+            m_SquarePosition.y -= m_SqauareMoveSpeed * timestep;
 
         // TODO:清理屏
         Hazel::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
@@ -153,11 +165,13 @@ public:
         // 移动、旋转相机
         m_Camera.SetPosition(m_CameraPosition);
         m_Camera.SetRotation(m_CameraRotation);
+        glm::mat4 squareTransform = glm::translate(glm::mat4(1.0f), m_SquarePosition);
+
         // TODO:开始绘制场景
         Hazel::Renderer::BeginScene(m_Camera);
 
         // TODO:绘制1
-        Hazel::Renderer::Submit(m_SquareShader, m_SquareVertexArray);
+        Hazel::Renderer::Submit(m_SquareShader, m_SquareVertexArray, squareTransform);
 
         // TODO:绘制2
         Hazel::Renderer::Submit(m_Shader, m_VertexArray);
@@ -174,10 +188,15 @@ private:
     std::shared_ptr<Hazel::VertexArray> m_SquareVertexArray;
     std::shared_ptr<Hazel::Shader>      m_SquareShader;
     Hazel::OrthographicCamera           m_Camera;
-    float                               m_CameraRotation = 5.0f;
-    glm::vec3                           m_CameraPosition = {0.0f, 0.0f, 0.0f};
-    float                               m_CameraMoveSpeed = 0.1f;
+    //Camera
+    float                               m_CameraRotation      = 0.0f;
+    glm::vec3                           m_CameraPosition      = {0.0f, 0.0f, 0.0f};
+    //Camera speed
+    float                               m_CameraMoveSpeed     = 1.0f;
     float                               m_CameraRotationSpeed = 180.0f;
+    //Square Transform
+    glm::vec3                           m_SquarePosition      = {0.0f, 0.0f, 0.0f};
+    float                               m_SqauareMoveSpeed    = 1.0f;
 };
 class Sandbox : public Hazel::Application
 {
@@ -185,5 +204,4 @@ public:
     Sandbox() { PushLayer(new ExampleLayer()); }
     ~Sandbox() {}
 };
-
 Hazel::Application* Hazel::CreateApplication() { return new Sandbox(); }
