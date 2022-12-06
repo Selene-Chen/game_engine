@@ -1,5 +1,5 @@
 #pragma once
-#include "hzpch.h"
+#include "Hazel\Core.h"
 #include <spdlog/fmt/ostr.h>
 namespace Hazel
 {

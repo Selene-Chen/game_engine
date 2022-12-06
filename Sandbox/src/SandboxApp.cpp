@@ -16,8 +16,8 @@ public:
             0.0f,  0.5f,  0.0f, 0.8f, 0.8f, 0.2f, 1.0f  // top
         };
         unsigned int                         indices[3] = {0, 1, 2};
-        std::shared_ptr<Hazel::VertexBuffer> m_VertexBuffer;
-        std::shared_ptr<Hazel::IndexBuffer>  m_IndexBuffer;
+        Hazel::Ref<Hazel::VertexBuffer> m_VertexBuffer;
+        Hazel::Ref<Hazel::IndexBuffer>  m_IndexBuffer;
 
         // 1.vertexbuffer
         m_VertexBuffer.reset(Hazel::VertexBuffer::Create(vertices, sizeof(vertices)));
@@ -72,28 +72,22 @@ public:
         m_Shader.reset(Hazel::Shader::Create(vertextSrc, fragmentSrc));
 
         //--------正方形（Square）------------------------------------
-        float Squarevertices[3 * 4] = {
-            -0.5f,
-            -0.5f,
-            0.0f, // left down
-            0.5f,
-            -0.5f,
-            0.0f, // right down
-            0.5f,
-            0.5f,
-            0.0f, // right top
-            -0.5f,
-            0.5f,
-            0.0f // left top
+        float Squarevertices[5 * 4] = {
+            // 位置              // 纹理坐标
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // left down
+            0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, // right down
+            0.5f,  0.5f,  0.0f, 1.0f, 1.0f, // right top
+            -0.5f, 0.5f,  0.0f, 0.0f, 1.0f  // left top
         };
         unsigned int                         Squareindices[6] = {0, 1, 2, 2, 3, 0};
-        std::shared_ptr<Hazel::IndexBuffer>  m_SquareIndexBuffer;
-        std::shared_ptr<Hazel::VertexBuffer> m_SquareVertexBuffer;
+        Hazel::Ref<Hazel::IndexBuffer>  m_SquareIndexBuffer;
+        Hazel::Ref<Hazel::VertexBuffer> m_SquareVertexBuffer;
 
         // 1.vertexbuffer
         m_SquareVertexBuffer.reset(Hazel::VertexBuffer::Create(Squarevertices, sizeof(Squarevertices)));
         Hazel::BufferLayout Squarelayout = {
             {Hazel::ShaderDataType::Float3, "a_Position"},
+            {Hazel::ShaderDataType::Float2, "a_TexCoore"},
         };
         m_SquareVertexBuffer->SetLayout(Squarelayout);
         // 2.indexbuffer
@@ -134,6 +128,40 @@ public:
 			}
 		)";
         m_SquareShader.reset(Hazel::Shader::Create(SquarevertextSrc, SquarefragmentSrc));
+
+        // texture shader
+        std::string TextureShaderVertextSrc = R"(
+			#version 330 core
+
+			layout(location = 0) in vec3 a_Position;
+            layout(location = 1) in vec2 a_TexCoord;
+
+            uniform mat4 u_ViewProjection;
+            uniform mat4 u_Transform;		    
+
+            out vec2 v_TexCoord;
+			void main()
+			{
+				v_TexCoord = a_TexCoord;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+			}
+		)";
+        std::string TextureShaderFragmentSrc = R"(
+			#version 330 core
+
+			layout(location = 0) out vec4 color;
+            
+            in vec2 v_TexCoord;			
+
+            uniform vec3 u_Color;
+            
+			void main()
+			{
+				color = vec4(v_TexCoord,0.0,1.0);
+			}
+		)";
+        m_TextureShader.reset(Hazel::Shader::Create(TextureShaderVertextSrc, TextureShaderFragmentSrc));
+        
     }
     void OnUpdate(Hazel::Timestep timestep) override
     {
@@ -181,7 +209,7 @@ public:
 
         // 颜色
         std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_SquareShader)->Bind();
-        std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_SquareShader)->UploadUniformFloat3("u_Color",m_SquareColor);
+        std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_SquareShader)->UploadUniformFloat3("u_Color", m_SquareColor);
 
         for (int x = 0; x < 15; x++)
         {
@@ -193,14 +221,17 @@ public:
             }
         }
 
-        // TODO:绘制2
-        Hazel::Renderer::Submit(m_Shader, m_VertexArray);
+        // 大正方形
+        Hazel::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.0f)));
 
-        // TODO:结束绘制场景
-        Hazel::Renderer::EndScene();
+            //绘制三角形
+            // Hazel::Renderer::Submit(m_Shader, m_VertexArray);
+
+            // TODO:结束绘制场景
+            Hazel::Renderer::EndScene();
     }
-    virtual void OnImGuiRender() override 
-    { 
+    virtual void OnImGuiRender() override
+    {
         ImGui::Begin("Settings");
         ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
         ImGui::End();
@@ -209,12 +240,14 @@ public:
 
 private:
     // 三角形
-    std::shared_ptr<Hazel::Shader>      m_Shader;
-    std::shared_ptr<Hazel::VertexArray> m_VertexArray;
+    Hazel::Ref<Hazel::Shader>      m_Shader;
+    Hazel::Ref<Hazel::VertexArray> m_VertexArray;
     // 正方形
-    std::shared_ptr<Hazel::VertexArray> m_SquareVertexArray;
-    std::shared_ptr<Hazel::Shader>      m_SquareShader;
+    Hazel::Ref<Hazel::VertexArray> m_SquareVertexArray;
+    Hazel::Ref<Hazel::Shader>      m_SquareShader;
     Hazel::OrthographicCamera           m_Camera;
+    // 纹理
+    Hazel::Ref<Hazel::Shader> m_TextureShader;
     // Camera
     float     m_CameraRotation = 0.0f;
     glm::vec3 m_CameraPosition = {0.0f, 0.0f, 0.0f};
