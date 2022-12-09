@@ -171,6 +171,7 @@ namespace Hazel
             // 保存已经编译的sharedId添加到数组
             glShaderIDs[glShaderIDIndex++]=shader;
         }
+
         // 链接shader
         glLinkProgram(program);
         // 链接错误处理
@@ -182,14 +183,21 @@ namespace Hazel
             glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
             std::vector<GLchar> infoLog(maxLength);
             glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
-            glDeleteProgram(program);
-            // 删除shader
+            // link 失败：删除 program 删除 shader
             for (auto id : glShaderIDs)
+            {
+                glDetachShader(program, id);
                 glDeleteShader(id);
+            }
+            glDeleteProgram(program);
+          
         }
         // shader编译链接到program后就可以删除了
         for (auto id : glShaderIDs)
+        {
             glDetachShader(program, id);
+            glDeleteShader(id);
+        }
 
         m_RendererID = program;
     }
