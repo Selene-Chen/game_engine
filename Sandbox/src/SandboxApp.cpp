@@ -1,7 +1,7 @@
 #include <Hazel.h>
 #include <glm/gtc/matrix_transform.hpp>
-
 #include "Platform/OpenGL/OpenGLShader.h"
+#include "Platform/OpenGL/OpenGLTexturer.h"
 #include "imgui.h"
 
 // 窗口默认1280:720=16:9，正交相机必须设置成相同比例图形才不会变形
@@ -15,7 +15,7 @@ public:
             0.5f,  -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f, // right
             0.0f,  0.5f,  0.0f, 0.8f, 0.8f, 0.2f, 1.0f  // top
         };
-        unsigned int                         indices[3] = {0, 1, 2};
+        unsigned int                    indices[3] = {0, 1, 2};
         Hazel::Ref<Hazel::VertexBuffer> m_VertexBuffer;
         Hazel::Ref<Hazel::IndexBuffer>  m_IndexBuffer;
 
@@ -79,7 +79,7 @@ public:
             0.5f,  0.5f,  0.0f, 1.0f, 1.0f, // right top
             -0.5f, 0.5f,  0.0f, 0.0f, 1.0f  // left top
         };
-        unsigned int                         Squareindices[6] = {0, 1, 2, 2, 3, 0};
+        unsigned int                    Squareindices[6] = {0, 1, 2, 2, 3, 0};
         Hazel::Ref<Hazel::IndexBuffer>  m_SquareIndexBuffer;
         Hazel::Ref<Hazel::VertexBuffer> m_SquareVertexBuffer;
 
@@ -130,7 +130,7 @@ public:
         m_SquareShader.reset(Hazel::Shader::Create(SquarevertextSrc, SquarefragmentSrc));
 
         // texture shader
-        std::string TextureShaderVertextSrc = R"(
+        std::string TextureShaderVertextSrc  = R"(
 			#version 330 core
 
 			layout(location = 0) in vec3 a_Position;
@@ -154,14 +154,20 @@ public:
             in vec2 v_TexCoord;			
 
             uniform vec3 u_Color;
+            uniform sampler2D u_Texture;
             
 			void main()
 			{
-				color = vec4(v_TexCoord,0.0,1.0);
+				color = texture(u_Texture, v_TexCoord);
 			}
 		)";
         m_TextureShader.reset(Hazel::Shader::Create(TextureShaderVertextSrc, TextureShaderFragmentSrc));
-        
+
+        // 加载纹理
+        m_Texture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
+        // 着色器设置纹理变量
+       std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->Bind();
+       std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
     }
     void OnUpdate(Hazel::Timestep timestep) override
     {
@@ -192,7 +198,7 @@ public:
         else if (Hazel::Input::IsKeyPressed(HZ_KEY_K))
             m_SquarePosition.y -= m_SqauareMoveSpeed * timestep;
 
-        // TODO:清理屏
+        // 清理屏
         Hazel::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
         Hazel::RenderCommand::Clear();
 
@@ -200,9 +206,8 @@ public:
         m_Camera.SetPosition(m_CameraPosition);
         m_Camera.SetRotation(m_CameraRotation);
 
-        // TODO:开始绘制场景
+        // 开始绘制场景
         Hazel::Renderer::BeginScene(m_Camera);
-        // TODO:绘制1
 
         // 正方形变换
         glm::mat4 squareScale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
@@ -220,15 +225,17 @@ public:
                 Hazel::Renderer::Submit(m_SquareShader, m_SquareVertexArray, squareTransform);
             }
         }
+        // 纹理绑定
+        m_Texture->Bind();
 
         // 大正方形
         Hazel::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.0f)));
 
-            //绘制三角形
-            // Hazel::Renderer::Submit(m_Shader, m_VertexArray);
+        // 绘制三角形
+        //  Hazel::Renderer::Submit(m_Shader, m_VertexArray);
 
-            // TODO:结束绘制场景
-            Hazel::Renderer::EndScene();
+        // TODO:结束绘制场景
+        Hazel::Renderer::EndScene();
     }
     virtual void OnImGuiRender() override
     {
@@ -245,9 +252,11 @@ private:
     // 正方形
     Hazel::Ref<Hazel::VertexArray> m_SquareVertexArray;
     Hazel::Ref<Hazel::Shader>      m_SquareShader;
-    Hazel::OrthographicCamera           m_Camera;
-    // 纹理
+    Hazel::OrthographicCamera      m_Camera;
+    // Texture shder
     Hazel::Ref<Hazel::Shader> m_TextureShader;
+    // Texture file
+    Hazel::Ref<Hazel::Texture2D> m_Texture;
     // Camera
     float     m_CameraRotation = 0.0f;
     glm::vec3 m_CameraPosition = {0.0f, 0.0f, 0.0f};

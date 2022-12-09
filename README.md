@@ -8,6 +8,7 @@ git submodule add https://github.com/gabime/spdlog 3rdparty/spdlog
 git submodule add -b 3.3-stable https://github.com/glfw/glfw 3rdparty/glfw
 git submodule add -b docking https://github.com/ocornut/imgui 3rdparty/imgui
 git submodule add https://github.com/g-truc/glm 3rdparty/glm
+git submodule add https://github.com/nothings/stb 3rdparty/stb
 ```
 ## 日志
 
@@ -67,6 +68,30 @@ git submodule add https://github.com/g-truc/glm 3rdparty/glm
 renderer->RenderCommand->renderAPI->vertexArray->buffer
 renderer->shader
 renderer->OrthographicCamera
+texture
+
+## Texture
+
+- 纹理绑定（Bind）
+
+### Texture2D
+
+- 从文件创建纹理
+
+### OpenGLTexture2D
+
+- 创建纹理（构造函数）
+    -加载图片文件使用`stb_image`
+    -glCreateTextures
+    -glTextureStorage2D
+    -glTextureParameteri
+    -glTextureSubImage2D
+    -释放图片
+- 绑定纹理（Bind）
+    -glBindTextureUnit
+- 释放纹理（析构函数）
+    - glDeleteTextures
+
 
 
 

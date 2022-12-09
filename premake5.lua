@@ -18,6 +18,7 @@ IncludeDir["glfw"]= "3rdparty/glfw/include"
 IncludeDir["glad"]= "3rdparty/glad/include"
 IncludeDir["imgui"]= "3rdparty/imgui"
 IncludeDir["glm"]= "3rdparty/glm"
+IncludeDir["stb"]= "3rdparty/stb"
 
 include "3rdparty"
 
@@ -45,6 +46,7 @@ project "Hazel"
 		"%{IncludeDir.glad}",
 		"%{IncludeDir.imgui}",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb}",
 	}
 	links
 	{

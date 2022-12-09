@@ -103,7 +103,7 @@ project "Imgui"
             runtime "Release"
             optimize "on"
 
-project "glm"
+project "Glm"
     kind "staticLib"
     language "C++"
     targetdir ("build/bin/" .. outputdir .. "/%{prj.name}")
