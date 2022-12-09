@@ -20,7 +20,7 @@ public:
         Hazel::Ref<Hazel::IndexBuffer>  m_IndexBuffer;
 
         // 1.vertexbuffer
-        m_VertexBuffer = Hazel::VertexBuffer::Create(vertices, sizeof(vertices));
+        m_VertexBuffer             = Hazel::VertexBuffer::Create(vertices, sizeof(vertices));
         Hazel::BufferLayout layout = {
             {Hazel::ShaderDataType::Float3, "a_Position"},
             {Hazel::ShaderDataType::Float4, "a_Color"},
@@ -28,10 +28,10 @@ public:
         m_VertexBuffer->SetLayout(layout);
 
         // 2.indexbuffer
-        m_IndexBuffer= Hazel::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
+        m_IndexBuffer = Hazel::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
 
         // 3.vertexarray
-        m_VertexArray= Hazel::VertexArray::Create();
+        m_VertexArray = Hazel::VertexArray::Create();
         m_VertexArray->AddVertexBuffer(m_VertexBuffer);
         m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
@@ -69,7 +69,8 @@ public:
 				color = v_Color;
 			}
 		)";
-        m_Shader=Hazel::Shader::Create(vertextSrc, fragmentSrc);
+
+        m_Shader = Hazel::Shader::Create("Shader", vertextSrc, fragmentSrc);
 
         //--------正方形（Square）------------------------------------
         float Squarevertices[5 * 4] = {
@@ -84,16 +85,16 @@ public:
         Hazel::Ref<Hazel::VertexBuffer> m_SquareVertexBuffer;
 
         // 1.vertexbuffer
-        m_SquareVertexBuffer= Hazel::VertexBuffer::Create(Squarevertices, sizeof(Squarevertices));
+        m_SquareVertexBuffer             = Hazel::VertexBuffer::Create(Squarevertices, sizeof(Squarevertices));
         Hazel::BufferLayout Squarelayout = {
             {Hazel::ShaderDataType::Float3, "a_Position"},
             {Hazel::ShaderDataType::Float2, "a_TexCoore"},
         };
         m_SquareVertexBuffer->SetLayout(Squarelayout);
         // 2.indexbuffer
-        m_SquareIndexBuffer=Hazel::IndexBuffer::Create(Squareindices, sizeof(Squareindices) / sizeof(uint32_t));
+        m_SquareIndexBuffer = Hazel::IndexBuffer::Create(Squareindices, sizeof(Squareindices) / sizeof(uint32_t));
         // 3.vertexarray
-        m_SquareVertexArray=Hazel::VertexArray::Create();
+        m_SquareVertexArray = Hazel::VertexArray::Create();
         m_SquareVertexArray->AddVertexBuffer(m_SquareVertexBuffer);
         m_SquareVertexArray->SetIndexBuffer(m_SquareIndexBuffer);
         // 4.shader
@@ -127,18 +128,18 @@ public:
 				color = vec4(u_Color,1.0);
 			}
 		)";
-        m_SquareShader=Hazel::Shader::Create(SquarevertextSrc, SquarefragmentSrc);
+
+        m_SquareShader = Hazel::Shader::Create("SquareShader", SquarevertextSrc, SquarefragmentSrc);
 
         // 加载 texture shader
-        m_TextureShader = Hazel::Shader::Create("assets/shader/texture.glsl");
+        // m_TextureShader = Hazel::Shader::Create("assets/shader/texture.glsl");
+        auto textureShader = m_ShaderLibrary.Load("assets/shader/texture.glsl");
         // 加载纹理
-        m_Texture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
+        m_Texture     = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
         m_LogoTexture = Hazel::Texture2D::Create("assets/textures/Logo.png");
         // 着色器设置纹理变量
-       std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->Bind();
-       std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
-
-     
+        std::dynamic_pointer_cast<Hazel::OpenGLShader>(textureShader)->Bind();
+        std::dynamic_pointer_cast<Hazel::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
     }
     void OnUpdate(Hazel::Timestep timestep) override
     {
@@ -196,12 +197,13 @@ public:
                 Hazel::Renderer::Submit(m_SquareShader, m_SquareVertexArray, squareTransform);
             }
         }
-        // 纹理绑定 
+        auto textureShader = m_ShaderLibrary.Get("texture");
+        // 纹理绑定
         m_Texture->Bind();
-        Hazel::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.0f)));
+        Hazel::Renderer::Submit(textureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.0f)));
         // 纹理绑定
         m_LogoTexture->Bind();
-        Hazel::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.0f)));
+        Hazel::Renderer::Submit(textureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.0f)));
 
         // 绘制三角形
         //  Hazel::Renderer::Submit(m_Shader, m_VertexArray);
@@ -226,7 +228,9 @@ private:
     Hazel::Ref<Hazel::Shader>      m_SquareShader;
     Hazel::OrthographicCamera      m_Camera;
     // Texture shder
-    Hazel::Ref<Hazel::Shader> m_TextureShader;
+    Hazel::Ref<Hazel::Shader>        m_TextureShader;
+    // shderLibrary
+    Hazel::ShaderLibrary m_ShaderLibrary;
     // Texture file
     Hazel::Ref<Hazel::Texture2D> m_Texture;
     Hazel::Ref<Hazel::Texture2D> m_LogoTexture;
