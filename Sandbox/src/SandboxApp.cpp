@@ -165,9 +165,12 @@ public:
 
         // 加载纹理
         m_Texture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
+        m_LogoTexture = Hazel::Texture2D::Create("assets/textures/Logo.png");
         // 着色器设置纹理变量
        std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->Bind();
        std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+
+     
     }
     void OnUpdate(Hazel::Timestep timestep) override
     {
@@ -225,10 +228,11 @@ public:
                 Hazel::Renderer::Submit(m_SquareShader, m_SquareVertexArray, squareTransform);
             }
         }
-        // 纹理绑定
+        // 纹理绑定 
         m_Texture->Bind();
-
-        // 大正方形
+        Hazel::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.0f)));
+        // 纹理绑定
+        m_LogoTexture->Bind();
         Hazel::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.0f)));
 
         // 绘制三角形
@@ -257,6 +261,7 @@ private:
     Hazel::Ref<Hazel::Shader> m_TextureShader;
     // Texture file
     Hazel::Ref<Hazel::Texture2D> m_Texture;
+    Hazel::Ref<Hazel::Texture2D> m_LogoTexture;
     // Camera
     float     m_CameraRotation = 0.0f;
     glm::vec3 m_CameraPosition = {0.0f, 0.0f, 0.0f};

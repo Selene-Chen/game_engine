@@ -2,7 +2,9 @@
 #include <glfw/glfw3.h>
 #include <glad/glad.h>
 #include "Application.h"
+#include "Hazel/Renderer/Renderer.h"
 #include "Hazel/Core/Timestep.h"
+
 
 namespace Hazel
 {
@@ -14,6 +16,8 @@ namespace Hazel
         s_instance = this;
         m_Window   = Scope<Window>(Window::Create());
         m_Window->SetEventCallback(BIND_HZ_EVENT_FN(Application::OnEvent));
+
+       Renderer::Init();// 初始化 Renderer
 
         m_ImGuiLayer = new ImGuiLayer();
         PushLayer(m_ImGuiLayer);

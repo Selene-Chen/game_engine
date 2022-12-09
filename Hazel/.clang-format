@@ -12,17 +12,17 @@ AlignAfterOpenBracket: Align
 # 连续宏
 AlignConsecutiveMacros: 
   Enabled: true
-  AcrossEmptyLines: true
+  AcrossEmptyLines: false
   AcrossComments: false
 # 对齐连续等号
 AlignConsecutiveAssignments:
   Enabled: true
-  AcrossEmptyLines: true
+  AcrossEmptyLines: false
   AcrossComments: false
 # 对齐连续声明变量名
 AlignConsecutiveDeclarations:
   Enabled: true
-  AcrossEmptyLines: true
+  AcrossEmptyLines: false
   AcrossComments: false
 # 对齐逃脱换行(使用反斜杠换行)的反斜杠
 AlignEscapedNewlines:	DontAlign
