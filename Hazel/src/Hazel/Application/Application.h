@@ -20,8 +20,10 @@ namespace Hazel
 
     private:
         bool          OnWindowClose(WindowCloseEvent& e);
+        bool          OnWindowResizeEvent(WindowResizeEvent& e);
         Scope<Window> m_Window;
         bool          m_Running = true;
+        bool          m_Minimized = false;
         LayerStack    m_LayerStack;
         ImGuiLayer*   m_ImGuiLayer;
         float         m_LastFrameTime = 0.0f;
