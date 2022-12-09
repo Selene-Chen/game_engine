@@ -6,7 +6,7 @@
 #include <GLFW/glfw3.h>
 
 #include "ImGuiLayer.h"
-#include "Hazel/Application/Application.h"
+#include "Hazel/Core/Application/Application.h"
 
 namespace Hazel
 {

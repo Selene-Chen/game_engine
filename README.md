@@ -18,11 +18,10 @@ git submodule add https://github.com/nothings/stb 3rdparty/stb
 
 - 事件（OnEvent）
 - 窗口（Windows）
-  - 窗口事件，单独调度窗口事件
 - 层栈（LayerStack）
 - 主循环（Run）
-  - 事件调度
-  - 更新层
+  - window->update
+  - layers->update
 
 ## Event（事件）
 
@@ -51,33 +50,48 @@ git submodule add https://github.com/nothings/stb 3rdparty/stb
   - IsVSync
   - GetNativeWindow（多平台支持）
 
+### Windowswindows(GLFW实现)
+
 ## layerStack（层栈）
 
-- PushLayer
-- PushOverlay
+- pushLayer
+- pushOverLayer
 
-## Layer(层)
+### Layer(层)
 
 - OnAttach（初始化层-分配资源）
 - OnDetach（释放层-资源释放）
-- OnUpdate（层更新，主要是事件分发）
+- OnUpdate（层更新）
 
-## Input（输入）
+#### ImguiLayer
 
-- 单例
+## Input（输入轮询）
 
 ### WindowsInput
 
-## Renderer 头文件层次关系
+## Renderer 
 
+头文件层次关系
 renderer->RenderCommand->renderAPI->VertexArray->buffer
 renderer->shader
 renderer->OrthographicCamera
 texture
+### GraphicsContext(图形上下文)
 
-## shader
+### buffer
 
-### Shader
+#### vertexbuffer
+
+#### indexbuffer
+
+### vertexArray
+
+### ShaderLibrary(shader)
+
+- add
+- load
+
+#### shader
 
 - Create
   - 从字符串加载
@@ -85,21 +99,17 @@ texture
 - UnBind
 - Bind
 
-### ShaderLibrary
+#### OpenGLShader
 
-对shader的包装
-
-### OpenGLShader
-
-## Texture
+### Texture
 
 - 纹理绑定（Bind）
 
-### Texture2D
+#### Texture2D
 
 - 从文件创建纹理
 
-### OpenGLTexture2D
+##### OpenGLTexture2D
 
 - 创建纹理（构造函数）
   - 加载图片文件使用 `stb_image`
@@ -112,6 +122,9 @@ texture
   - glBindTextureUnit
 - 释放纹理（析构函数）
   - glDeleteTextures
+
+## Controller
+
 
 ## OpenGL
 
@@ -176,12 +189,12 @@ $$
 
 #### 正交投影和宽高比（aspectRatio）
 
-width=r-l,height=t-b, aspectRatio = r-l/t-b 
-left = - (r-l)/2 = aspectRatio * -t
-right = (r-l)/2 = aspectRatio * t
-bottom = -(t-b)/2 = -t
-top = (t-b)/2 = t
+width = r-l,height = t-b, aspectRatio = r-l/t-b
 
+left = - (r-l)/2 = - (r-l)/2 * t-b/r-l * r-l/t-b =  - (r-l)/2 * 2t/r-l * aspectRatio = -2top * aspectRatio
+right = (r-l)/2 = (r-l)/2 * t-b/r-l * r-l/t-b =  (r-l)/2 * 2t/r-l * aspectRatio = top * aspectRatio
+bottom = -(t-b)/2 = -top
+top = (t-b)/2 = top
 
 ### 透视投影矩阵
 

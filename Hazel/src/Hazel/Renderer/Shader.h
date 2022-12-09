@@ -1,5 +1,5 @@
 #pragma once
-#include "Hazel/Core.h"
+#include <unordered_map>
 #include <string>
 namespace Hazel
 {

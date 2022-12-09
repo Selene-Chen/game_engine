@@ -1,5 +1,5 @@
 #pragma once
-#include "Hazel/Layer/Layer.h"
+#include "Hazel/Core/Layer/Layer.h"
 
 namespace Hazel
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "Hazel/Log/Log.h"
+#include "Hazel/Core/Log/Log.h"
 #ifdef HZ_PLATFORM_WINDOWS
 extern Hazel::Application* Hazel::CreateApplication();
 

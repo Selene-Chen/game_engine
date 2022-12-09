@@ -1,5 +1,4 @@
 #pragma once
-#include "Hazel/Core.h"
 #include <string>
 
 namespace Hazel

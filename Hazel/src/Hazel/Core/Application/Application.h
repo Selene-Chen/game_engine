@@ -1,7 +1,7 @@
 #pragma once
-#include "Hazel/Window.h"
+#include "Hazel/Core/Window.h"
+#include "Hazel/Core/Layer/Layerstack.h"
 #include "Hazel/Events/ApplicationEvent.h"
-#include "Hazel/Layer/Layerstack.h"
 #include "Hazel/Imgui/ImguiLayer.h"
 
 namespace Hazel
@@ -22,7 +22,7 @@ namespace Hazel
         bool          OnWindowClose(WindowCloseEvent& e);
         bool          OnWindowResizeEvent(WindowResizeEvent& e);
         Scope<Window> m_Window;
-        bool          m_Running = true;
+        bool          m_Running   = true;
         bool          m_Minimized = false;
         LayerStack    m_LayerStack;
         ImGuiLayer*   m_ImGuiLayer;

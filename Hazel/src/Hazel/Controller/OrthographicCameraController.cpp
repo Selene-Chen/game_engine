@@ -1,7 +1,7 @@
 #include "hzpch.h"
 #include "OrthographicCameraController.h"
-#include "Hazel/Input.h"
-#include "Hazel/KeyCode.h"
+#include "Hazel/Core/Input.h"
+#include "Hazel/Core/KeyCode.h"
 
 namespace Hazel
 {
@@ -81,7 +81,7 @@ namespace Hazel
         return false;
     }
     /// <summary>
-    /// 重新计算宽高比，物体会变形
+    /// 重新计算宽高比
     /// </summary>
     /// <param name="e"></param>
     /// <returns></returns>
