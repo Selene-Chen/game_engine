@@ -9,29 +9,58 @@ git submodule add -b 3.3-stable https://github.com/glfw/glfw 3rdparty/glfw
 git submodule add -b docking https://github.com/ocornut/imgui 3rdparty/imgui
 git submodule add https://github.com/g-truc/glm 3rdparty/glm
 ```
+## 日志
+
 
 ## Application
 
-### 构造函数
+- 单例（Application）
+- 事件（OnEvent）
+- 窗口（Windows）
+    - 窗口事件，单独调度窗口事件
+- 层栈（LayerStack）
+- 主循环（Run）
+    - 事件调度
+    - 更新层
 
-- 获取自身实例
-- 创建窗口实例
-- 设置事件回调
+## Event（事件）
 
-### window（窗口）
+- 事件分类
+    -Type
+        -WindowClose，WindowResize，WindowFocus，WindowLostFocus，WindowMoved
+        -AppTick，AppUpdate，AppRender
+        -KeyPressed，KeyReleased，KeyTyped
+        -MouseButtonPressed，MouseButtonReleased，MouseMoved，MouseScrolled
+    -Category
+        -Application
+        -Input
+        -Keyboard
+        -Mouse
+        -MouseButton
 
-- GetWindow
+- 事件类（Event）
+- 事件调度类（EventDispatcher）
 
-### OnEvent（事件回调）
+## window（窗口）
 
-- 调度事件
-- 窗口关闭事件
-- 遍历层事件
+- 窗口属性结构体（WindowsProp）
+    - Title,Width,Height
+- 窗口类（Window）
+    - OnUpdate
+    - SetEventCallback
+    - IsVSync
+    - GetNativeWindow（多平台支持）
 
-### layer（层）
+## layerStack（层栈）
 
 - PushLayer
 - PushOverlay
+
+## Layer(层)
+
+- OnAttach（初始化层-分配资源）
+- OnDetach（释放层-资源释放）
+- OnUpdate（层更新，主要是事件分发）
 
 ## Renderer 头文件层次关系
 
