@@ -4,14 +4,14 @@
 #include "Platform/OpenGL/OpenGLShader.h"
 namespace Hazel
 {
-    Shader* Shader::Create(const std::string& vertexSrc, const std::string& fragmentSrc)
+    Ref<Shader> Shader::Create(const std::string& vertexSrc, const std::string& fragmentSrc)
     {
         switch (Renderer::GetAPI())
         {
             case RenderAPI::API::None:
                 HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supperted!");
                 return nullptr;
-            case RenderAPI::API::OpenGL: return new OpenGLShader(vertexSrc, fragmentSrc);
+            case RenderAPI::API::OpenGL: return std::make_shared<OpenGLShader>(vertexSrc, fragmentSrc);
         }
         HZ_CORE_ASSERT(false, "Unknow RendererAPI!");
         return nullptr;

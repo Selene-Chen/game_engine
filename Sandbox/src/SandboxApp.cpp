@@ -20,7 +20,7 @@ public:
         Hazel::Ref<Hazel::IndexBuffer>  m_IndexBuffer;
 
         // 1.vertexbuffer
-        m_VertexBuffer.reset(Hazel::VertexBuffer::Create(vertices, sizeof(vertices)));
+        m_VertexBuffer = Hazel::VertexBuffer::Create(vertices, sizeof(vertices));
         Hazel::BufferLayout layout = {
             {Hazel::ShaderDataType::Float3, "a_Position"},
             {Hazel::ShaderDataType::Float4, "a_Color"},
@@ -28,10 +28,10 @@ public:
         m_VertexBuffer->SetLayout(layout);
 
         // 2.indexbuffer
-        m_IndexBuffer.reset(Hazel::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+        m_IndexBuffer= Hazel::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
 
         // 3.vertexarray
-        m_VertexArray.reset(Hazel::VertexArray::Create());
+        m_VertexArray= Hazel::VertexArray::Create();
         m_VertexArray->AddVertexBuffer(m_VertexBuffer);
         m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
@@ -69,7 +69,7 @@ public:
 				color = v_Color;
 			}
 		)";
-        m_Shader.reset(Hazel::Shader::Create(vertextSrc, fragmentSrc));
+        m_Shader=Hazel::Shader::Create(vertextSrc, fragmentSrc);
 
         //--------正方形（Square）------------------------------------
         float Squarevertices[5 * 4] = {
@@ -84,16 +84,16 @@ public:
         Hazel::Ref<Hazel::VertexBuffer> m_SquareVertexBuffer;
 
         // 1.vertexbuffer
-        m_SquareVertexBuffer.reset(Hazel::VertexBuffer::Create(Squarevertices, sizeof(Squarevertices)));
+        m_SquareVertexBuffer= Hazel::VertexBuffer::Create(Squarevertices, sizeof(Squarevertices));
         Hazel::BufferLayout Squarelayout = {
             {Hazel::ShaderDataType::Float3, "a_Position"},
             {Hazel::ShaderDataType::Float2, "a_TexCoore"},
         };
         m_SquareVertexBuffer->SetLayout(Squarelayout);
         // 2.indexbuffer
-        m_SquareIndexBuffer.reset(Hazel::IndexBuffer::Create(Squareindices, sizeof(Squareindices) / sizeof(uint32_t)));
+        m_SquareIndexBuffer=Hazel::IndexBuffer::Create(Squareindices, sizeof(Squareindices) / sizeof(uint32_t));
         // 3.vertexarray
-        m_SquareVertexArray.reset(Hazel::VertexArray::Create());
+        m_SquareVertexArray=Hazel::VertexArray::Create();
         m_SquareVertexArray->AddVertexBuffer(m_SquareVertexBuffer);
         m_SquareVertexArray->SetIndexBuffer(m_SquareIndexBuffer);
         // 4.shader
@@ -127,7 +127,7 @@ public:
 				color = vec4(u_Color,1.0);
 			}
 		)";
-        m_SquareShader.reset(Hazel::Shader::Create(SquarevertextSrc, SquarefragmentSrc));
+        m_SquareShader=Hazel::Shader::Create(SquarevertextSrc, SquarefragmentSrc);
 
         // texture shader
         std::string TextureShaderVertextSrc  = R"(
@@ -161,7 +161,7 @@ public:
 				color = texture(u_Texture, v_TexCoord);
 			}
 		)";
-        m_TextureShader.reset(Hazel::Shader::Create(TextureShaderVertextSrc, TextureShaderFragmentSrc));
+        m_TextureShader=Hazel::Shader::Create(TextureShaderVertextSrc, TextureShaderFragmentSrc);
 
         // 加载纹理
         m_Texture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");

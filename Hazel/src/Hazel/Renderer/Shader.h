@@ -17,6 +17,6 @@ namespace Hazel
         virtual void UnBind() const = 0;
 
     public:
-        static Shader* Create(const std::string& vertexSrc, const std::string& fragmentSrc);
+        static Ref<Shader> Create(const std::string& vertexSrc, const std::string& fragmentSrc);
     };
 } // namespace Hazel
