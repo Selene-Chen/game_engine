@@ -54,6 +54,8 @@ namespace Hazel
             return false;
         }
         m_Minimized = false;
+        // 改变视口
+        Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
         return false;
     }
 
