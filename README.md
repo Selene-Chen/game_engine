@@ -65,10 +65,14 @@ git submodule add https://github.com/nothings/stb 3rdparty/stb
 ## Input（输入）
 
 - 单例
+- 
+
+### WindowsInput
+
 
 ## Renderer 头文件层次关系
 
-renderer->RenderCommand->renderAPI->vertexArray->buffer
+renderer->RenderCommand->renderAPI->VertexArray->buffer
 renderer->shader
 renderer->OrthographicCamera
 texture
