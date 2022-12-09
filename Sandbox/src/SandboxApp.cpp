@@ -1,14 +1,13 @@
 #include <Hazel.h>
 #include <glm/gtc/matrix_transform.hpp>
-#include "Platform/OpenGL/OpenGLShader.h"
-#include "Platform/OpenGL/OpenGLTexturer.h"
+
 #include "imgui.h"
 
 // 窗口默认1280:720=16:9，正交相机必须设置成相同比例图形才不会变形
 class ExampleLayer : public Hazel::Layer
 {
 public:
-    ExampleLayer() : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
+    ExampleLayer() : Layer("Example"), m_CameraController(1280.0f / 720.0f,true)
     {
         float vertices[3 * 7] = {
             -0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f, // left
@@ -145,41 +144,14 @@ public:
     {
         // HZ_TRACE("Delta time: {0}s ({1}ms)", timestep.GetSeconds(), timestep.GetMilliseconds());
 
-        // Camera
-        if (Hazel::Input::IsKeyPressed(HZ_KEY_LEFT))
-            m_CameraPosition.x -= m_CameraMoveSpeed * timestep;
-        else if (Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT))
-            m_CameraPosition.x += m_CameraMoveSpeed * timestep;
-        if (Hazel::Input::IsKeyPressed(HZ_KEY_UP))
-            m_CameraPosition.y += m_CameraMoveSpeed * timestep;
-        else if (Hazel::Input::IsKeyPressed(HZ_KEY_DOWN))
-            m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
+        // updateCamera
+        m_CameraController.OnUpdate(timestep);
 
-        if (Hazel::Input::IsKeyPressed(HZ_KEY_A))
-            m_CameraRotation += m_CameraRotationSpeed * timestep;
-        if (Hazel::Input::IsKeyPressed(HZ_KEY_D))
-            m_CameraRotation -= m_CameraRotationSpeed * timestep;
-
-        // transform
-        if (Hazel::Input::IsKeyPressed(HZ_KEY_J))
-            m_SquarePosition.x -= m_SqauareMoveSpeed * timestep;
-        else if (Hazel::Input::IsKeyPressed(HZ_KEY_L))
-            m_SquarePosition.x += m_SqauareMoveSpeed * timestep;
-        if (Hazel::Input::IsKeyPressed(HZ_KEY_I))
-            m_SquarePosition.y += m_SqauareMoveSpeed * timestep;
-        else if (Hazel::Input::IsKeyPressed(HZ_KEY_K))
-            m_SquarePosition.y -= m_SqauareMoveSpeed * timestep;
-
-        // 清理屏
+        // Render
         Hazel::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
         Hazel::RenderCommand::Clear();
 
-        // 移动、旋转相机
-        m_Camera.SetPosition(m_CameraPosition);
-        m_Camera.SetRotation(m_CameraRotation);
-
-        // 开始绘制场景
-        Hazel::Renderer::BeginScene(m_Camera);
+        Hazel::Renderer::BeginScene(m_CameraController.GetCamera());
 
         // 正方形变换
         glm::mat4 squareScale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
@@ -217,7 +189,7 @@ public:
         ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
         ImGui::End();
     }
-    void OnEvent(Hazel::Event& event) override {}
+    void OnEvent(Hazel::Event& event) override { m_CameraController.OnEvent(event); }
 
 private:
     // 三角形
@@ -226,7 +198,6 @@ private:
     // 正方形
     Hazel::Ref<Hazel::VertexArray> m_SquareVertexArray;
     Hazel::Ref<Hazel::Shader>      m_SquareShader;
-    Hazel::OrthographicCamera      m_Camera;
     // Texture shder
     Hazel::Ref<Hazel::Shader>        m_TextureShader;
     // shderLibrary
@@ -234,12 +205,9 @@ private:
     // Texture file
     Hazel::Ref<Hazel::Texture2D> m_Texture;
     Hazel::Ref<Hazel::Texture2D> m_LogoTexture;
-    // Camera
-    float     m_CameraRotation = 0.0f;
-    glm::vec3 m_CameraPosition = {0.0f, 0.0f, 0.0f};
-    // Camera speed
-    float m_CameraMoveSpeed     = 1.0f;
-    float m_CameraRotationSpeed = 180.0f;
+    // CameraController
+    Hazel::OrthographicCameraController m_CameraController;
+
     // Square Transform
     glm::vec3 m_SquarePosition   = {0.0f, 0.0f, 0.0f};
     float     m_SqauareMoveSpeed = 1.0f;

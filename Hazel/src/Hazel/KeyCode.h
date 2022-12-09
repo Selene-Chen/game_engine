@@ -1,5 +1,4 @@
 #pragma once
-#include "hzpch.h"
 /* The unknown key */
 #define HZ_KEY_UNKNOWN -1
 /* Printable keys */

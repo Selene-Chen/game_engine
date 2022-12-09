@@ -5,7 +5,6 @@
 #include "Hazel/Renderer/Renderer.h"
 #include "Hazel/Core/Timestep.h"
 
-
 namespace Hazel
 {
     Application* Application::s_instance = nullptr;
@@ -15,7 +14,7 @@ namespace Hazel
         HZ_CORE_ASSERT(!s_instance, "Application aready exists!")
         s_instance = this;
         m_Window   = Scope<Window>(Window::Create());
-        m_Window->SetEventCallback(BIND_HZ_EVENT_FN(Application::OnEvent));
+        m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
 
        Renderer::Init();// 初始化 Renderer
 
@@ -29,7 +28,7 @@ namespace Hazel
         // HZ_CORE_TRACE("{0}", e.ToString());
         // 设置事件调度处理函数，这里是关闭窗口就结束程序
         EventDispatcher dispatcher(e);
-        dispatcher.Dispatch<WindowCloseEvent>(BIND_HZ_EVENT_FN(Application::OnWindowClose));
+        dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClose));
         // 处理层事件
         for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
         {

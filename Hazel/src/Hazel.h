@@ -9,10 +9,10 @@
 #include "Hazel/KeyCode.h"
 #include "Hazel/MouseButtonCode.h"
 
-#include "Hazel/Events/MouseEvent.h"
-#include "Hazel/Events/KeyEvent.h"
-#include "Hazel/Events/ApplicationEvent.h"
-
 #include "Hazel/Renderer/Renderer.h"
+#include "Platform/OpenGL/OpenGLShader.h"
+#include "Platform/OpenGL/OpenGLTexturer.h"
+
+#include "Hazel/Controller/OrthographicCameraController.h"
 
 #include "Hazel/EntryPoint.h"
