@@ -34,7 +34,10 @@ project "Hazel"
 	objdir ("build/int/" .. outputdir .. "/%{prj.name}")
 	pchheader "hzpch.h"
 	pchsource "Hazel/src/hzpch.cpp"
-
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS"
+	}
 	files
 	{
 		"%{prj.name}/src/**.h",
@@ -63,10 +66,8 @@ project "Hazel"
 		systemversion "latest"
 		defines
 		{
-			"HZ_PLATFORM_WINDOWS",
-			"HZ_ENABLE_ASSERTS",
-			"GLFW_INCLUDE_NONE",
-			"_CRT_SECURE_NO_WARNINGS"
+			"HZ_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 		postbuildcommands
 		{
@@ -104,7 +105,6 @@ project "Sandbox"
 		"%{IncludeDir.imgui}",
 		"%{IncludeDir.glm}"
 	}
-
 	links
 	{
 		"Hazel"
@@ -112,12 +112,6 @@ project "Sandbox"
 	filter "system:windows"
 		cppdialect "C++17"
 		systemversion "latest"
-		defines
-		{
-			"HZ_PLATFORM_WINDOWS",
-			"HZ_ENABLE_ASSERTS",
-			"GLFW_INCLUDE_NONE"
-		}
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
 		runtime "Debug"

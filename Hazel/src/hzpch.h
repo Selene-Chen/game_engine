@@ -15,7 +15,3 @@
 
 #include "Hazel/Core/Core.h"
 #include "Hazel/Core/Log/Log.h"
-
-#ifdef HZ_PLATFORM_WINDOWS
-#include <windows.h>
-#endif
