@@ -28,6 +28,6 @@ namespace Hazel
         virtual void*        GetNativeWindow() const                           = 0;
 
     public:
-        static Window* Create(const WindowProps& prop = WindowProps());
+        static Scope<Window> Create(const WindowProps& prop = WindowProps());
     };
 } // namespace Hazel

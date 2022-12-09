@@ -13,7 +13,7 @@ namespace Hazel
             case RenderAPI::API::None:
                 HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supperted!");
                 return nullptr;
-            case RenderAPI::API::OpenGL: return std::make_shared<OpenGLTexture2D>(path);
+            case RenderAPI::API::OpenGL: return CreateRef<OpenGLTexture2D>(path);
         }
         HZ_CORE_ASSERT(false, "Unknow RendererAPI!");
         return nullptr;

@@ -24,7 +24,7 @@ namespace Hazel
         inline static void DrawIndexed(const Ref<VertexArray>& vertexArray) { s_RendererAPI->DrawIndexed(vertexArray); }
 
     private:
-        static RenderAPI* s_RendererAPI;
+        static Scope<RenderAPI> s_RendererAPI;
     };
 
 } // namespace Hazel

@@ -14,7 +14,7 @@ namespace Hazel
                 HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supperted!");
                 return nullptr;
             case RenderAPI::API::OpenGL:
-                return std::make_shared<OpenGLVertexBuffer>(vertices, size);
+                return CreateRef<OpenGLVertexBuffer>(vertices, size);
         }
         HZ_CORE_ASSERT(false, "Unknow RendererAPI!");
         return nullptr;
@@ -27,7 +27,7 @@ namespace Hazel
             case RenderAPI::API::None:
                 HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supperted!");
                 return nullptr;
-            case RenderAPI::API::OpenGL: return std::make_shared<OpenGLIndexBuffer>(indices, count);
+            case RenderAPI::API::OpenGL: return CreateRef<OpenGLIndexBuffer>(indices, count);
         }
         HZ_CORE_ASSERT(false, "Unknow RendererAPI!");
         return nullptr;

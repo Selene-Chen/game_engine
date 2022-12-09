@@ -13,7 +13,7 @@ namespace Hazel
 {
     static bool s_GLFWInitialized = false;
     // 子类用父类创建
-    Window* Window::Create(const WindowProps& props) { return new WindowsWindow(props); }
+    Scope<Window> Window::Create(const WindowProps& props) { return CreateScope<WindowsWindow>(props); }
 
     WindowsWindow::WindowsWindow(const WindowProps& props) { Init(props); }
 
@@ -38,9 +38,9 @@ namespace Hazel
             glfwSetErrorCallback(GLFWErrorCallback);
             s_GLFWInitialized = true;
         }
-        m_Window  = glfwCreateWindow((int)props.Width, (int)props.Height, m_WinData.Title.c_str(), nullptr, nullptr);
+        m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_WinData.Title.c_str(), nullptr, nullptr);
 
-        m_Context = new OpenGlContext(m_Window);
+        m_Context = CreateScope<OpenGlContext>(m_Window);
         m_Context->Init();
 
         glfwSetWindowUserPointer(m_Window, &m_WinData);

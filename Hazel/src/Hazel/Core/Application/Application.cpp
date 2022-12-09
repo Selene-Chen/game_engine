@@ -13,7 +13,7 @@ namespace Hazel
     {
         HZ_CORE_ASSERT(!s_instance, "Application aready exists!")
         s_instance = this;
-        m_Window   = Scope<Window>(Window::Create());
+        m_Window   = Window::Create();
         m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
 
         Renderer::Init(); // 初始化 Renderer

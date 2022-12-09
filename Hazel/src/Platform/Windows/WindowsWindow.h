@@ -11,14 +11,14 @@ namespace Hazel
         WindowsWindow(const WindowProps& props);
         virtual ~WindowsWindow();
 
-        void                OnUpdate() override;
+        void OnUpdate() override;
 
         inline unsigned int GetWidth() const override { return m_WinData.Width; }
         inline unsigned int GetHeight() const override { return m_WinData.Height; }
         inline void SetEventCallback(const EventCallbackFn& callback) override { m_WinData.EventCallback = callback; }
 
-        void        SetVSync(bool enabled) override;
-        bool        IsVSync() const override;
+        void SetVSync(bool enabled) override;
+        bool IsVSync() const override;
 
         inline virtual void* GetNativeWindow() const override { return m_Window; }
 
@@ -27,8 +27,8 @@ namespace Hazel
         virtual void Shutdown();
 
     private:
-        GLFWwindow*      m_Window;
-        GraphicsContext* m_Context;
+        GLFWwindow* m_Window;
+        Scope<GraphicsContext> m_Context;
         struct WindowData
         {
             std::string     Title;
