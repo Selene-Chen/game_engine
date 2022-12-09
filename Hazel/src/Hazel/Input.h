@@ -4,6 +4,13 @@ namespace Hazel
 {
     class Input
     {
+    protected:
+        Input() = default;
+
+    public:
+        Input(const Input&)            = delete;//删除参数为自身的构造函数
+        Input& operator=(const Input&) = delete;//删除赋值操作
+
     public:
         inline static bool IsKeyPressed(int keycode) { return s_Instance->IsKeyPressedImpl(keycode); }
         inline static bool IsMouseButtonPressed(int button) { return s_Instance->IsMouseButtonPressedImpl(button); }

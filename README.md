@@ -15,7 +15,6 @@ git submodule add https://github.com/nothings/stb 3rdparty/stb
 
 ## Application
 
-- 单例（Application）
 - 事件（OnEvent）
 - 窗口（Windows）
     - 窗口事件，单独调度窗口事件
@@ -63,6 +62,10 @@ git submodule add https://github.com/nothings/stb 3rdparty/stb
 - OnDetach（释放层-资源释放）
 - OnUpdate（层更新，主要是事件分发）
 
+## Input（输入）
+
+- 单例
+
 ## Renderer 头文件层次关系
 
 renderer->RenderCommand->renderAPI->vertexArray->buffer
@@ -94,4 +97,15 @@ texture
 
 
 
+## OpenGL
 
+### buffer 类型
+
+- GL_ARRAY_BUFFER（顶点数组缓存，配合VertexArray使用）
+- GL_ELEMENT_ARRAY_BUFFER（索引缓存，配合glDrawElements使用）
+- GL_TEXTURE_BUFFER（纹理缓存，配合glTexBuffer使用）
+- GL_UNIFORM_BUFFER（uniform缓存，传递复杂uniform）
+- GL_TRANSFORM_FEEDBACK_BUFFER
+- GL_PIXEL_PACK_BUFFER and GL_PIXEL_UNPACK_BUFFER（像素缓存）
+- GL_COPY_READ_BUFFER and GL_COPY_WRITE_BUFFER（复制缓存）
+- GL_DRAW_INDIRECT_BUFFER
