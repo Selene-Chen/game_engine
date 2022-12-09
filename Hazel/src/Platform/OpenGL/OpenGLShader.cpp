@@ -105,27 +105,27 @@ namespace Hazel
         const char* typeToken = "#type";
 
         size_t typeTokenLength = strlen(typeToken);
-
+        // 第一个着色器类型声明行开头位置
         size_t pos = source.find(typeToken, 0);
 
         while (pos != std::string::npos)
         {
-            // 查找#type这一行行尾（'\r\n'）索引
+            // 着色器类型声明行结尾位置
             size_t eol = source.find_first_of("\r\n", pos);
             HZ_CORE_ASSERT(eol != std::string::npos, "Syntax error");
-            // shader类型字符串开头的索引
+            // 着色器类型名位置（'#type '之后）
             size_t begin = pos + typeTokenLength + 1;
-            // 截取shader类型
+            // 截取着色器类型名
             std::string type = source.substr(begin, eol - begin);
             HZ_CORE_ASSERT(ShaderTypeFromString(type), "Invalid shader type specified");
 
-            // 获取#type下一行索引位置
+            // 着色器类型声明行结尾位置
             size_t nextLinePos = source.find_first_not_of("\r\n", eol);
-            // 下一个#type或者空索引
+            HZ_CORE_ASSERT(nextLinePos != std::string::npos, "Syntax error");
+            // 下一个着色器类型声明行开头位置
             pos = source.find(typeToken, nextLinePos);
-            // #type下一行到下一个#type之前
             shaderSources[ShaderTypeFromString(type)] =
-                source.substr(nextLinePos, pos - (nextLinePos == std::string::npos ? source.size() - 1 : nextLinePos));
+                (pos == std::string::npos) ? source.substr(nextLinePos) : source.substr(nextLinePos, pos - nextLinePos);
         }
         return shaderSources;
     }
