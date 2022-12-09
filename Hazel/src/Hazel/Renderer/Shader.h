@@ -1,9 +1,6 @@
 #pragma once
 #include "Hazel/Core.h"
 #include <string>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
 namespace Hazel
 {
     class Shader
@@ -18,5 +15,6 @@ namespace Hazel
 
     public:
         static Ref<Shader> Create(const std::string& vertexSrc, const std::string& fragmentSrc);
+        static Ref<Shader> Create(const std::string& path);
     };
 } // namespace Hazel

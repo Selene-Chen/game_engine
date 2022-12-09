@@ -77,6 +77,19 @@ renderer->shader
 renderer->OrthographicCamera
 texture
 
+
+## shader
+
+### Shader
+
+- Create
+    - 从字符串加载
+    - 从文件加载
+- UnBind
+- Bind
+
+### OpenGLShader
+
 ## Texture
 
 - 纹理绑定（Bind）
@@ -98,7 +111,6 @@ texture
     -glBindTextureUnit
 - 释放纹理（析构函数）
     - glDeleteTextures
-
 
 
 ## OpenGL
