@@ -9,5 +9,6 @@
 #include "Hazel/Core/MouseButtonCode.h"
 #include "Hazel/Core/Timestep.h"
 #include "Hazel/Renderer/Renderer.h"
+#include "Hazel/Renderer/Renderer2D.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "Platform/OpenGL/OpenGLTexturer.h"
