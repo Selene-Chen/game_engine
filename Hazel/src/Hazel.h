@@ -15,4 +15,4 @@
 
 #include "Hazel/Controller/OrthographicCameraController.h"
 
-#include "Hazel/Core/EntryPoint.h"
+

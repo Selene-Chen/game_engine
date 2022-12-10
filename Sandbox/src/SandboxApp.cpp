@@ -1,8 +1,9 @@
 #include <Hazel.h>
 #include <glm/gtc/matrix_transform.hpp>
-
 #include "imgui.h"
 
+#include "Hazel/Core/EntryPoint.h"
+#include "Sandbox2D.h"
 // 窗口默认1280:720=16:9，正交相机必须设置成相同比例图形才不会变形
 class ExampleLayer : public Hazel::Layer
 {
@@ -214,10 +215,11 @@ private:
     // Square Color
     glm::vec3 m_SquareColor = {0.0f, 0.0f, 0.0f};
 };
+
 class Sandbox : public Hazel::Application
 {
 public:
-    Sandbox() { PushLayer(new ExampleLayer()); }
+    Sandbox() { PushLayer(new Sandbox2D()); }
     ~Sandbox() {}
 };
 Hazel::Application* Hazel::CreateApplication() { return new Sandbox(); }
