@@ -1,9 +1,9 @@
 #include "hzpch.h"
+
 #include "OpenGLContext.h"
 
-#include <glfw/glfw3.h>
 #include <glad/glad.h>
-#include <GL/GL.h>
+#include <glfw/glfw3.h>
 
 namespace Hazel
 {
@@ -30,9 +30,8 @@ namespace Hazel
         glGetIntegerv(GL_MINOR_VERSION, &versionMinor);
         HZ_CORE_ASSERT(versionMajor > 4 || (versionMajor == 4 && versionMinor >= 5),
                        "Hazel requires at least OpenGL version 4.5!");
-
     }
 
     void OpenGlContext::SwapBuffers() { glfwSwapBuffers(m_WindowHandle); }
 
-} // namespace Hazel
+}  // namespace Hazel

@@ -1,6 +1,6 @@
 #pragma once
-#include "Hazel/Core/Window.h"
 #include "Hazel/Core/Layer/Layerstack.h"
+#include "Hazel/Core/Window.h"
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Hazel/Imgui/ImguiLayer.h"
 
@@ -11,26 +11,26 @@ namespace Hazel
     public:
         Application();
         virtual ~Application() = default;
-        void                       Run();
-        void                       OnEvent(Event& e);
-        void                       PushLayer(Layer* layer);
-        void                       PushOverlay(Layer* overlay);
+        void Run();
+        void OnEvent(Event& e);
+        void PushLayer(Layer* layer);
+        void PushOverlay(Layer* overlay);
         inline static Application& GetInstance() { return *s_instance; }
-        inline Window&             GetWindow() { return *m_Window; }
+        inline Window& GetWindow() { return *m_Window; }
 
     private:
-        bool          OnWindowClose(WindowCloseEvent& e);
-        bool          OnWindowResizeEvent(WindowResizeEvent& e);
+        bool OnWindowClose(WindowCloseEvent& e);
+        bool OnWindowResizeEvent(WindowResizeEvent& e);
         Scope<Window> m_Window;
-        bool          m_Running   = true;
-        bool          m_Minimized = false;
-        LayerStack    m_LayerStack;
-        ImGuiLayer*   m_ImGuiLayer;
-        float         m_LastFrameTime = 0.0f;
+        bool m_Running = true;
+        bool m_Minimized = false;
+        LayerStack m_LayerStack;
+        ImGuiLayer* m_ImGuiLayer;
+        float m_LastFrameTime = 0.0f;
 
     private:
         static Application* s_instance;
     };
     // to be define in client
     Application* CreateApplication();
-} // namespace Hazel
+}  // namespace Hazel

@@ -17,4 +17,4 @@ namespace Hazel
     private:
         GLFWwindow* m_WindowHandle;
     };
-} // namespace Hazel
+}  // namespace Hazel

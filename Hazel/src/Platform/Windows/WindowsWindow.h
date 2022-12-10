@@ -31,11 +31,11 @@ namespace Hazel
         Scope<GraphicsContext> m_Context;
         struct WindowData
         {
-            std::string     Title;
-            unsigned int    Width, Height;
-            bool            VSync;
+            std::string Title;
+            unsigned int Width, Height;
+            bool VSync;
             EventCallbackFn EventCallback;
         };
         WindowData m_WinData;
     };
-} // namespace Hazel
+}  // namespace Hazel

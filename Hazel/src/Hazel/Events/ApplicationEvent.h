@@ -1,6 +1,8 @@
 #pragma once
 #include <sstream>
+
 #include "Event.h"
+
 namespace Hazel
 {
     class WindowResizeEvent : public Event
@@ -9,7 +11,7 @@ namespace Hazel
         WindowResizeEvent(unsigned int width, unsigned int height) : m_Width(width), m_Height(height) {}
         inline unsigned int GetWidth() const { return m_Width; }
         inline unsigned int GetHeight() const { return m_Height; }
-        std::string         ToString() const override
+        std::string ToString() const override
         {
             std::stringstream ss;
             ss << "WindowResizeEvent: " << m_Width << ", " << m_Height;
@@ -51,4 +53,4 @@ namespace Hazel
         EVENT_CLASS_TYPE(AppRender)
         EVENT_CLASS_CATEGORY(EventCategoryApplication)
     };
-} // namespace Hazel
+}  // namespace Hazel

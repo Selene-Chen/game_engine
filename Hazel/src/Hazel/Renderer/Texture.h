@@ -6,11 +6,11 @@ namespace Hazel
     class Texture
     {
     public:
-        Texture()          = default;
+        Texture() = default;
         virtual ~Texture() = default;
 
     public:
-        virtual uint32_t GetWidth() const  = 0;
+        virtual uint32_t GetWidth() const = 0;
         virtual uint32_t GetHeight() const = 0;
 
     public:
@@ -22,4 +22,4 @@ namespace Hazel
     public:
         static Ref<Texture2D> Create(const std::string& path);
     };
-} // namespace Hazel
+}  // namespace Hazel

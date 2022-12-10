@@ -1,7 +1,8 @@
 #pragma once
-#include "Hazel/Renderer/Shader.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include "Hazel/Renderer/Shader.h"
 
 // TODO: should be remove
 typedef unsigned int GLenum;
@@ -10,7 +11,7 @@ namespace Hazel
     class OpenGLShader : public Shader
     {
     public:
-        OpenGLShader(const std::string& name,const std::string& vertexSrc, const std::string& fragmentSrc);
+        OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
         OpenGLShader(const std::string& path);
         ~OpenGLShader();
 
@@ -31,12 +32,12 @@ namespace Hazel
         void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
 
     private:
-        uint32_t    m_RendererID;
+        uint32_t m_RendererID;
         std::string m_Name;
 
     private:
-        std::string                             ReadFile(const std::string& path);
+        std::string ReadFile(const std::string& path);
         std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
-        void                                    Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
+        void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
     };
-} // namespace Hazel
+}  // namespace Hazel

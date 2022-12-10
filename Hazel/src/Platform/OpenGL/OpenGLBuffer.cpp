@@ -1,5 +1,7 @@
 #include "hzpch.h"
+
 #include "OpenGLBuffer.h"
+
 #include "glad/glad.h"
 
 namespace Hazel
@@ -30,4 +32,4 @@ namespace Hazel
     void OpenGLIndexBuffer::Bind() const { glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID); }
 
     void OpenGLIndexBuffer::UnBind() const { glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); }
-} // namespace Hazel
+}  // namespace Hazel

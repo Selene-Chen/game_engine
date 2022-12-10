@@ -1,30 +1,31 @@
 #pragma once
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
+
 namespace Hazel
 {
     class Shader
     {
     public:
-        Shader()          = default;
+        Shader() = default;
         virtual ~Shader() = default;
 
     public:
-        virtual void Bind() const   = 0;
+        virtual void Bind() const = 0;
         virtual void UnBind() const = 0;
 
     public:
         virtual const std::string& GetName() const = 0;
 
     public:
-        static Ref<Shader>
-        Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
+        static Ref<Shader> Create(const std::string& name, const std::string& vertexSrc,
+                                  const std::string& fragmentSrc);
         static Ref<Shader> Create(const std::string& path);
     };
     class ShaderLibrary
     {
     public:
-        ShaderLibrary()          = default;
+        ShaderLibrary() = default;
         virtual ~ShaderLibrary() = default;
 
     public:
@@ -41,4 +42,4 @@ namespace Hazel
     private:
         std::unordered_map<std::string, Ref<Shader>> m_Shaders;
     };
-} // namespace Hazel
+}  // namespace Hazel

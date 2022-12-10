@@ -1,33 +1,35 @@
 #pragma once
-#include "Hazel/Events/Event.h"
+#include <functional>
 
+#include "Hazel/Events/Event.h"
 namespace Hazel
 {
     struct WindowProps
     {
-        std::string  Title;
+        std::string Title;
         unsigned int Width;
         unsigned int Height;
-        WindowProps(const std::string& title = "Hazel Engine", unsigned int width = 1280, unsigned int height = 720) :
-            Title(title), Width(width), Height(height)
-        {}
+        WindowProps(const std::string& title = "Hazel Engine", unsigned int width = 1280, unsigned int height = 720)
+            : Title(title), Width(width), Height(height)
+        {
+        }
     };
     class Window
     {
     public:
         using EventCallbackFn = std::function<void(Event&)>;
-        virtual ~Window()     = default;
+        virtual ~Window() = default;
 
     public:
-        virtual void         OnUpdate()                                        = 0;
-        virtual unsigned int GetWidth() const                                  = 0;
-        virtual unsigned int GetHeight() const                                 = 0;
-        virtual void         SetEventCallback(const EventCallbackFn& callback) = 0;
-        virtual void         SetVSync(bool enabled)                            = 0;
-        virtual bool         IsVSync() const                                   = 0;
-        virtual void*        GetNativeWindow() const                           = 0;
+        virtual void OnUpdate() = 0;
+        virtual unsigned int GetWidth() const = 0;
+        virtual unsigned int GetHeight() const = 0;
+        virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
+        virtual void SetVSync(bool enabled) = 0;
+        virtual bool IsVSync() const = 0;
+        virtual void* GetNativeWindow() const = 0;
 
     public:
         static Scope<Window> Create(const WindowProps& prop = WindowProps());
     };
-} // namespace Hazel
+}  // namespace Hazel

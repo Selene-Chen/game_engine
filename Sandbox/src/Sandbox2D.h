@@ -1,7 +1,7 @@
 #pragma once
-
 #include <Hazel.h>
 #include <glm/gtc/matrix_transform.hpp>
+
 #include "imgui.h"
 
 class Sandbox2D : public Hazel::Layer
@@ -23,7 +23,7 @@ private:
     Hazel::OrthographicCameraController m_CameraController;
 
     Hazel::Ref<Hazel::VertexArray> m_SquareVA;
-    Hazel::Ref<Hazel::Shader>      m_FlatColorShader;
+    Hazel::Ref<Hazel::Shader> m_FlatColorShader;
 
     glm::vec4 m_SquareColor = {0.2f, 0.3f, 0.8f, 1.0f};
 };

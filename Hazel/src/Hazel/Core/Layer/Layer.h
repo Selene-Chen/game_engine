@@ -1,6 +1,6 @@
 #pragma once
-#include "Hazel/Events/Event.h"
 #include "Hazel/Core/Timestep.h"
+#include "Hazel/Events/Event.h"
 namespace Hazel
 {
     class Layer
@@ -20,4 +20,4 @@ namespace Hazel
     protected:
         std::string m_DebugName;
     };
-} // namespace Hazel
+}  // namespace Hazel

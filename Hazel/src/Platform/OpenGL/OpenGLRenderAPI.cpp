@@ -1,6 +1,9 @@
 #include "hzpch.h"
+
 #include "OpenGLRenderAPI.h"
+
 #include <glad/glad.h>
+
 namespace Hazel
 {
 
@@ -24,4 +27,4 @@ namespace Hazel
         glViewport(x, y, width, height);
     }
 
-} // namespace Hazel
+}  // namespace Hazel

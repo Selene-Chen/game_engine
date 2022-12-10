@@ -12,7 +12,7 @@ namespace Hazel
         virtual void OnDetach() override;
         virtual void OnImGuiRender() override;
 
-        void         Begin();
-        void         End();
+        void Begin();
+        void End();
     };
-} // namespace Hazel
+}  // namespace Hazel

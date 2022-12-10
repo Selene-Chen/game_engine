@@ -1,30 +1,33 @@
 #include "hzpch.h"
+
 #include "Shader.h"
-#include "Renderer.h"
+
+#include "Hazel/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLShader.h"
+
 namespace Hazel
 {
-    Ref<Shader> Shader::Create(const std::string& name,const std::string& vertexSrc, const std::string& fragmentSrc)
+    Ref<Shader> Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
     {
         switch (Renderer::GetAPI())
-        {
-            case RenderAPI::API::None:
-                HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supperted!");
-                return nullptr;
-            case RenderAPI::API::OpenGL: return CreateRef<OpenGLShader>(name,vertexSrc, fragmentSrc);
-        }
+            {
+                case RenderAPI::API::None:
+                    HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supperted!");
+                    return nullptr;
+                case RenderAPI::API::OpenGL: return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
+            }
         HZ_CORE_ASSERT(false, "Unknow RendererAPI!");
         return nullptr;
     }
     Ref<Shader> Shader::Create(const std::string& path)
     {
         switch (Renderer::GetAPI())
-        {
-            case RenderAPI::API::None:
-                HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supperted!");
-                return nullptr;
-            case RenderAPI::API::OpenGL: return CreateRef<OpenGLShader>(path);
-        }
+            {
+                case RenderAPI::API::None:
+                    HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supperted!");
+                    return nullptr;
+                case RenderAPI::API::OpenGL: return CreateRef<OpenGLShader>(path);
+            }
         HZ_CORE_ASSERT(false, "Unknow RendererAPI!");
         return nullptr;
     }
@@ -63,4 +66,4 @@ namespace Hazel
 
     bool ShaderLibrary::Exists(const std::string& name) const { return m_Shaders.find(name) != m_Shaders.end(); }
 
-} // namespace Hazel
+}  // namespace Hazel

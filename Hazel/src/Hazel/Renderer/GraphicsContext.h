@@ -1,13 +1,14 @@
 #pragma once
 #include "Hazel/Core/Core.h"
+
 namespace Hazel
 {
     class GraphicsContext
     {
     public:
-        GraphicsContext()          = default;
+        GraphicsContext() = default;
         virtual ~GraphicsContext() = default;
-        virtual void Init()        = 0;
+        virtual void Init() = 0;
         virtual void SwapBuffers() = 0;
     };
-} // namespace Hazel
+}  // namespace Hazel
