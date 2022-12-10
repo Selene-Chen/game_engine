@@ -21,15 +21,18 @@ namespace Hazel
     public:
         virtual void Bind() const override;
         virtual void UnBind() const override;
+        virtual void SetMat4(const std::string& name, const glm::mat4& value) const override;
+        virtual void SetFloat3(const std::string& name, const glm::vec3& value) const override;
+        virtual void SetFloat4(const std::string& name, const glm::vec4& value) const override;
 
     public:
-        void UploadUniformInt(const std::string& name, int value);
-        void UploadUniformFloat(const std::string& name, float value);
-        void UploadUniformFloat2(const std::string& name, const glm::vec2& value);
-        void UploadUniformFloat3(const std::string& name, const glm::vec3& value);
-        void UploadUniformFloat4(const std::string& name, const glm::vec4& value);
-        void UploadUniformMat3(const std::string& name, const glm::mat3& matrix);
-        void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
+        void UploadUniformInt(const std::string& name, const int value) const;
+        void UploadUniformFloat(const std::string& name, const float value) const;
+        void UploadUniformFloat2(const std::string& name, const glm::vec2& value) const;
+        void UploadUniformFloat3(const std::string& name, const glm::vec3& value) const;
+        void UploadUniformFloat4(const std::string& name, const glm::vec4& value) const;
+        void UploadUniformMat3(const std::string& name, const glm::mat3& matrix) const;
+        void UploadUniformMat4(const std::string& name, const glm::mat4& matrix) const;
 
     private:
         uint32_t m_RendererID;
