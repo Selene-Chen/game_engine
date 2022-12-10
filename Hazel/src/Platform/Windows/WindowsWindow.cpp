@@ -12,7 +12,7 @@
 
 namespace Hazel
 {
-    static bool s_GLFWInitialized = false;
+    static uint8_t s_GLFWWindowCount = 0;  // 窗口计数
     // 子类用父类创建
     Scope<Window> Window::Create(const WindowProps& props) { return CreateScope<WindowsWindow>(props); }
 
@@ -32,14 +32,15 @@ namespace Hazel
         m_WinData.Height = props.Height;
         HZ_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
-        if (!s_GLFWInitialized)
+        if (s_GLFWWindowCount == 0)
             {
+                HZ_CORE_INFO("Initializing GLFW");
                 int success = glfwInit();
                 HZ_CORE_ASSERT(success, "Could not intialize GLFW!");
                 glfwSetErrorCallback(GLFWErrorCallback);
-                s_GLFWInitialized = true;
             }
         m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_WinData.Title.c_str(), nullptr, nullptr);
+        ++s_GLFWWindowCount;  // GLFW窗口数量+1
 
         m_Context = CreateScope<OpenGlContext>(m_Window);
         m_Context->Init();
