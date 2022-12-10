@@ -41,7 +41,7 @@ namespace Hazel
         ShaderDataType Type;
         std::string Name;
         bool Normalized;
-        uint32_t Offset;
+        size_t Offset;
         uint32_t Size;
         BufferElement() = default;
         BufferElement(ShaderDataType type, const std::string& name, const bool normalized = false)
@@ -84,7 +84,7 @@ namespace Hazel
     public:
         void CalculateOffsetAandStride()
         {
-            uint32_t offset = 0;
+            size_t offset = 0;
             m_Stride = 0;
             for (auto& element : m_Elements)
                 {
