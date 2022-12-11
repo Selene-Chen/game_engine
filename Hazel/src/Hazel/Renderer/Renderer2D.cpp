@@ -49,10 +49,9 @@ namespace Hazel
 
     void Renderer2D::BeginScene(const OrthographicCamera& camera)
     {
-        // shader 变换
+        // shader 视图变换
        s_Renderer2DStorage->FlatColorShader->Bind();
        s_Renderer2DStorage->FlatColorShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
-       s_Renderer2DStorage->FlatColorShader->SetMat4("u_Transform", glm::mat4(1.0f));
     }
 
     void Renderer2D::EndScene() {}
@@ -64,9 +63,14 @@ namespace Hazel
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
     {
-        // shader 颜色
+       
         s_Renderer2DStorage->FlatColorShader->Bind();
+        // color
         s_Renderer2DStorage->FlatColorShader->SetFloat3("u_Color", color);
+        // transform = translate * scale * rotation
+        glm::mat4 transform =
+            glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+        s_Renderer2DStorage->FlatColorShader->SetMat4("u_Transform", transform);
         // VertexArray
         s_Renderer2DStorage->QuadVertexArray->Bind();
         // Draw
