@@ -21,6 +21,7 @@ namespace Hazel
     public:
         virtual void Bind() const override;
         virtual void UnBind() const override;
+        virtual void SetInt(const std::string& name, const int value) const override;
         virtual void SetMat4(const std::string& name, const glm::mat4& value) const override;
         virtual void SetFloat3(const std::string& name, const glm::vec3& value) const override;
         virtual void SetFloat4(const std::string& name, const glm::vec4& value) const override;

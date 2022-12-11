@@ -40,6 +40,8 @@ namespace Hazel
     void OpenGLShader::Bind() const { glUseProgram(m_RendererID); }
     void OpenGLShader::UnBind() const { glUseProgram(0); }
 
+    void OpenGLShader::SetInt(const std::string& name, const int value) const { UploadUniformInt(name, value); }
+
     void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& value) const
     {
         UploadUniformMat4(name, value);

@@ -17,14 +17,15 @@ void main()
 #type fragment
 #version 330 core
 
-	layout(location = 0) out vec4 color;
+layout(location = 0) out vec4 color;
 
-    in vec2 v_TexCoord;		
+in vec2 v_TexCoord;		
 
-    uniform vec3 u_Color;
-    uniform sampler2D u_Texture;
+uniform vec3 u_Color;
+uniform sampler2D u_Texture;
 
-	void main()
-	{
-		color = texture(u_Texture, v_TexCoord);
-	}
+void main()
+{
+	color = texture(u_Texture, v_TexCoord);
+	//color = vec4(v_TexCoord, 0.0, 1.0);//测试纹理坐标
+}
