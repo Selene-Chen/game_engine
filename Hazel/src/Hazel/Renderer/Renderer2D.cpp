@@ -12,8 +12,8 @@ namespace Hazel
     struct Renderer2DStorage
     {
         Ref<VertexArray> QuadVertexArray;
-        Ref<Shader> FlatColorShader;
-        Ref<Shader> Texture2DShader;
+        Ref<Shader> TextureShader;
+        Ref<Texture2D> WhiteTexture;
     };
     static Renderer2DStorage* s_Renderer2DStorage;
 
@@ -43,24 +43,23 @@ namespace Hazel
         Ref<IndexBuffer> squareIBO;
         squareIBO = IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
         s_Renderer2DStorage->QuadVertexArray->SetIndexBuffer(squareIBO);
-
-        s_Renderer2DStorage->FlatColorShader = Shader::Create("assets/shaders/FlatColor.glsl");
-        s_Renderer2DStorage->Texture2DShader = Shader::Create("assets/shaders/Texture.glsl");
-
-        s_Renderer2DStorage->Texture2DShader->Bind();
-        s_Renderer2DStorage->Texture2DShader->SetInt("u_Texture", 0);  // 纹理 Solt
+        // 空白纹理
+        uint32_t whiteTextureData = 0xffffffff;
+        s_Renderer2DStorage->WhiteTexture = Texture2D::Create(1, 1);
+        s_Renderer2DStorage->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
+        // shader
+        s_Renderer2DStorage->TextureShader = Shader::Create("assets/shaders/Texture.glsl");
+        s_Renderer2DStorage->TextureShader->Bind();
+        s_Renderer2DStorage->TextureShader->SetInt("u_Texture", 0);  // 纹理 Solt
     }
 
     void Renderer2D::Shutdown() { delete s_Renderer2DStorage; }
 
     void Renderer2D::BeginScene(const OrthographicCamera& camera)
     {
-        // Color Shader 视图变换
-        s_Renderer2DStorage->FlatColorShader->Bind();
-        s_Renderer2DStorage->FlatColorShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
-        // Texture Shader 视图变换
-        s_Renderer2DStorage->Texture2DShader->Bind();
-        s_Renderer2DStorage->Texture2DShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+        // Shader 视图变换
+        s_Renderer2DStorage->TextureShader->Bind();
+        s_Renderer2DStorage->TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
     }
 
     void Renderer2D::EndScene() {}
@@ -72,13 +71,14 @@ namespace Hazel
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
     {
-        s_Renderer2DStorage->FlatColorShader->Bind();
-        s_Renderer2DStorage->FlatColorShader->SetFloat3("u_Color", color);
         glm::mat4 transform =
             glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
-        s_Renderer2DStorage->FlatColorShader->SetMat4("u_Transform", transform);
-        s_Renderer2DStorage->QuadVertexArray->Bind();
+       
+        s_Renderer2DStorage->TextureShader->SetMat4("u_Transform", transform);// 模型变换
+        s_Renderer2DStorage->TextureShader->SetFloat4("u_Color", color);// 颜色
+        s_Renderer2DStorage->WhiteTexture->Bind(); // 纹理
 
+        s_Renderer2DStorage->QuadVertexArray->Bind();
         RenderCommand::DrawIndexed(s_Renderer2DStorage->QuadVertexArray);
     }
 
@@ -89,12 +89,13 @@ namespace Hazel
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture)
     {
-        s_Renderer2DStorage->Texture2DShader->Bind();
-        texture->Bind();// 默认绑定Solt=0
         glm::mat4 transform =
             glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
-        s_Renderer2DStorage->Texture2DShader->SetMat4("u_Transform", transform);
         
+        s_Renderer2DStorage->TextureShader->SetMat4("u_Transform", transform);//变换
+        s_Renderer2DStorage->TextureShader->SetFloat4("u_Color", glm::vec4(1.0f));//颜色
+        texture->Bind();  //纹理 默认Solt=0
+
         s_Renderer2DStorage->QuadVertexArray->Bind();
         RenderCommand::DrawIndexed(s_Renderer2DStorage->QuadVertexArray);
     }

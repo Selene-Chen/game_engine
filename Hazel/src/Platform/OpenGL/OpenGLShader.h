@@ -4,10 +4,10 @@
 
 #include "Hazel/Renderer/Shader.h"
 
-// TODO: should be remove
-typedef unsigned int GLenum;
 namespace Hazel
 {
+    // TODO: should be remove
+    typedef unsigned int GLenum;
     class OpenGLShader : public Shader
     {
     public:
