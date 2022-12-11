@@ -26,6 +26,6 @@ uniform sampler2D u_Texture;
 
 void main()
 {
-	color = texture(u_Texture, v_TexCoord);
+	color = texture(u_Texture, v_TexCoord * 10.0);//纹理坐标放大，纹理包裹设置了重复
 	//color = vec4(v_TexCoord, 0.0, 1.0);//测试纹理坐标
 }

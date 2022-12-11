@@ -36,8 +36,10 @@ namespace Hazel
         // 存储纹理
         glTextureStorage2D(m_RendererID, 1, internalFormat, m_Width, m_Height);
         // 纹理参数
-        glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);//缩小过滤
+        glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);//放大过滤
+        glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);//纹理包裹-repeat
+        glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);//纹理包裹-repeat
         // 指定纹理
         glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, dataFormat, GL_UNSIGNED_BYTE, data);
 
