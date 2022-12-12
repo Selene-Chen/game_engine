@@ -1,0 +1,70 @@
+Diagnostics:
+  ClangTidy:
+    Add: ["*"]
+    Remove:
+      [
+        llvmlibc-*,
+        llvm-*,
+        altera-id-dependent-backward-branch,
+        modernize-avoid-bind,
+        modernize-use-trailing-return-type,
+        altera-unroll-loops,
+        fuchsia-default-arguments-calls,
+        cppcoreguidelines-special-member-functions,
+        hicpp-special-member-functions,
+        cppcoreguidelines-avoid-non-const-global-variables,
+        fuchsia-statically-constructed-objects,
+        fuchsia-overloaded-operator,
+        cppcoreguidelines-avoid-magic-numbers,
+        readability-magic-numbers,
+        fuchsia-default-arguments-declarations,
+        bugprone-easily-swappable-parameters,
+        altera-struct-pack-align,
+        hicpp-signed-bitwise,
+        cppcoreguidelines-non-private-member-variables-in-classes,
+        misc-non-private-member-variables-in-classes,
+        cppcoreguidelines-pro-type-union-access,
+        cert-err58-cpp,
+        cppcoreguidelines-pro-type-reinterpret-cast,
+        cppcoreguidelines-macro-usage,
+        cppcoreguidelines-pro-bounds-constant-array-index,
+        performance-no-int-to-ptr,
+      ]
+    CheckOptions:
+      readability-identifier-naming.EnumCase: CamelCase
+      readability-identifier-naming.UnionCase: CamelCase
+      readability-identifier-naming.StructCase: CamelCase
+      readability-identifier-naming.MemberCase: CamelCase
+      readability-identifier-naming.StaticVariablePrefix: s_
+      readability-identifier-naming.StaticVariableCase: lower_case
+      readability-identifier-naming.LocalVariableCase: lower_case
+      readability-identifier-naming.ClassCase: CamelCase
+      readability-identifier-naming.ClassMemberPrefix: m_
+      readability-identifier-naming.ClassMemberCase: lower_case
+      readability-identifier-naming.ClassMethodCase: CamelCase
+      readability-identifier-naming.PublicMemberCase: CamelCase
+      readability-identifier-naming.PrivateMemberPrefix: ""
+      readability-identifier-naming.PrivateMemberCase: lower_case
+      readability-identifier-naming.ProtectedMemberPrefix: ""
+      readability-identifier-naming.ProtectedMemberCase: lower_case
+      readability-identifier-naming.PrivateMethodPrefix: ""
+      readability-identifier-naming.ProtectedMethodPrefix: ""
+      readability-identifier-naming.ParameterPackCase: lower_case
+      readability-identifier-naming.ParameterCase: lower_case
+      readability-identifier-naming.TemplateTemplateParameterCase: CamelCase
+      readability-identifier-naming.TemplateUsingCase: lower_case
+      readability-identifier-naming.TypeTemplateParameterCase: CamelCase
+      readability-identifier-naming.TypedefCase: CamelCase
+      readability-identifier-naming.UsingCase: CamelCase
+      readability-identifier-length.MinimumVariableNameLength: 1
+      readability-identifier-length.MinimumParameterNameLength: 1
+      readability-identifier-length.MinimumLoopCounterNameLength: 1
+  UnusedIncludes: Strict
+Index:
+  Background: Build
+InlayHints:
+  Enabled: Yes
+  ParameterNames: Yes
+  DeducedTypes: Yes
+Hover:
+  ShowAKA: Yes

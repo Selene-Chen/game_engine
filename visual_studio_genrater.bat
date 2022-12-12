@@ -1,0 +1,1 @@
+xmake project -k vsxmake -a x64 -m "debug;release"

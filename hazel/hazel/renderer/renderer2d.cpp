@@ -1,0 +1,105 @@
+
+#include "hazel/renderer/renderer2d.h"
+
+#include <array>
+#include <glad/glad.h>
+#include <glm/gtc/matrix_transform.hpp>
+#include <vcruntime.h>
+
+#include "hazel/renderer/render_command.h"
+#include "hazel/renderer/shader.h"
+#include "hazel/renderer/vertex_array.h"
+
+namespace Hazel
+{
+    struct Render2DStorage
+    {
+        Ref<VertexArray> QuadVertexArray;
+        Ref<Shader> TextureShader;
+        Ref<Texture2D> WhiteTexture;
+    };
+    static Ref<Render2DStorage> s_Renderer2dStorage;
+
+    void Renderer2D::Init()
+    {
+        s_Renderer2dStorage = CreateRef<Render2DStorage>();
+        s_Renderer2dStorage->QuadVertexArray = VertexArray::Create();
+
+        // clang-format off
+        std::array square_vertices= {
+            -0.5F, -0.5F, 0.0F, 0.0F,0.0F,
+            0.5F, -0.5F, 0.0F, 1.0F,0.0F,
+            0.5F,  0.5F, 0.0F, 1.0F,1.0F,
+            -0.5F,  0.5F, 0.0F, 0.0F,1.0F
+        };
+        // clang-format on
+
+        Ref<VertexBuffer> square_vbo = VertexBuffer::Create(square_vertices.data(), sizeof(square_vertices));
+        square_vbo->SetLayout({
+            {ShaderDataType::Float3, "a_Position"},
+            {ShaderDataType::Float2, "a_TexCoord"}
+        });
+        s_Renderer2dStorage->QuadVertexArray->AddVertexBuffer(square_vbo);
+
+        std::array<uint32_t, 6> square_indices = {0, 1, 2, 2, 3, 0};
+        Ref<IndexBuffer> square_ibo =
+            IndexBuffer::Create(square_indices.data(), sizeof(square_indices) / sizeof(uint32_t));
+        s_Renderer2dStorage->QuadVertexArray->SetIndexBuffer(square_ibo);
+        // 空白纹理
+        uint32_t white_texture_data = 0xffffffff;
+        s_Renderer2dStorage->WhiteTexture = Texture2D::Create(1, 1);
+        s_Renderer2dStorage->WhiteTexture->SetData(&white_texture_data, sizeof(uint32_t));
+        // shader
+        s_Renderer2dStorage->TextureShader = Shader::Create("assets/shaders/Texture.glsl");
+        s_Renderer2dStorage->TextureShader->Bind();
+        s_Renderer2dStorage->TextureShader->SetInt("u_Texture", 0);  // 纹理 Solt
+    }
+
+    void Renderer2D::Shutdown() {}
+
+    void Renderer2D::BeginScene(const OrthographicCamera& camera)
+    {
+        // Shader 视图变换
+        s_Renderer2dStorage->TextureShader->Bind();
+        s_Renderer2dStorage->TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+    }
+
+    void Renderer2D::EndScene() {}
+
+    void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
+    {
+        DrawQuad({position.x, position.y, 0.0F}, size, color);
+    }
+
+    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
+    {
+        const glm::mat4 transform =
+            translate(glm::mat4(1.0F), position) * scale(glm::mat4(1.0F), {size.x, size.y, 1.0F});
+
+        s_Renderer2dStorage->TextureShader->SetMat4("u_Transform", transform);  // 模型变换
+        s_Renderer2dStorage->TextureShader->SetFloat4("u_Color", color);        // 颜色
+        s_Renderer2dStorage->WhiteTexture->Bind(0);                             // 纹理
+
+        s_Renderer2dStorage->QuadVertexArray->Bind();
+        RenderCommand::DrawIndexed(s_Renderer2dStorage->QuadVertexArray);
+    }
+
+    void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture)
+    {
+        DrawQuad({position.x, position.y, 0.0F}, size, texture);
+    }
+
+    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture)
+    {
+        const glm::mat4 transform =
+            translate(glm::mat4(1.0F), position) * scale(glm::mat4(1.0F), {size.x, size.y, 1.0F});
+
+        s_Renderer2dStorage->TextureShader->SetMat4("u_Transform", transform);      // 变换
+        s_Renderer2dStorage->TextureShader->SetFloat4("u_Color", glm::vec4(1.0F));  // 颜色
+        texture->Bind(0);                                                           // 纹理 默认Solt=0
+
+        s_Renderer2dStorage->QuadVertexArray->Bind();
+        RenderCommand::DrawIndexed(s_Renderer2dStorage->QuadVertexArray);
+    }
+
+}  // namespace Hazel

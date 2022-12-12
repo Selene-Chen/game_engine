@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "zhuangtongfa.material-theme",
+    "jonathanharty.gruvbox-material-icon-theme",
+    "usernamehw.errorlens",
+    "gruntfuggly.todo-tree",
+    "esbenp.prettier-vscode",
+    "eamodio.gitlens",
+    "guyutongxue.cpp-reference",
+    "vadimcn.vscode-lldb",
+    "llvm-vs-code-extensions.vscode-clangd",
+    "fleexo.cpp-class-creator"
+  ]
+}
