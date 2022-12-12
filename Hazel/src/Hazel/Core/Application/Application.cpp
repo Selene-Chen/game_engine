@@ -16,11 +16,12 @@ namespace Hazel
     {
         HZ_CORE_ASSERT(!s_instance, "Application aready exists!")
         s_instance = this;
+        // 1.window
         m_Window = Window::Create();
         m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
-
+        // 2.renderer
         Renderer::Init();  // 初始化 Renderer
-
+        // 3.layer
         m_ImGuiLayer = new ImGuiLayer();
         PushLayer(m_ImGuiLayer);
     }

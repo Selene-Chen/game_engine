@@ -23,6 +23,11 @@ git submodule add https://github.com/nothings/stb 3rdparty/stb
   - window->update
   - layers->update
 
+application初始化
+1.window
+2.renderer
+3.layer
+
 ## Event（事件）
 
 - 事件分类
@@ -69,62 +74,85 @@ git submodule add https://github.com/nothings/stb 3rdparty/stb
 
 ### WindowsInput
 
-## Renderer 
+## Renderer（渲染器）
 
-头文件层次关系
-renderer->RenderCommand->renderAPI->VertexArray->buffer
-renderer->shader
-renderer->OrthographicCamera
-texture
-### GraphicsContext(图形上下文)
+Renderer调用
+Renderer->RenderCommand->RenderAPI
 
-### buffer
+下面的类提供数据给Renderer
+VertexArray->Buffer
+Shader
+Texture
+OrthographicCameraController
 
-#### vertexbuffer
+### Renderer
 
-#### indexbuffer
+- Init
+- BeginScene
+- EndScene
+- Submit
+- OnWindowResize
 
-### vertexArray
+### RenderCommand
 
-### ShaderLibrary(shader)
+- Init
+- SetClearColor
+- Clear
+- SetViewPort
+- DrawIndexed
 
-- add
-- load
+### RendererAPI
 
-#### shader
+- Init
+- SetClearColor
+- Clear
+- SetViewPort
+- DrawIndexed
+
+### VertexArray
 
 - Create
-  - 从字符串加载
-  - 从文件加载
-- UnBind
 - Bind
+- UnBind
+- AddVertexBuffer
+- SetIndexBuffer
+- GetVertexBuffers
+- GetIndexBuffer
+
+### Buffer
+
+#### VertexBuffer
+
+- Create
+- Bind
+- UnBind
+- SetLayout
+- GetLayout
+
+#### IndexBuffer
+
+- Create
+- Bind
+- UnBind
+- GetCount
+
+### Shader
+
+- Create
+- Bind
+- UnBind
+- SetUniform
 
 #### OpenGLShader
 
 ### Texture
 
-- 纹理绑定（Bind）
+- Create
+- Bind
+- GetWidth\Height
+- SetData
 
-#### Texture2D
-
-- 从文件创建纹理
-
-##### OpenGLTexture2D
-
-- 创建纹理（构造函数）
-  - 加载图片文件使用 `stb_image`
-  - glCreateTextures
-  - glTextureStorage2D
-  - glTextureParameteri
-  - glTextureSubImage2D
-  - 释放图片
-- 绑定纹理（Bind）
-  - glBindTextureUnit
-- 释放纹理（析构函数）
-  - glDeleteTextures
-
-## Controller
-
+### OrthographicCameraController
 
 ## OpenGL
 
