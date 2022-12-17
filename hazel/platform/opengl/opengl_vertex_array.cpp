@@ -2,7 +2,7 @@
 #include "opengl_vertex_array.h"
 
 #include "glad/glad.h"  // IWYU pragma: export
-
+#include "hzpch.h"
 namespace Hazel
 {
     static GLenum ShaderDataTypeToOpenGLBaseType(const ShaderDataType type)
@@ -31,14 +31,27 @@ namespace Hazel
         glBindVertexArray(m_renderer_id);
     }
 
-    OpenGLVertexArray::~OpenGLVertexArray() { glDeleteVertexArrays(1, &m_renderer_id); }
+    OpenGLVertexArray::~OpenGLVertexArray()
+    {
+        HZ_PROFILE_FUNCTION();
+        glDeleteVertexArrays(1, &m_renderer_id);
+    }
 
-    void OpenGLVertexArray::Bind() const { glBindVertexArray(m_renderer_id); }
+    void OpenGLVertexArray::Bind() const
+    {
+        HZ_PROFILE_FUNCTION();
+        glBindVertexArray(m_renderer_id);
+    }
 
-    void OpenGLVertexArray::UnBind() const { glBindVertexArray(0); }
+    void OpenGLVertexArray::UnBind() const
+    {
+        HZ_PROFILE_FUNCTION();
+        glBindVertexArray(0);
+    }
 
     void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertex_buffer)
     {
+        HZ_PROFILE_FUNCTION();
         HZ_CORE_ASSERT(!vertex_buffer->GetLayout().GetElements().empty(), "Vertex Buffer has no layout!");
 
         glBindVertexArray(m_renderer_id);
@@ -58,6 +71,7 @@ namespace Hazel
 
     void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& index_buffer)
     {
+        HZ_PROFILE_FUNCTION();
         glBindVertexArray(m_renderer_id);
         index_buffer->Bind();
         m_index_buffer = index_buffer;

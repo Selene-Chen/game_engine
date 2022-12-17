@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "hzpch.h"
+
 namespace Hazel
 {
     LayerStack::~LayerStack()
@@ -9,14 +11,15 @@ namespace Hazel
         for (const Ref<Layer>& layer : m_layers)
         {
             layer->OnDetach();
+            delete layer.get();
         }
     }
 
     void LayerStack::PushLayer(const Ref<Layer>& layer)
     {
-        layer->OnAttach();
         m_layers.emplace(m_layers.begin() + m_layer_insert_index, layer);
         m_layer_insert_index++;
+        layer->OnAttach();
     }
 
     void LayerStack::PopLayer(const Ref<Layer>& layer)
@@ -32,8 +35,8 @@ namespace Hazel
 
     void LayerStack::PushOverlay(const Ref<Layer>& overlay)
     {
-        overlay->OnAttach();
         m_layers.emplace_back(overlay);
+        overlay->OnAttach();
     }
 
     void LayerStack::PopOverlay(const Ref<Layer>& overlay)

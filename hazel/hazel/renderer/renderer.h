@@ -14,6 +14,7 @@ namespace Hazel
         static RenderAPI::API GetAPI() { return RenderAPI::GetAPI(); }
 
         static void Init();
+        static void Shutdown();
         static void OnWindowResize(uint32_t width, uint32_t height);
         static void BeginScene(OrthographicCamera& camera);
         static void EndScene();

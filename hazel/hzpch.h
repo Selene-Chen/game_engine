@@ -13,4 +13,5 @@
 #include <utility>        // IWYU pragma: export
 #include <vector>         // IWYU pragma: export
 
-#include "hazel/core/core.h"  // IWYU pragma: export
+#include "hazel/core/core.h"           // IWYU pragma: export
+#include "hazel/debug/instrumentor.h"  // IWYU pragma: export

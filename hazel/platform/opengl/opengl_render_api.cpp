@@ -4,11 +4,14 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
+#include "hzpch.h"
+
 namespace Hazel
 {
 
     void OpenGLRenderAPI::Init()
     {
+        HZ_PROFILE_FUNCTION();
         // 混合
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

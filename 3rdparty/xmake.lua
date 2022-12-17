@@ -38,6 +38,7 @@ target("glfw")
             "glfw/src/window.c")
     if is_os("windows") then
         add_defines("_GLFW_WIN32","_CRT_SECURE_NO_WARNINGS")
+        add_syslinks("opengl32")
         add_syslinks("user32", "shell32", "gdi32")
         set_optimize("fastest")
         set_runtimes("MD")

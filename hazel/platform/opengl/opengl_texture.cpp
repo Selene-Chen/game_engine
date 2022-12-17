@@ -3,11 +3,14 @@
 #include <glad/glad.h>
 #include <stb_image.h>
 
+#include "hzpch.h"
+
 namespace Hazel
 {
 
     OpenGLTexture2D::OpenGLTexture2D(const std::string& path) : m_path(path)
     {
+        HZ_PROFILE_FUNCTION();
         int width = 0;
         int height = 0;
         int channels = 0;
@@ -56,6 +59,7 @@ namespace Hazel
     OpenGLTexture2D::OpenGLTexture2D(const uint32_t width, const uint32_t height)
         : m_width(width), m_height(height), m_internal_format(GL_RGBA8), m_data_format(GL_RGBA)
     {
+        HZ_PROFILE_FUNCTION();
         // 创建纹理
         glCreateTextures(GL_TEXTURE_2D, 1, &m_renderer_id);
         // 存储纹理
@@ -67,12 +71,21 @@ namespace Hazel
         glTextureParameteri(m_renderer_id, GL_TEXTURE_WRAP_T, GL_REPEAT);
     }
 
-    OpenGLTexture2D::~OpenGLTexture2D() { glDeleteTextures(1, &m_renderer_id); }
+    OpenGLTexture2D::~OpenGLTexture2D()
+    {
+        HZ_PROFILE_FUNCTION();
+        glDeleteTextures(1, &m_renderer_id);
+    }
 
-    void OpenGLTexture2D::Bind(const uint32_t slot) const { glBindTextureUnit(slot, m_renderer_id); }
+    void OpenGLTexture2D::Bind(const uint32_t slot) const
+    {
+        HZ_PROFILE_FUNCTION();
+        glBindTextureUnit(slot, m_renderer_id);
+    }
 
     void OpenGLTexture2D::SetData(void* data, const uint32_t /*size*/) const
     {
+        HZ_PROFILE_FUNCTION();
         HZ_CORE_ASSERT(m_width * m_width * (m_data_format == GL_RGBA ? 4 : 3), "Data must be entire texture!");
         glTextureSubImage2D(m_renderer_id, 0, 0, 0, static_cast<int>(m_width), static_cast<int>(m_height),
                             m_data_format, GL_UNSIGNED_BYTE, data);

@@ -1,8 +1,8 @@
 
-#include "platform/windows/WindowsWindow.h"
+#include "platform/windows/windows_window.h"
 
+#include <GLFW/glfw3.h>
 #include <glad/glad.h>
-#include <glfw/glfw3.h>
 
 #include "hazel/core/core.h"
 #include "hazel/events/application_event.h"
@@ -10,15 +10,25 @@
 #include "hazel/events/mouse_event.h"
 #include "platform/opengl/opengl_context.h"
 
+#include "hzpch.h"
+
 namespace Hazel
 {
     static uint8_t s_GLFWWindowCount = 0;  // 窗口计数
     // 子类用父类创建
     Scope<Window> Window::Create(const WindowProps &props) { return CreateScope<WindowsWindow>(props); }
 
-    WindowsWindow::WindowsWindow(const WindowProps &props) : m_window(nullptr) { WindowsWindow::Init(props); }
+    WindowsWindow::WindowsWindow(const WindowProps &props) : m_window(nullptr)
+    {
+        HZ_PROFILE_FUNCTION();
+        Init(props);
+    }
 
-    WindowsWindow::~WindowsWindow() { WindowsWindow::Shutdown(); }
+    WindowsWindow::~WindowsWindow()
+    {
+        HZ_PROFILE_FUNCTION();
+        Shutdown();
+    }
 
     static void GLFWErrorCallback(int error, const char *description)
     {
@@ -34,6 +44,7 @@ namespace Hazel
 
         if (s_GLFWWindowCount == 0)
         {
+            HZ_PROFILE_SCOPE("glfwInit");
             HZ_CORE_INFO("Initializing GLFW");
             const int success = glfwInit();
             HZ_CORE_ASSERT(success, "Could not intialize GLFW!");
@@ -42,9 +53,12 @@ namespace Hazel
                 glfwSetErrorCallback(GLFWErrorCallback);
             }
         }
-        m_window = glfwCreateWindow(static_cast<int>(props.Width), static_cast<int>(props.Height),
-                                    m_win_data.Title.c_str(), nullptr, nullptr);
-        ++s_GLFWWindowCount;  // GLFW窗口数量+1
+        {
+            HZ_PROFILE_SCOPE("glfwCreateWindow");
+            m_window = glfwCreateWindow(static_cast<int>(props.Width), static_cast<int>(props.Height),
+                                        m_win_data.Title.c_str(), nullptr, nullptr);
+            ++s_GLFWWindowCount;  // GLFW窗口数量+1
+        }
 
         m_context = CreateScope<OpenGLContext>(m_window);
         m_context->Init();
@@ -129,6 +143,7 @@ namespace Hazel
 
     void WindowsWindow::OnUpdate()
     {
+        HZ_PROFILE_FUNCTION();
         glfwPollEvents();
         m_context->SwapBuffers();
     }
@@ -148,5 +163,9 @@ namespace Hazel
 
     bool WindowsWindow::IsVSync() const { return m_win_data.VSync; }
 
-    void WindowsWindow::Shutdown() { glfwDestroyWindow(m_window); }
+    void WindowsWindow::Shutdown()
+    {
+        HZ_PROFILE_FUNCTION();
+        glfwDestroyWindow(m_window);
+    }
 }  // namespace Hazel

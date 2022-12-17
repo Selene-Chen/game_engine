@@ -6,6 +6,8 @@
 
 #include "hazel/core/core.h"
 
+#include "hzpch.h"
+
 namespace Hazel
 {
     static GLenum ShaderTypeFromString(const std::string &type)
@@ -24,6 +26,7 @@ namespace Hazel
     OpenGLShader::OpenGLShader(std::string name, const std::string &vertex_src, const std::string &fragment_src)
         : m_name(std::move(name))
     {
+        HZ_PROFILE_FUNCTION();
         std::unordered_map<GLenum, std::string> sources;
         sources[GL_VERTEX_SHADER] = vertex_src;
         sources[GL_FRAGMENT_SHADER] = fragment_src;
@@ -32,6 +35,7 @@ namespace Hazel
 
     OpenGLShader::OpenGLShader(const std::string &path)
     {
+        HZ_PROFILE_FUNCTION();
         const auto source = ReadFile(path);
         const auto shader_sources = PreProcess(source);
         Compile(shader_sources);
@@ -44,24 +48,43 @@ namespace Hazel
         m_name = path.substr(last_slash, count);
     }
 
-    OpenGLShader::~OpenGLShader() { glDeleteProgram(m_renderer_id); }
-    void OpenGLShader::Bind() const { glUseProgram(m_renderer_id); }
-    void OpenGLShader::UnBind() const { glUseProgram(0); }
+    OpenGLShader::~OpenGLShader()
+    {
+        HZ_PROFILE_FUNCTION();
+        glDeleteProgram(m_renderer_id);
+    }
+    void OpenGLShader::Bind() const
+    {
+        HZ_PROFILE_FUNCTION();
+        glUseProgram(m_renderer_id);
+    }
+    void OpenGLShader::UnBind() const
+    {
+        HZ_PROFILE_FUNCTION();
+        glUseProgram(0);
+    }
 
-    void OpenGLShader::SetInt(const std::string &name, const int value) const { UploadUniformInt(name, value); }
+    void OpenGLShader::SetInt(const std::string &name, const int value) const
+    {
+        HZ_PROFILE_FUNCTION();
+        UploadUniformInt(name, value);
+    }
 
     void OpenGLShader::SetMat4(const std::string &name, const glm::mat4 &value) const
     {
+        HZ_PROFILE_FUNCTION();
         UploadUniformMat4(name, value);
     }
 
     void OpenGLShader::SetFloat3(const std::string &name, const glm::vec3 &value) const
     {
+        HZ_PROFILE_FUNCTION();
         UploadUniformFloat3(name, value);
     }
 
     void OpenGLShader::SetFloat4(const std::string &name, const glm::vec4 &value) const
     {
+        HZ_PROFILE_FUNCTION();
         UploadUniformFloat4(name, value);
     }
 
@@ -103,6 +126,7 @@ namespace Hazel
 
     std::string OpenGLShader::ReadFile(const std::string &path)
     {
+        HZ_PROFILE_FUNCTION();
         std::string result;
         if (std::ifstream in(path, std::ios::in, std::ios::binary); in)
         {
@@ -130,6 +154,7 @@ namespace Hazel
 
     std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string &source)
     {
+        HZ_PROFILE_FUNCTION();
         // 格式如：#type Vertex ... #type Fragment ...
 
         std::unordered_map<GLenum, std::string> shader_sources;
@@ -165,6 +190,7 @@ namespace Hazel
 
     void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string> &shader_sources)
     {
+        HZ_PROFILE_FUNCTION();
         const GLuint program = glCreateProgram();
 
         HZ_CORE_ASSERT(shader_sources.size() <= 2, "We only support 2 shaders for now");

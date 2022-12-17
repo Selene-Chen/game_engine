@@ -3,7 +3,6 @@
 #include "hazel/core/window.h"
 #include "hazel/events/application_event.h"
 #include "hazel/imgui/imgui_layer.h"
-
 namespace Hazel
 {
     // 单例
@@ -11,7 +10,7 @@ namespace Hazel
     {
     public:
         Application();
-        virtual ~Application() = default;
+        virtual ~Application();
         Application(const Application&) = delete;             // 删除拷贝构造函数
         Application& operator=(const Application&) = delete;  // 删除赋值操作
 

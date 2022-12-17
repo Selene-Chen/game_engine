@@ -29,6 +29,11 @@ Diagnostics:
         cppcoreguidelines-macro-usage,
         cppcoreguidelines-pro-bounds-constant-array-index,
         performance-no-int-to-ptr,
+        cppcoreguidelines-narrowing-conversions,
+        cppcoreguidelines-owning-memory,
+        cppcoreguidelines-pro-bounds-array-to-pointer-decay,
+        hicpp-no-array-decay,
+        misc-definitions-in-headers,
       ]
     CheckOptions:
       readability-identifier-naming.EnumCase: CamelCase

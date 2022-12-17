@@ -1,9 +1,9 @@
 
-#include "platform/windows/WindowsInput.h"
+#include "platform/windows/windows_input.h"
 
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
 
-#include "hazel/core/Application.h"
+#include "hazel/core/application.h"
 #include "hazel/core/core.h"
 
 namespace Hazel

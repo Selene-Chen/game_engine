@@ -4,11 +4,12 @@
 #include <array>
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
-#include <vcruntime.h>
 
 #include "hazel/renderer/render_command.h"
 #include "hazel/renderer/shader.h"
 #include "hazel/renderer/vertex_array.h"
+
+#include "hzpch.h"
 
 namespace Hazel
 {
@@ -22,6 +23,7 @@ namespace Hazel
 
     void Renderer2D::Init()
     {
+        HZ_PROFILE_FUNCTION();
         s_Renderer2dStorage = CreateRef<Render2DStorage>();
         s_Renderer2dStorage->QuadVertexArray = VertexArray::Create();
 
@@ -55,16 +57,21 @@ namespace Hazel
         s_Renderer2dStorage->TextureShader->SetInt("u_Texture", 0);  // 纹理 Solt
     }
 
-    void Renderer2D::Shutdown() {}
+    void Renderer2D::Shutdown()
+    {
+        HZ_PROFILE_FUNCTION();
+        delete s_Renderer2dStorage.get();
+    }
 
     void Renderer2D::BeginScene(const OrthographicCamera& camera)
     {
+        HZ_PROFILE_FUNCTION();
         // Shader 视图变换
         s_Renderer2dStorage->TextureShader->Bind();
         s_Renderer2dStorage->TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
     }
 
-    void Renderer2D::EndScene() {}
+    void Renderer2D::EndScene() { HZ_PROFILE_FUNCTION(); }
 
     void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
     {
@@ -73,6 +80,7 @@ namespace Hazel
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
     {
+        HZ_PROFILE_FUNCTION();
         const glm::mat4 transform =
             translate(glm::mat4(1.0F), position) * scale(glm::mat4(1.0F), {size.x, size.y, 1.0F});
 
@@ -91,6 +99,7 @@ namespace Hazel
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture)
     {
+        HZ_PROFILE_FUNCTION();
         const glm::mat4 transform =
             translate(glm::mat4(1.0F), position) * scale(glm::mat4(1.0F), {size.x, size.y, 1.0F});
 

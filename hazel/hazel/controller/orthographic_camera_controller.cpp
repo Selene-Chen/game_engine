@@ -5,6 +5,8 @@
 #include "hazel/core/input.h"
 #include "hazel/core/key_code.h"
 
+#include "hzpch.h"
+
 namespace Hazel
 {
     OrthographicCameraController::OrthographicCameraController(const float aspectRatio, const bool rotation)
@@ -14,6 +16,7 @@ namespace Hazel
     {}
     void OrthographicCameraController::OnUpdate(Timestep timestep)
     {
+        HZ_PROFILE_FUNCTION();
         auto ts = static_cast<float>(timestep);
         if (Input::IsKeyPressed(HZ_KEY_A))
         {
@@ -67,6 +70,7 @@ namespace Hazel
 
     void OrthographicCameraController::OnEvent(Event& event)
     {
+        HZ_PROFILE_FUNCTION();
         EventDispatcher dispatcher(event);
         // TODO(Selene): 鼠标滚动为什么通过事件
         dispatcher.dispatch<MouseScrolledEvent>(HZ_BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolled));
@@ -75,6 +79,7 @@ namespace Hazel
 
     bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& event)
     {
+        HZ_PROFILE_FUNCTION();
         m_zoom_level -= event.GetYOffset() * 0.25F;
         m_zoom_level = std::max(m_zoom_level, 0.25F);
         m_camera.SetProjection(-m_aspect_ratio * m_zoom_level, m_aspect_ratio * m_zoom_level, -m_zoom_level,
@@ -88,6 +93,7 @@ namespace Hazel
     /// <returns></returns>
     bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& event)
     {
+        HZ_PROFILE_FUNCTION();
         m_aspect_ratio = static_cast<float>(event.GetWidth()) / static_cast<float>(event.GetHeight());
         m_camera.SetProjection(-m_aspect_ratio * m_zoom_level, m_aspect_ratio * m_zoom_level, -m_zoom_level,
                                m_zoom_level);

@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/gtc/matrix_transform.hpp>
+#include <vector>
 
 #include "hazel.h"
 
@@ -25,4 +26,11 @@ private:
     Hazel::Ref<Hazel::Shader> m_flat_color_shader;
     Hazel::Ref<Hazel::Texture2D> m_texture;
     glm::vec4 m_square_color = {0.2F, 0.3F, 0.8F, 1.0F};
+
+    struct ProfileResult
+    {
+        const char* Name;
+        float Time;
+    };
+    std::vector<ProfileResult> m_profile_results;
 };
