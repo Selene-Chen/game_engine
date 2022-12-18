@@ -10,25 +10,25 @@ namespace Hazel
 {
     Scope<Input> Input::m_instance = CreateScope<WindowsInput>();
 
-    bool WindowsInput::IsKeyPressedImpl(int keycode)
+    bool WindowsInput::IsKeyPressedImpl(KeyCode keycode)
     {
         auto *window = static_cast<GLFWwindow *>(Application::GetInstance().GetWindow().GetNativeWindow());
-        auto state = glfwGetKey(window, keycode);
+        auto state   = glfwGetKey(window, static_cast<int32_t>(keycode));
         return state == GLFW_PRESS || state == GLFW_REPEAT;
     }
 
-    bool WindowsInput::IsMouseButtonPressedImpl(int button)
+    bool WindowsInput::IsMouseButtonPressedImpl(MouseCode button)
     {
         auto *window = static_cast<GLFWwindow *>(Application::GetInstance().GetWindow().GetNativeWindow());
-        auto state = glfwGetKey(window, button);
+        auto state   = glfwGetKey(window, static_cast<int32_t>(button));
         return state == GLFW_PRESS;
     }
 
     std::pair<float, float> WindowsInput::GetMousePositionImpl()
     {
         auto *window = static_cast<GLFWwindow *>(Application::GetInstance().GetWindow().GetNativeWindow());
-        double xpos = NAN;
-        double ypos = NAN;
+        double xpos  = NAN;
+        double ypos  = NAN;
         glfwGetCursorPos(window, &xpos, &ypos);
         return {static_cast<float>(xpos), static_cast<float>(ypos)};
     }

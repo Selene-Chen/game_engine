@@ -4,8 +4,6 @@
 
 #include "Sandbox2D.h"
 
-
-
 class Sandbox : public Hazel::Application
 {
 public:

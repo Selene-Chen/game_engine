@@ -1,6 +1,7 @@
 #pragma once
 #include <sstream>
 
+#include "hazel/core/mouse_code.h"
 #include "hazel/events/event.h"
 
 namespace Hazel
@@ -8,7 +9,7 @@ namespace Hazel
     class MouseMovedEvent : public Event
     {
     public:
-        MouseMovedEvent(const float mouse_x, const float mouse_y) : m_mouse_x(mouse_x), m_mouse_y(mouse_y) {}
+        MouseMovedEvent(const float x, const float y) : m_mouse_x(x), m_mouse_y(y) {}
 
         [[nodiscard]] float GetX() const { return m_mouse_x; }
         [[nodiscard]] float GetY() const { return m_mouse_y; }
@@ -31,10 +32,10 @@ namespace Hazel
     class MouseScrolledEvent : public Event
     {
     public:
-        MouseScrolledEvent(const float x_offset, const float y_offset) : m_x_offset(x_offset), m_y_offset(y_offset) {}
+        MouseScrolledEvent(const float x_offset, const float y_offset) : m_xoffset(x_offset), m_yoffset(y_offset) {}
 
-        [[nodiscard]] float GetXOffset() const { return m_x_offset; }
-        [[nodiscard]] float GetYOffset() const { return m_y_offset; }
+        [[nodiscard]] float GetXOffset() const { return m_xoffset; }
+        [[nodiscard]] float GetYOffset() const { return m_yoffset; }
         [[nodiscard]] std::string ToString() const override
         {
             std::stringstream string_stream;
@@ -48,25 +49,25 @@ namespace Hazel
         [[nodiscard]] int GetCategoryFlags() const override { return EventCategoryMouse | EventCategoryInput; }
 
     private:
-        float m_x_offset, m_y_offset;
+        float m_xoffset, m_yoffset;
     };
 
     class MouseButtonEvent : public Event
     {
     public:
-        [[nodiscard]] int getMouseButton() const { return m_button; }
+        [[nodiscard]] MouseCode getMouseButton() const { return m_button; }
 
         [[nodiscard]] int GetCategoryFlags() const override { return EventCategoryMouse | EventCategoryInput; }
 
     protected:
-        explicit MouseButtonEvent(const int button) : m_button(button) {}
-        int m_button;
+        explicit MouseButtonEvent(const MouseCode button) : m_button(button) {}
+        MouseCode m_button;
     };
 
     class MouseButtonPressedEvent : public MouseButtonEvent
     {
     public:
-        explicit MouseButtonPressedEvent(const int button) : MouseButtonEvent(button) {}
+        explicit MouseButtonPressedEvent(const MouseCode button) : MouseButtonEvent(button) {}
         [[nodiscard]] std::string ToString() const override
         {
             std::stringstream string_stream;
@@ -81,7 +82,7 @@ namespace Hazel
     class MouseButtonReleasedEvent : public MouseButtonEvent
     {
     public:
-        explicit MouseButtonReleasedEvent(const int button) : MouseButtonEvent(button) {}
+        explicit MouseButtonReleasedEvent(const MouseCode button) : MouseButtonEvent(button) {}
         [[nodiscard]] std::string ToString() const override
         {
             std::stringstream string_stream;

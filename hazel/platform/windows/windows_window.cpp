@@ -37,8 +37,8 @@ namespace Hazel
 
     void WindowsWindow::Init(const WindowProps &props)
     {
-        m_win_data.Title = props.Title;
-        m_win_data.Width = props.Width;
+        m_win_data.Title  = props.Title;
+        m_win_data.Width  = props.Width;
         m_win_data.Height = props.Height;
         HZ_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
@@ -69,8 +69,8 @@ namespace Hazel
         // 设置 GLFW 回调函数
         glfwSetWindowSizeCallback(m_window, [](GLFWwindow *window, const int width, const int height) {
             WindowData &data = *static_cast<WindowData *>(glfwGetWindowUserPointer(window));
-            data.Width = width;
-            data.Height = height;
+            data.Width       = width;
+            data.Height      = height;
             WindowResizeEvent event(width, height);
             data.EventCallback(event);
         });
@@ -86,19 +86,19 @@ namespace Hazel
                                {
                                    case GLFW_PRESS:
                                        {
-                                           KeyPressedEvent event(key, 0);
+                                           KeyPressedEvent event(static_cast<KeyCode>(key), 0);
                                            data.EventCallback(event);
                                            break;
                                        }
                                    case GLFW_RELEASE:
                                        {
-                                           KeyReleasedEvent event(key);
+                                           KeyReleasedEvent event(static_cast<KeyCode>(key));
                                            data.EventCallback(event);
                                            break;
                                        }
                                    case GLFW_REPEAT:
                                        {
-                                           KeyPressedEvent event(key, 1);
+                                           KeyPressedEvent event(static_cast<KeyCode>(key), 1);
                                            data.EventCallback(event);
                                            break;
                                        }
@@ -111,13 +111,13 @@ namespace Hazel
             {
                 case GLFW_PRESS:
                     {
-                        MouseButtonPressedEvent event(button);
+                        MouseButtonPressedEvent event(static_cast<MouseCode>(button));
                         data.EventCallback(event);
                         break;
                     }
                 case GLFW_RELEASE:
                     {
-                        MouseButtonReleasedEvent event(button);
+                        MouseButtonReleasedEvent event(static_cast<MouseCode>(button));
                         data.EventCallback(event);
                         break;
                     }
@@ -136,7 +136,7 @@ namespace Hazel
         });
         glfwSetCharCallback(m_window, [](GLFWwindow *window, const uint32_t keycode) {
             const WindowData &data = *static_cast<WindowData *>(glfwGetWindowUserPointer(window));
-            KeyTypedEvent event(keycode);
+            KeyTypedEvent event(static_cast<KeyCode>(keycode));
             data.EventCallback(event);
         });
     }
