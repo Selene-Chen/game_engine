@@ -6,6 +6,7 @@
 #include <string>
 
 #include "hazel/core/logger.h"
+
 namespace Hazel
 {
     struct ProfileResult
@@ -25,7 +26,6 @@ namespace Hazel
         std::mutex m_mutex;
         InstrumentationSession* m_current_session{};
         std::ofstream m_output_stream;
-        int m_profile_count{0};
 
     public:
         Instrumentor() = default;
@@ -34,17 +34,20 @@ namespace Hazel
         {
             // m_mutex
             std::lock_guard lock((m_mutex));
+
+            // * 当前sessionb被打开，先结束它
             if (m_current_session != nullptr)
             {
-                // 如果当前存在一个session,在开始一个新session前关闭它
                 if (Logger::GetCoreLogger())
                 {  // Edge case: BeginSession() might be before Logger::Init()
                     HZ_CORE_ERROR("Instrumentor::BeginSession('{0}') when session '{1}' already open.", name,
                                   m_current_session->Name);
                 }
+                InternalEndSession();
             }
-            m_output_stream.open(path);
 
+            //* 打开文件写入
+            m_output_stream.open(path);
             if (m_output_stream.is_open())
             {
                 m_current_session = new InstrumentationSession({name});
@@ -64,11 +67,6 @@ namespace Hazel
             // m_mutex
             std::lock_guard lock(m_mutex);
             InternalEndSession();
-            // WriteFooter();
-            // m_output_stream.close();
-            // delete m_current_session;
-            // m_current_session = nullptr;
-            // m_profile_count   = 0;
         }
 
         void WriteProfile(const ProfileResult& result)
@@ -85,6 +83,7 @@ namespace Hazel
             json << "\"tid\":" << result.ThreadID << ",";
             json << "\"ts\":" << result.Start;
             json << "}";
+
             // m_mutex
             std::lock_guard lock(m_mutex);
             if (m_current_session != nullptr)
@@ -93,6 +92,7 @@ namespace Hazel
                 m_output_stream.flush();
             }
         }
+
         static Instrumentor& Get()
         {
             static Instrumentor s_instance;
@@ -102,7 +102,7 @@ namespace Hazel
     private:
         void WriteHeader()
         {
-            m_output_stream << R"({"otherData": {},"traceEvents":[)";
+            m_output_stream << R"({"otherData": {},"traceEvents":[{})";
             m_output_stream.flush();
         }
 
@@ -129,7 +129,8 @@ namespace Hazel
     public:
         explicit InstrumentationTimer(const char* name) : m_name(name)
         {
-            m_start_time = std::chrono::high_resolution_clock::now();
+            // * 开始时间
+            m_start_time = std::chrono::steady_clock::now();
         }
 
         ~InstrumentationTimer()
@@ -143,12 +144,14 @@ namespace Hazel
     private:
         void Stop()
         {
-            auto end_timepoint = std::chrono::high_resolution_clock::now();
+            //* 结束时间
+            auto end_time = std::chrono::steady_clock::now();
 
-            int64_t start =
-                std::chrono::time_point_cast<std::chrono::microseconds>(m_start_time).time_since_epoch().count();
-            int64_t end =
-                std::chrono::time_point_cast<std::chrono::microseconds>(end_timepoint).time_since_epoch().count();
+            //* 获取开始时间戳 转换成ms
+            auto start = std::chrono::duration_cast<std::chrono::microseconds>(m_start_time.time_since_epoch()).count();
+            // * 获取结束时间戳 转换成ms
+            auto end = std::chrono::duration_cast<std::chrono::microseconds>(end_time.time_since_epoch()).count();
+
             Instrumentor::Get().WriteProfile({m_name, start, end, std::this_thread::get_id()});
             m_stopped = true;
         }
@@ -194,7 +197,7 @@ namespace Hazel
 
 }  // namespace Hazel
 
-#define HZ_PROFILE 0
+#define HZ_PROFILE 1
 #if HZ_PROFILE
    // Resolve which function signature macro will be used. Note that this only
     // is resolved when the (pre)compiler starts, so the syntax highlighting
