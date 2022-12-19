@@ -1,73 +1,97 @@
+
 #pragma once
 #include <algorithm>
 #include <chrono>
 #include <fstream>
 #include <string>
 
+#include "hazel/core/logger.h"
 namespace Hazel
 {
     struct ProfileResult
     {
         std::string Name;
         int64_t Start, End;
-        uint32_t ThreadID;
+        std::thread::id ThreadID;  // 线程ID
     };
     struct InstrumentationSession
     {
         explicit InstrumentationSession(std::string name) : Name(std::move(name)) {}
         std::string Name;
     };
-
     class Instrumentor
     {
+    private:
+        std::mutex m_mutex;
+        InstrumentationSession* m_current_session{};
+        std::ofstream m_output_stream;
+        int m_profile_count{0};
+
     public:
         Instrumentor() = default;
+
         void BeginSession(const std::string& name, const std::string& path = "result.json")
         {
+            // m_mutex
+            std::lock_guard lock((m_mutex));
+            if (m_current_session != nullptr)
+            {
+                // 如果当前存在一个session,在开始一个新session前关闭它
+                if (Logger::GetCoreLogger())
+                {  // Edge case: BeginSession() might be before Logger::Init()
+                    HZ_CORE_ERROR("Instrumentor::BeginSession('{0}') when session '{1}' already open.", name,
+                                  m_current_session->Name);
+                }
+            }
             m_output_stream.open(path);
-            WriteHeader();
-            m_current_session = new InstrumentationSession(name);
+
+            if (m_output_stream.is_open())
+            {
+                m_current_session = new InstrumentationSession({name});
+                WriteHeader();
+            }
+            else
+            {
+                if (Logger::GetCoreLogger())
+                {  // Edge case: BeginSession() might be before Logger::Init()
+                    HZ_CORE_ERROR("Instrumentor could not open result file '{0}'.", path);
+                }
+            }
         }
+
         void EndSession()
         {
-            WriteFooter();
-            m_output_stream.close();
-            delete m_current_session;
-            m_current_session = nullptr;
-            m_profile_count = 0;
+            // m_mutex
+            std::lock_guard lock(m_mutex);
+            InternalEndSession();
+            // WriteFooter();
+            // m_output_stream.close();
+            // delete m_current_session;
+            // m_current_session = nullptr;
+            // m_profile_count   = 0;
         }
 
-        void WriteHeader()
-        {
-            m_output_stream << R"({"otherData": {},"traceEvents":[)";
-            m_output_stream.flush();
-        }
-        void WriteFooter()
-        {
-            m_output_stream << "]}";
-            m_output_stream.flush();
-        }
         void WriteProfile(const ProfileResult& result)
         {
-            if (m_profile_count++ > 0)
-            {
-                m_output_stream << ",";
-            }
-
+            std::stringstream json;
             std::string name = result.Name;
             std::replace(name.begin(), name.end(), '"', '\'');
-
-            m_output_stream << "{";
-            m_output_stream << R"("cat":"function",)";
-            m_output_stream << "\"dur\":" << (result.End - result.Start) << ',';
-            m_output_stream << R"("name":")" << name << "\",";
-            m_output_stream << R"("ph":"X",)";
-            m_output_stream << "\"pid\":0,";
-            m_output_stream << "\"tid\":" << result.ThreadID << ",";
-            m_output_stream << "\"ts\":" << result.Start;
-            m_output_stream << "}";
-
-            m_output_stream.flush();
+            json << ",{";
+            json << R"("cat":"function",)";
+            json << "\"dur\":" << (result.End - result.Start) << ',';
+            json << R"("name":")" << name << "\",";
+            json << R"("ph":"X",)";
+            json << "\"pid\":0,";
+            json << "\"tid\":" << result.ThreadID << ",";
+            json << "\"ts\":" << result.Start;
+            json << "}";
+            // m_mutex
+            std::lock_guard lock(m_mutex);
+            if (m_current_session != nullptr)
+            {
+                m_output_stream << json.str();
+                m_output_stream.flush();
+            }
         }
         static Instrumentor& Get()
         {
@@ -76,11 +100,30 @@ namespace Hazel
         }
 
     private:
-        InstrumentationSession* m_current_session = {nullptr};
-        std::ofstream m_output_stream;
-        int m_profile_count{0};
-    };
+        void WriteHeader()
+        {
+            m_output_stream << R"({"otherData": {},"traceEvents":[)";
+            m_output_stream.flush();
+        }
 
+        void WriteFooter()
+        {
+            m_output_stream << "]}";
+            m_output_stream.flush();
+        }
+
+        //! 必须是在获取lock之后执行
+        void InternalEndSession()
+        {
+            if (m_current_session != nullptr)
+            {
+                WriteFooter();
+                m_output_stream.close();
+                delete m_current_session;
+                m_current_session = nullptr;
+            }
+        }
+    };
     class InstrumentationTimer
     {
     public:
@@ -106,16 +149,14 @@ namespace Hazel
                 std::chrono::time_point_cast<std::chrono::microseconds>(m_start_time).time_since_epoch().count();
             int64_t end =
                 std::chrono::time_point_cast<std::chrono::microseconds>(end_timepoint).time_since_epoch().count();
-
-            uint32_t thread_id = std::hash<std::thread::id>{}(std::this_thread::get_id());
-            Instrumentor::Get().WriteProfile({m_name, start, end, thread_id});
-
+            Instrumentor::Get().WriteProfile({m_name, start, end, std::this_thread::get_id()});
             m_stopped = true;
         }
         const char* m_name;
         std::chrono::time_point<std::chrono::high_resolution_clock> m_start_time;
         bool m_stopped{false};
     };
+
     namespace InstrumentorUtils
     {
 
@@ -155,9 +196,9 @@ namespace Hazel
 
 #define HZ_PROFILE 1
 #if HZ_PROFILE
-// Resolve which function signature macro will be used. Note that this only
-// is resolved when the (pre)compiler starts, so the syntax highlighting
-// could mark the wrong one in your editor!
+   // Resolve which function signature macro will be used. Note that this only
+    // is resolved when the (pre)compiler starts, so the syntax highlighting
+    // could mark the wrong one in your editor!
     #if defined(__GNUC__) || (defined(__MWERKS__) && (__MWERKS__ >= 0x3000)) || (defined(__ICC) && (__ICC >= 600)) || \
         defined(__ghs__)
         #define HZ_FUNC_SIG __PRETTY_FUNCTION__

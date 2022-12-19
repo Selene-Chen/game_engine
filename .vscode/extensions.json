@@ -9,6 +9,8 @@
     "guyutongxue.cpp-reference",
     "vadimcn.vscode-lldb",
     "llvm-vs-code-extensions.vscode-clangd",
-    "fleexo.cpp-class-creator"
+    "fleexo.cpp-class-creator",
+    "aaron-bond.better-comments",
+    "obkoro1.korofileheader"
   ]
 }

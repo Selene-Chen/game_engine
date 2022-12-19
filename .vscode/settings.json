@@ -267,157 +267,59 @@
    *****************/
   "indentRainbow.ignoreErrorLanguages": ["markdown"], // 缩进彩虹忽略错误
   "indentRainbow.updateDelay": 0, // 缩进彩虹更新等待时间(毫秒)
-  /************
-   * Comments *
-   ************/
+  /*******************
+   * better Comments *
+   *******************/
   "better-comments.highlightPlainText": true,
-  "better-comments.multilineComments": true,
+  "better-comments.multilineComments": false,
   "better-comments.tags": [
     {
+      "tag": "!",
+      "color": "#FF2D00",
+      "strikethrough": false,
+      "underline": false,
       "backgroundColor": "transparent",
       "bold": false,
-      "color": "#DC143C",
-      "italic": false,
-      "strikethrough": false,
-      "tag": "bug:",
-      "underline": false
+      "italic": false
     },
     {
-      "backgroundColor": "transparent",
-      "bold": false,
-      "color": "#DC143C",
-      "italic": false,
-      "strikethrough": false,
-      "tag": "\\$",
-      "underline": false
-    },
-    {
-      "backgroundColor": "transparent",
-      "bold": false,
-      "color": "#008000",
-      "italic": false,
-      "strikethrough": false,
-      "tag": "done:",
-      "underline": false
-    },
-    {
-      "backgroundColor": "transparent",
-      "bold": false,
-      "color": "#008000",
-      "italic": false,
-      "strikethrough": false,
-      "tag": "\\;",
-      "underline": false
-    },
-    {
-      "backgroundColor": "transparent",
-      "bold": false,
-      "color": "#4169E1",
-      "italic": false,
-      "strikethrough": false,
-      "tag": "fixme:",
-      "underline": false
-    },
-    {
-      "backgroundColor": "transparent",
-      "bold": false,
-      "color": "#4169E1",
-      "italic": false,
-      "strikethrough": false,
-      "tag": "\\%",
-      "underline": false
-    },
-    {
-      "backgroundColor": "transparent",
-      "bold": false,
-      "color": "#DEB887",
-      "italic": false,
-      "strikethrough": false,
-      "tag": "note:",
-      "underline": false
-    },
-    {
-      "backgroundColor": "transparent",
-      "bold": false,
-      "color": "#DEB887",
-      "italic": false,
-      "strikethrough": false,
-      "tag": "\\]",
-      "underline": false
-    },
-    {
-      "backgroundColor": "transparent",
-      "bold": false,
-      "color": "#FFD700",
-      "italic": false,
-      "strikethrough": false,
-      "tag": "star:",
-      "underline": false
-    },
-    {
-      "backgroundColor": "transparent",
-      "bold": false,
-      "color": "#FFD700",
-      "italic": false,
-      "strikethrough": false,
-      "tag": "\\*",
-      "underline": false
-    },
-    {
-      "backgroundColor": "transparent",
-      "bold": false,
-      "color": "#FF2C00",
-      "italic": false,
-      "strikethrough": false,
-      "tag": "alert:",
-      "underline": false
-    },
-    {
-      "backgroundColor": "transparent",
-      "bold": false,
-      "color": "#FF2C00",
-      "italic": false,
-      "strikethrough": false,
-      "tag": "\\!",
-      "underline": false
-    },
-    {
-      "backgroundColor": "transparent",
-      "bold": false,
+      "tag": "?",
       "color": "#3498DB",
-      "italic": false,
       "strikethrough": false,
-      "tag": "question:",
-      "underline": false
-    },
-    {
+      "underline": false,
       "backgroundColor": "transparent",
       "bold": false,
-      "color": "#3498DB",
-      "italic": false,
-      "strikethrough": false,
-      "tag": "\\?",
-      "underline": false
+      "italic": false
     },
     {
+      "tag": "//",
+      "color": "#474747",
+      "strikethrough": true,
+      "underline": false,
       "backgroundColor": "transparent",
       "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "todo",
       "color": "#FF8C00",
-      "italic": false,
       "strikethrough": false,
-      "tag": "todo:",
-      "underline": false
-    },
-    {
+      "underline": false,
       "backgroundColor": "transparent",
       "bold": false,
-      "color": "#FF8C00",
-      "italic": false,
+      "italic": false
+    },
+    {
+      "tag": "*",
+      "color": "#98C379",
       "strikethrough": false,
-      "tag": "\\>",
-      "underline": false
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
     }
   ],
+
   "todo-tree.filtering.excludeGlobs": ["build", "data"],
   "todo-tree.general.tagGroups": {
     "ALERT": ["ALERT:"],
