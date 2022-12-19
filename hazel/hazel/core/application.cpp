@@ -77,8 +77,8 @@ namespace Hazel
         while (m_running)
         {
             HZ_PROFILE_SCOPE("RunLoop");
-            auto time = static_cast<float>(glfwGetTime());  // GetTime();
-            auto timestep = Timestep(time - m_last_frame_time);
+            auto time         = static_cast<float>(glfwGetTime());  // GetTime();
+            auto timestep     = Timestep(time - m_last_frame_time);
             m_last_frame_time = time;
 
             // 窗口最小化

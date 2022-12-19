@@ -24,7 +24,9 @@ namespace Hazel
     void Renderer2D::Init()
     {
         HZ_PROFILE_FUNCTION();
+
         s_Renderer2dStorage = CreateRef<Render2DStorage>();
+
         s_Renderer2dStorage->QuadVertexArray = VertexArray::Create();
 
         // clang-format off
@@ -48,7 +50,7 @@ namespace Hazel
             IndexBuffer::Create(square_indices.data(), sizeof(square_indices) / sizeof(uint32_t));
         s_Renderer2dStorage->QuadVertexArray->SetIndexBuffer(square_ibo);
         // 空白纹理
-        uint32_t white_texture_data = 0xffffffff;
+        uint32_t white_texture_data       = 0xffffffff;
         s_Renderer2dStorage->WhiteTexture = Texture2D::Create(1, 1);
         s_Renderer2dStorage->WhiteTexture->SetData(&white_texture_data, sizeof(uint32_t));
         // shader
@@ -60,7 +62,7 @@ namespace Hazel
     void Renderer2D::Shutdown()
     {
         HZ_PROFILE_FUNCTION();
-        delete s_Renderer2dStorage.get();
+        std::default_delete<Render2DStorage>();
     }
 
     void Renderer2D::BeginScene(const OrthographicCamera& camera)

@@ -1,3 +1,12 @@
+/*
+ * @Author: Selene 339698418@qq.com
+ * @Date: 2022-12-03 20:11:05
+ * @LastEditors: Selene 339698418@qq.com
+ * @LastEditTime: 2022-12-19 10:31:39
+ * @FilePath: \game_engine\hazel\hazel\core\layer_stack.cpp
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置:
+ * https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 #include "layer_stack.h"
 
 #include <vector>
@@ -11,7 +20,7 @@ namespace Hazel
         for (const Ref<Layer>& layer : m_layers)
         {
             layer->OnDetach();
-            delete layer.get();
+            std::default_delete<Layer>();
         }
     }
 

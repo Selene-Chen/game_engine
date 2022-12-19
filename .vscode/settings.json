@@ -481,5 +481,7 @@
   "leetcode.hint.commandShortcut": false,
   "leetcode.hint.commentDescription": false,
   "leetcode.hint.configWebviewMarkdown": false,
-  "xmake.compileCommandsDirectory": ".vscode"
+  "xmake.compileCommandsDirectory": ".vscode",
+  "lldb.displayFormat": "auto",
+  "lldb.consoleMode": "evaluate"
 }

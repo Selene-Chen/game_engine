@@ -8,6 +8,6 @@ class Sandbox : public Hazel::Application
 {
 public:
     Sandbox() { PushLayer(Hazel::CreateRef<Sandbox2D>()); }
-    ~Sandbox() override = default;
+    ~Sandbox(){};
 };
 Hazel::Application* Hazel::CreateApplication() { return new Sandbox(); }
