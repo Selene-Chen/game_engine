@@ -1,3 +1,4 @@
+
 #include "Sandbox2D.h"
 
 #include <imgui.h>
@@ -29,7 +30,8 @@ void Sandbox2D::OnUpdate(const Hazel::Timestep timestep)
         Hazel::Renderer2D::DrawQuad({-1.0F, 0.0F}, {0.8F, 0.8F}, {0.8F, 0.2F, 0.3F, 1.0F});
         Hazel::Renderer2D::DrawQuad({0.5F, -0.5F}, {0.5F, 0.75F}, {0.2F, 0.3F, 0.8F, 1.0F});
         Hazel::Renderer2D::DrawQuad({0.0F, 0.0F, -0.1F}, {10.0F, 10.0F}, m_texture);
-        // EndScene
+        Hazel::Renderer2D::DrawQuad({0.0F, 0.0F, 0.0F}, {10.0F, 10.0F}, m_texture, 10.0F);
+        //  EndScene
         Hazel::Renderer::EndScene();
     }
 

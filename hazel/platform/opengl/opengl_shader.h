@@ -1,3 +1,12 @@
+/*
+ * @Author: Selene 339698418@qq.com
+ * @Date: 2022-12-06 18:28:28
+ * @LastEditors: Selene 339698418@qq.com
+ * @LastEditTime: 2022-12-19 12:55:18
+ * @FilePath: \game_engine\hazel\platform\opengl\opengl_shader.h
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置:
+ * https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -20,7 +29,10 @@ namespace Hazel
         void Bind() const override;
         void UnBind() const override;
         void SetInt(const std::string& name, int value) const override;
+
         void SetMat4(const std::string& name, const glm::mat4& value) const override;
+        void SetFloat(const std::string& name, float value) const override;
+
         void SetFloat3(const std::string& name, const glm::vec3& value) const override;
         void SetFloat4(const std::string& name, const glm::vec4& value) const override;
 
@@ -29,6 +41,7 @@ namespace Hazel
         void UploadUniformFloat2(const std::string& name, const glm::vec2& value) const;
         void UploadUniformFloat3(const std::string& name, const glm::vec3& value) const;
         void UploadUniformFloat4(const std::string& name, const glm::vec4& value) const;
+
         void UploadUniformMat3(const std::string& name, const glm::mat3& matrix) const;
         void UploadUniformMat4(const std::string& name, const glm::mat4& matrix) const;
 

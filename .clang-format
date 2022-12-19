@@ -109,7 +109,7 @@ BreakAfterJavaFieldAnnotations: false
 # 多行字符串换行
 BreakStringLiterals: true
 # 每行字符限制
-ColumnLimit:     120
+ColumnLimit:     140
 # 描述具有特殊意义的注释的正则表达式
 CommentPragmas:  '^ IWYU pragma:'
 # 说明符对齐

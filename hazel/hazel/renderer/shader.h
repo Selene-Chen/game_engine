@@ -1,3 +1,12 @@
+/*
+ * @Author: Selene 339698418@qq.com
+ * @Date: 2022-12-04 20:02:07
+ * @LastEditors: Selene 339698418@qq.com
+ * @LastEditTime: 2022-12-19 12:50:48
+ * @FilePath: \game_engine\hazel\hazel\renderer\shader.h
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置:
+ * https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 #pragma once
 #include <glm/glm.hpp>
 #include <string>
@@ -10,13 +19,15 @@ namespace Hazel
     class Shader
     {
     public:
-        Shader() = default;
+        Shader()          = default;
         virtual ~Shader() = default;
 
-        virtual void Bind() const = 0;
-        virtual void UnBind() const = 0;
-        virtual void SetInt(const std::string& name, int value) const = 0;
+        virtual void Bind() const                                                   = 0;
+        virtual void UnBind() const                                                 = 0;
+        virtual void SetInt(const std::string& name, int value) const               = 0;
         virtual void SetMat4(const std::string& name, const glm::mat4& value) const = 0;
+
+        virtual void SetFloat(const std::string& name, float value) const             = 0;
         virtual void SetFloat3(const std::string& name, const glm::vec3& value) const = 0;
         virtual void SetFloat4(const std::string& name, const glm::vec4& value) const = 0;
 
@@ -29,7 +40,7 @@ namespace Hazel
     class ShaderLibrary
     {
     public:
-        ShaderLibrary() = default;
+        ShaderLibrary()          = default;
         virtual ~ShaderLibrary() = default;
 
         void Add(const std::string& name, const Ref<Shader>& shader);

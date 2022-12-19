@@ -28,7 +28,7 @@ namespace Hazel
     {
         HZ_PROFILE_FUNCTION();
         std::unordered_map<GLenum, std::string> sources;
-        sources[GL_VERTEX_SHADER] = vertex_src;
+        sources[GL_VERTEX_SHADER]   = vertex_src;
         sources[GL_FRAGMENT_SHADER] = fragment_src;
         Compile(sources);
     }
@@ -36,16 +36,16 @@ namespace Hazel
     OpenGLShader::OpenGLShader(const std::string &path)
     {
         HZ_PROFILE_FUNCTION();
-        const auto source = ReadFile(path);
+        const auto source         = ReadFile(path);
         const auto shader_sources = PreProcess(source);
         Compile(shader_sources);
 
         // Extract name from filepath
-        auto last_slash = path.find_last_of("/\\");
-        last_slash = last_slash == std::string::npos ? 0 : last_slash + 1;
+        auto last_slash     = path.find_last_of("/\\");
+        last_slash          = last_slash == std::string::npos ? 0 : last_slash + 1;
         const auto last_dot = path.rfind('.');
-        const auto count = last_dot == std::string::npos ? path.size() - last_slash : last_dot - last_slash;
-        m_name = path.substr(last_slash, count);
+        const auto count    = last_dot == std::string::npos ? path.size() - last_slash : last_dot - last_slash;
+        m_name              = path.substr(last_slash, count);
     }
 
     OpenGLShader::~OpenGLShader()
@@ -75,7 +75,11 @@ namespace Hazel
         HZ_PROFILE_FUNCTION();
         UploadUniformMat4(name, value);
     }
-
+    void OpenGLShader::SetFloat(const std::string &name, float value) const
+    {
+        HZ_PROFILE_FUNCTION();
+        UploadUniformFloat(name, value);
+    };
     void OpenGLShader::SetFloat3(const std::string &name, const glm::vec3 &value) const
     {
         HZ_PROFILE_FUNCTION();
@@ -180,7 +184,7 @@ namespace Hazel
             const size_t next_line_pos = source.find_first_not_of("\r\n", eol);
             HZ_CORE_ASSERT(next_line_pos != std::string::npos, "Syntax error");
             // 下一个着色器类型声明行开头位置
-            pos = source.find(type_token, next_line_pos);
+            pos                                        = source.find(type_token, next_line_pos);
             shader_sources[ShaderTypeFromString(type)] = pos == std::string::npos
                                                              ? source.substr(next_line_pos)
                                                              : source.substr(next_line_pos, pos - next_line_pos);
