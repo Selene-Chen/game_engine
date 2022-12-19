@@ -1,7 +1,6 @@
 
 #include "hazel/renderer/renderer2d.h"
 
-#include <array>
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -46,7 +45,8 @@ namespace Hazel
         s_Renderer2dStorage->QuadVertexArray->AddVertexBuffer(square_vbo);
 
         std::array<uint32_t, 6> square_indices = {0, 1, 2, 2, 3, 0};
-        Ref<IndexBuffer> square_ibo            = IndexBuffer::Create(square_indices.data(), sizeof(square_indices) / sizeof(uint32_t));
+        Ref<IndexBuffer> square_ibo =
+            IndexBuffer::Create(square_indices.data(), sizeof(square_indices) / sizeof(uint32_t));
         s_Renderer2dStorage->QuadVertexArray->SetIndexBuffer(square_ibo);
         // 空白纹理
         uint32_t white_texture_data       = 0xffffffff;
@@ -90,19 +90,20 @@ namespace Hazel
         //*纹理平铺系数
         s_Renderer2dStorage->TextureShader->SetFloat("u_TilingFactor", 1.0F);
         //*变换
-        const glm::mat4 transform = translate(glm::mat4(1.0F), position) * scale(glm::mat4(1.0F), {size.x, size.y, 1.0F});
+        const glm::mat4 transform =
+            translate(glm::mat4(1.0F), position) * scale(glm::mat4(1.0F), {size.x, size.y, 1.0F});
         s_Renderer2dStorage->TextureShader->SetMat4("u_Transform", transform);
 
         s_Renderer2dStorage->QuadVertexArray->Bind();
         RenderCommand::DrawIndexed(s_Renderer2dStorage->QuadVertexArray);
     }
-    void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilling_factor,
-                              const glm::vec4& tint_color)
+    void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture,
+                              float tilling_factor, const glm::vec4& tint_color)
     {
         DrawQuad({position.x, position.y, 0.0F}, size, texture, tilling_factor, tint_color);
     }
-    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilling_factor,
-                              const glm::vec4& tint_color)
+    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture,
+                              float tilling_factor, const glm::vec4& tint_color)
     {  // HZ_PROFILE_FUNCTION();
 
         //*纹理
@@ -112,11 +113,57 @@ namespace Hazel
         //*纹理平铺系数
         s_Renderer2dStorage->TextureShader->SetFloat("u_TilingFactor", tilling_factor);
         //*变换
-        const glm::mat4 transform = translate(glm::mat4(1.0F), position) * scale(glm::mat4(1.0F), {size.x, size.y, 1.0F});
+        const glm::mat4 transform =
+            translate(glm::mat4(1.0F), position) * scale(glm::mat4(1.0F), {size.x, size.y, 1.0F});
         s_Renderer2dStorage->TextureShader->SetMat4("u_Transform", transform);
         //*顶点数组
         s_Renderer2dStorage->QuadVertexArray->Bind();
         RenderCommand::DrawIndexed(s_Renderer2dStorage->QuadVertexArray);
     }
 
+    void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation,
+                                     const glm::vec4& color)
+    {
+        DrawRotatedQuad({position.x, position.y, 0.0F}, size, rotation, color);
+    }
+    void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation,
+                                     const glm::vec4& color)
+    {
+        HZ_PROFILE_FUNCTION();
+
+        s_Renderer2dStorage->TextureShader->SetFloat4("u_Color", color);
+        s_Renderer2dStorage->TextureShader->SetFloat("u_TilingFactor", 1.0F);
+        s_Renderer2dStorage->WhiteTexture->Bind(0);
+
+        glm::mat4 transform = glm::translate(glm::mat4(1.0F), position) *
+                              glm::rotate(glm::mat4(1.0F), rotation, {0.0F, 0.0F, 1.0F}) *
+                              glm::scale(glm::mat4(1.0F), {size.x, size.y, 1.0F});
+        s_Renderer2dStorage->TextureShader->SetMat4("u_Transform", transform);
+
+        s_Renderer2dStorage->QuadVertexArray->Bind();
+        RenderCommand::DrawIndexed(s_Renderer2dStorage->QuadVertexArray);
+    }
+
+    void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation,
+                                     const Ref<Texture2D>& texture, float tilling_factor, const glm::vec4& tint_color)
+    {
+        DrawRotatedQuad({position.x, position.y, 0.0F}, size, rotation, texture, tilling_factor, tint_color);
+    }
+    void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation,
+                                     const Ref<Texture2D>& texture, float tilling_factor, const glm::vec4& tint_color)
+    {
+        HZ_PROFILE_FUNCTION();
+
+        s_Renderer2dStorage->TextureShader->SetFloat4("u_Color", tint_color);
+        s_Renderer2dStorage->TextureShader->SetFloat("u_TilingFactor", tilling_factor);
+        texture->Bind(0);
+
+        glm::mat4 transform = glm::translate(glm::mat4(1.0F), position) *
+                              glm::rotate(glm::mat4(1.0F), rotation, {0.0F, 0.0F, 1.0F}) *
+                              glm::scale(glm::mat4(1.0F), {size.x, size.y, 1.0F});
+        s_Renderer2dStorage->TextureShader->SetMat4("u_Transform", transform);
+
+        s_Renderer2dStorage->QuadVertexArray->Bind();
+        RenderCommand::DrawIndexed(s_Renderer2dStorage->QuadVertexArray);
+    }
 }  // namespace Hazel
