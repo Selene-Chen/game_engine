@@ -331,6 +331,7 @@
     "STAR": ["STAR:"],
     "TODO": ["TODO:", "TODO(www41):"]
   },
+
   "todo-tree.general.tags": [
     "ALERT:",
     "QUESTION:",
@@ -352,6 +353,7 @@
     "- [ ]",
     "- [x]"
   ],
+
   "todo-tree.highlights.customHighlight": {
     "ALERT": {
       "background": "#FF2C00",
@@ -360,12 +362,14 @@
       "iconColour": "#FF2C00",
       "rulerColour": "#FF2C00"
     },
+
     "BUG": {
       "background": "#DC143C",
       "foreground": "#FFFAFA",
       "iconColour": "#DC143C",
       "rulerColour": "#DC143C"
     },
+
     "DONE": {
       "background": "#008000",
       "foreground": "#FFFAFA",
@@ -373,6 +377,7 @@
       "iconColour": "#008000",
       "rulerColour": "#008000"
     },
+
     "FIXME": {
       "background": "#4169E1",
       "foreground": "#FFFAFA",
@@ -380,6 +385,7 @@
       "iconColour": "#4169E1",
       "rulerColour": "#4169E1"
     },
+
     "NOTE": {
       "background": "#DEB887",
       "foreground": "#000000",
@@ -387,6 +393,7 @@
       "iconColour": "#DEB887",
       "rulerColour": "#DEB887"
     },
+
     "QUESTION": {
       "background": "#3498DB",
       "foreground": "#FFFAFA",
@@ -394,6 +401,7 @@
       "iconColour": "#3498DB",
       "rulerColour": "#3498DB"
     },
+
     "STAR": {
       "background": "#FFD700",
       "foreground": "#3E13AF",
@@ -401,12 +409,14 @@
       "iconColour": "#FFD700",
       "rulerColour": "#FFD700"
     },
+
     "TODO": {
       "background": "#FF8C00",
       "foreground": "#FFFAFA",
       "iconColour": "#FF8C00",
       "rulerColour": "#FF8C00"
     },
+
     "alert:": {
       "background": "#FF2C00",
       "foreground": "#FFFAFA",
@@ -415,6 +425,7 @@
       "iconColour": "#FF2C00",
       "rulerColour": "#FF2C00"
     },
+
     "bug:": {
       "background": "#DC143C",
       "foreground": "#FFFAFA",
@@ -422,6 +433,7 @@
       "iconColour": "#DC143C",
       "rulerColour": "#DC143C"
     },
+
     "done:": {
       "background": "#008000",
       "foreground": "#FFFAFA",
@@ -430,6 +442,7 @@
       "iconColour": "#008000",
       "rulerColour": "#008000"
     },
+
     "fixme:": {
       "background": "#4169E1",
       "foreground": "#FFFAFA",
@@ -438,6 +451,7 @@
       "iconColour": "#4169E1",
       "rulerColour": "#4169E1"
     },
+
     "note:": {
       "background": "#DEB887",
       "foreground": "#000000",
@@ -446,6 +460,7 @@
       "iconColour": "#DEB887",
       "rulerColour": "#DEB887"
     },
+
     "question:": {
       "background": "#3498DB",
       "foreground": "#FFFAFA",
@@ -454,6 +469,7 @@
       "iconColour": "#3498DB",
       "rulerColour": "#3498DB"
     },
+
     "star:": {
       "background": "#FFD700",
       "foreground": "#3E13AF",
@@ -462,6 +478,7 @@
       "iconColour": "#FFD700",
       "rulerColour": "#FFD700"
     },
+
     "todo:": {
       "background": "#FF8C00",
       "foreground": "#FFFAFA",
