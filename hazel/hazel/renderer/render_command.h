@@ -6,7 +6,7 @@ namespace Hazel
     class RenderCommand
     {
     public:
-        RenderCommand() = default;
+        RenderCommand()  = default;
         ~RenderCommand() = default;
 
         static void Init() { m_renderer_api->Init(); }
@@ -19,7 +19,10 @@ namespace Hazel
 
         static void SetClearColor(const glm::vec4& color) { m_renderer_api->SetClearColor(color); }
         static void Clear() { m_renderer_api->Clear(); }
-        static void DrawIndexed(const Ref<VertexArray>& vertex_array) { m_renderer_api->DrawIndexed(vertex_array); }
+        static void DrawIndexed(const Ref<VertexArray>& vertex_array, uint32_t index_count = 0)
+        {
+            m_renderer_api->DrawIndexed(vertex_array, index_count);
+        }
 
     private:
         static Scope<RenderAPI> m_renderer_api;

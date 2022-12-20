@@ -3,6 +3,7 @@
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
+#include <stdint.h>
 
 #include "hzpch.h"
 
@@ -23,10 +24,11 @@ namespace Hazel
 
     void OpenGLRenderAPI::Clear() { glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); }
 
-    void OpenGLRenderAPI::DrawIndexed(const Ref<VertexArray>& vertex_array)
+    void OpenGLRenderAPI::DrawIndexed(const Ref<VertexArray>& vertex_array, uint32_t index_count)
     {
-        glDrawElements(GL_TRIANGLES, static_cast<int>(vertex_array->GetIndexBuffer()->GetCount()), GL_UNSIGNED_INT,
-                       nullptr);
+        uint32_t count = index_count != 0 ? index_count : vertex_array->GetIndexBuffer()->GetCount();
+
+        glDrawElements(GL_TRIANGLES, static_cast<int>(count), GL_UNSIGNED_INT, nullptr);
         glBindTexture(GL_TEXTURE_2D, 0);
     }
     void OpenGLRenderAPI::SetViewPort(const int x, const int y, const int width, const int height)
