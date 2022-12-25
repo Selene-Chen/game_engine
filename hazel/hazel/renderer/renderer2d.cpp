@@ -238,6 +238,11 @@ namespace Hazel
         // * 纹理不存在于纹理数组
         if (texture_index == 0.0F)
         {
+            // * 纹理槽超过最大
+            if (s_data.TextureSlotIndex >= Render2DDate::MaxTextureSlots)
+            {
+                FlushAndReset();
+            }
             texture_index                                = static_cast<float>(s_data.TextureSlotIndex);
             s_data.TextureSlots[s_data.TextureSlotIndex] = texture;
             s_data.TextureSlotIndex++;
@@ -335,6 +340,11 @@ namespace Hazel
         // * 纹理不存在于纹理数组
         if (texture_index == 0.0F)
         {
+            // * 纹理槽超过最大
+            if (s_data.TextureSlotIndex >= Render2DDate::MaxTextureSlots)
+            {
+                FlushAndReset();
+            }
             texture_index                                = static_cast<float>(s_data.TextureSlotIndex);
             s_data.TextureSlots[s_data.TextureSlotIndex] = texture;
             s_data.TextureSlotIndex++;

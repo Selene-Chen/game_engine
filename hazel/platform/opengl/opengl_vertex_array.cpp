@@ -59,12 +59,45 @@ namespace Hazel
         const auto& layout = vertex_buffer->GetLayout();
         for (const auto& element : layout)
         {
-            glEnableVertexAttribArray(m_vertex_buffer_index);
-            glVertexAttribPointer(m_vertex_buffer_index, static_cast<GLint>(element.GetComponentCout()),
-                                  ShaderDataTypeToOpenGLBaseType(element.Type), element.Normalized ? GL_TRUE : GL_FALSE,
-                                  static_cast<GLint>(layout.GetStride()),
-                                  reinterpret_cast<const void*>(element.Offset));
-            m_vertex_buffer_index++;
+            switch (element.Type)
+            {
+                case ShaderDataType::Float:
+                case ShaderDataType::Float2:
+                case ShaderDataType::Float3:
+                case ShaderDataType::Float4:
+                case ShaderDataType::Int:
+                case ShaderDataType::Int2:
+                case ShaderDataType::Int3:
+                case ShaderDataType::Int4:
+                case ShaderDataType::Bool:
+                    {
+                        glEnableVertexAttribArray(m_vertex_buffer_index);
+                        glVertexAttribPointer(
+                            m_vertex_buffer_index, static_cast<GLint>(element.GetComponentCout()),
+                            ShaderDataTypeToOpenGLBaseType(element.Type), element.Normalized ? GL_TRUE : GL_FALSE,
+                            static_cast<GLint>(layout.GetStride()), reinterpret_cast<const void*>(element.Offset));
+                        m_vertex_buffer_index++;
+                        break;
+                    }
+                case ShaderDataType::Mat3:
+                case ShaderDataType::Mat4:
+                    // * 顶点为矩阵
+                    {
+                        uint8_t count = element.GetComponentCout();
+                        for (uint8_t i = 0; i < count; i++)
+                        {
+                            glEnableVertexAttribArray(m_vertex_buffer_index);
+                            glVertexAttribPointer(
+                                m_vertex_buffer_index, count, ShaderDataTypeToOpenGLBaseType(element.Type),
+                                element.Normalized ? GL_TRUE : GL_FALSE, static_cast<GLint>(layout.GetStride()),
+                                reinterpret_cast<const void*>(sizeof(float) * count * i));
+                            glVertexAttribDivisor(m_vertex_buffer_index, 1);
+                            m_vertex_buffer_index++;
+                        }
+                        break;
+                    }
+                default: HZ_CORE_ASSERT(false, "Unknown ShaderDataType!");
+            }
         }
         m_vertex_buffers.push_back(vertex_buffer);
     }
