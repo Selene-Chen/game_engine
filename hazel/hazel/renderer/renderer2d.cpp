@@ -121,7 +121,6 @@ namespace Hazel
     {
         HZ_PROFILE_FUNCTION();
         delete[] s_data.QuadVertexBufferBase;
-        delete[] s_data.QuadVertexBufferPtr;
     }
 
     void Renderer2D::BeginScene(const OrthographicCamera& camera)
