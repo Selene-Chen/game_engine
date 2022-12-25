@@ -117,7 +117,12 @@ namespace Hazel
         s_data.QuadVertexPositions[3] = {-0.5F, 0.5F, 0.0F, 1.0F};
     }
 
-    void Renderer2D::Shutdown() { HZ_PROFILE_FUNCTION(); }
+    void Renderer2D::Shutdown()
+    {
+        HZ_PROFILE_FUNCTION();
+        delete[] s_data.QuadVertexBufferBase;
+        delete[] s_data.QuadVertexBufferPtr;
+    }
 
     void Renderer2D::BeginScene(const OrthographicCamera& camera)
     {
