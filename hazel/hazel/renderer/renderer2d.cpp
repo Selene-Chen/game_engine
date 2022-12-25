@@ -4,11 +4,10 @@
 #include <array>
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
-#include <stdint.h>
 #include <vcruntime_string.h>
 #include <wingdi.h>
 
-#include "hazel/renderer/render_command.h"
+#include "hazel/renderer/renderer_command.h"
 #include "hazel/renderer/shader.h"
 #include "hazel/renderer/vertex_array.h"
 
@@ -157,7 +156,7 @@ namespace Hazel
         {
             s_data.TextureSlots[i]->Bind(i);
         }
-        RenderCommand::DrawIndexed(s_data.QuadVertexArray, s_data.QuadIndexCount);
+        RendererCommand::DrawIndexed(s_data.QuadVertexArray, s_data.QuadIndexCount);
         s_data.Stats.DrawCall++;
     }
     void Renderer2D::FlushAndReset()

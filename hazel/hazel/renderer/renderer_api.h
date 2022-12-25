@@ -5,11 +5,11 @@
 
 namespace Hazel
 {
-    class RenderAPI
+    class RendererAPI
     {
     public:
-        RenderAPI()          = default;
-        virtual ~RenderAPI() = default;
+        RendererAPI()          = default;
+        virtual ~RendererAPI() = default;
 
         enum class API
         {

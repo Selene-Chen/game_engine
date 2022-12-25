@@ -1,13 +1,13 @@
 #pragma once
-#include "hazel/renderer/render_api.h"
+#include "hazel/renderer/renderer_api.h"
 
 namespace Hazel
 {
-    class RenderCommand
+    class RendererCommand
     {
     public:
-        RenderCommand()  = default;
-        ~RenderCommand() = default;
+        RendererCommand()  = default;
+        ~RendererCommand() = default;
 
         static void Init() { m_renderer_api->Init(); }
 
@@ -25,7 +25,7 @@ namespace Hazel
         }
 
     private:
-        static Scope<RenderAPI> m_renderer_api;
+        static Scope<RendererAPI> m_renderer_api;
     };
 
 }  // namespace Hazel

@@ -3,7 +3,7 @@ set_project("game_engine")
 set_xmakever("2.7.3")
 
 -- set common flags
-set_languages("cxx20")
+set_languages("cxx17")
 set_arch("x64")
 
 -- add build rules
@@ -36,7 +36,9 @@ elseif is_mode("release") then
 end
 
 includes("3rdparty")
+
 set_group("engine")
+
 target("hazel")
     set_kind("static")
     add_defines("GLFW_INCLUDE_NONE","_CRT_SECURE_NO_WARNINGS")
@@ -50,6 +52,7 @@ target("hazel")
     add_deps("stb")
     add_deps("glm")
     add_deps("imgui")
+
 target("sandbox")
     set_kind("binary")
     add_files("sandbox/**.cpp")

@@ -1,15 +1,15 @@
 #pragma once
 #include <stdint.h>
 
-#include "hazel/renderer/render_api.h"
+#include "hazel/renderer/renderer_api.h"
 
 namespace Hazel
 {
-    class OpenGLRenderAPI : public RenderAPI
+    class OpenGLRendererAPI : public RendererAPI
     {
     public:
-        OpenGLRenderAPI()           = default;
-        ~OpenGLRenderAPI() override = default;
+        OpenGLRendererAPI()           = default;
+        ~OpenGLRendererAPI() override = default;
 
         void Init() override;
         void SetClearColor(const glm::vec4& color) override;

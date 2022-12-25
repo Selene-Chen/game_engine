@@ -34,7 +34,7 @@ public:
         m_vertex_array->SetIndexBuffer(index_buffer);
 
         // 4.shader
-        const std::string vertext_src = R"(
+        const std::string vertext_src  = R"(
 			#version 330 core
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Color;
@@ -89,7 +89,7 @@ public:
         m_square_vertex_array->AddVertexBuffer(square_vertex_buffer);
         m_square_vertex_array->SetIndexBuffer(square_index_buffer);
         // 4.shader
-        const std::string square_vertext_src = R"(
+        const std::string square_vertext_src  = R"(
 			#version 330 core
 			layout(location = 0) in vec3 a_Position;
 			out vec3 v_Position;
@@ -118,7 +118,7 @@ public:
         // m_TextureShader = Hazel::Shader::Create("assets/shader/texture.glsl");
         const auto texture_shader = m_shader_library.Load("assets/shader/texture.glsl");
         // 加载纹理
-        m_texture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
+        m_texture      = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
         m_logo_texture = Hazel::Texture2D::Create("assets/textures/Logo.png");
         // 着色器设置纹理变量
         std::dynamic_pointer_cast<Hazel::OpenGLShader>(texture_shader)->Bind();
@@ -132,8 +132,8 @@ public:
         m_camera_controller.OnUpdate(timestep);
 
         // Render
-        Hazel::RenderCommand::SetClearColor({0.1F, 0.1F, 0.1F, 1});
-        Hazel::RenderCommand::Clear();
+        Hazel::RendererCommand::SetClearColor({0.1F, 0.1F, 0.1F, 1});
+        Hazel::RendererCommand::Clear();
 
         Hazel::Renderer::BeginScene(m_camera_controller.GetCamera());
 
