@@ -6,6 +6,13 @@
 
 namespace Hazel
 {
+    struct Statistics
+    {
+        uint32_t DrawCall  = 0;
+        uint32_t QuadCount = 0;
+        [[nodiscard]] uint32_t GetTotalVertexCount() const { return QuadCount * 4; }
+        [[nodiscard]] uint32_t GetTotalIndexCount() const { return QuadCount * 6; }
+    };
     class Renderer2D
     {
     public:
@@ -36,6 +43,11 @@ namespace Hazel
         static void DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation,
                                     const Ref<Texture2D>& texture, float tiling_factor = 1.0F,
                                     const glm::vec4& tint_color = glm::vec4(1.0F));
+        static void ResetStats();
+        static Statistics GetStats();
+
+    private:
+        static void FlushAndReset();
     };
 
 }  // namespace Hazel

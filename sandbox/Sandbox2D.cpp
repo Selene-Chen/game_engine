@@ -25,18 +25,31 @@ void Sandbox2D::OnUpdate(const Hazel::Timestep timestep)
     }
     {
         HZ_PROFILE_SCOPE("render draw");
-        //  BeginScene
+
+        Hazel::Renderer2D::ResetStats();
+        // * BeginScene
         Hazel::Renderer2D::BeginScene(m_camera_controller.GetCamera());
 
         Hazel::Renderer2D::DrawQuad({0.5F, -0.5F}, {0.5F, 0.75F}, {0.2F, 0.3F, 0.8F, 1.0F});
         Hazel::Renderer2D::DrawQuad({-1.0F, 0.0F}, {0.8F, 0.8F}, {0.8F, 0.2F, 0.3F, 1.0F});
+
         Hazel::Renderer2D::DrawQuad({0.0F, 0.0F, -0.1F}, {10.0F, 10.0F}, m_texture, 10.F);
 
-        Hazel::Renderer2D::DrawRotatedQuad({-1.0F, 0.0F}, {0.8F, 0.8F}, -45.0F, {0.8F, 0.2F, 0.3F, 1.0F});
-
+        Hazel::Renderer2D::DrawRotatedQuad({1.0F, 0.0F}, {0.8F, 0.8F}, -45.0F, {0.8F, 0.2F, 0.3F, 1.0F});
         Hazel::Renderer2D::DrawRotatedQuad({-2.0F, 0.0F, 0.0F}, {1.0F, 1.0F}, -45.0F, m_texture, 20.0F);
 
-        //   EndScene
+        // * EndScene
+        Hazel::Renderer2D::EndScene();
+
+        Hazel::Renderer2D::BeginScene(m_camera_controller.GetCamera());
+        for (float y = -5.0F; y < 5.0F; y += 0.5F)
+        {
+            for (float x = -5.0F; x < 5.0F; x += 0.5F)
+            {
+                glm::vec4 color = {(x + 5.0F) / 10.0F, 0.45F, (y + 5.0F) / 10.0F, 0.75F};
+                Hazel::Renderer2D::DrawQuad({x, y}, {0.45F, 0.45F}, color);
+            }
+        }
         Hazel::Renderer2D::EndScene();
     }
 
@@ -52,6 +65,15 @@ void Sandbox2D::OnImGuiRender()
 {
     HZ_PROFILE_FUNCTION();
     ImGui::Begin("Settings");
+
+    auto stats = Hazel::Renderer2D::GetStats();
+
+    ImGui::Text("Renderer2d stats:");
+    ImGui::Text("Draw Calls:%d", stats.DrawCall);
+    ImGui::Text("Quads:%d", stats.QuadCount);
+    ImGui::Text("Vertexs:%d", stats.GetTotalVertexCount());
+    ImGui::Text("Indices:%d", stats.GetTotalIndexCount());
+
     ImGui::ColorEdit4("Square Color", value_ptr(m_square_color));
 
     ImGui::End();

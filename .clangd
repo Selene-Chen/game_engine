@@ -34,6 +34,7 @@ Diagnostics:
         cppcoreguidelines-pro-bounds-array-to-pointer-decay,
         hicpp-no-array-decay,
         misc-definitions-in-headers,
+        cert-flp30-c,
       ]
     CheckOptions:
       readability-identifier-naming.EnumCase: CamelCase
