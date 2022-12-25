@@ -15,6 +15,8 @@ namespace Hazel
 
         [[nodiscard]] uint32_t GetWidth() const override { return m_width; }
         [[nodiscard]] uint32_t GetHeight() const override { return m_height; }
+        [[nodiscard]] uint32_t GetRendererID() const override { return m_renderer_id; }
+
         void Bind(uint32_t slot) const override;
         void SetData(void* data, uint32_t size) const override;
         bool operator==(const Texture& other) const override

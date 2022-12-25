@@ -70,7 +70,7 @@ namespace Hazel
         Renderer::OnWindowResize(event.GetWidth(), event.GetHeight());
         return false;
     }
-
+    void Application::Close() { m_running = false; }
     void Application::Run()
     {
         HZ_PROFILE_FUNCTION();

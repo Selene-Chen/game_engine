@@ -11,10 +11,12 @@ namespace Hazel
     public:
         Application();
         virtual ~Application();
-        Application(const Application&) = delete;             // 删除拷贝构造函数
+        Application(const Application&)            = delete;  // 删除拷贝构造函数
         Application& operator=(const Application&) = delete;  // 删除赋值操作
 
         void Run();
+        void Close();
+
         void OnEvent(Event& event);
 
         void PushLayer(const Ref<Layer>& layer);
@@ -28,7 +30,7 @@ namespace Hazel
         bool OnWindowResizeEvent(WindowResizeEvent& event);
 
         Scope<Window> m_window;
-        bool m_running = true;
+        bool m_running   = true;
         bool m_minimized = false;
 
         LayerStack m_layer_stack;

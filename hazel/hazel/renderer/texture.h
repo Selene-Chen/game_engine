@@ -11,8 +11,9 @@ namespace Hazel
         Texture()          = default;
         virtual ~Texture() = default;
 
-        [[nodiscard]] virtual uint32_t GetWidth() const  = 0;
-        [[nodiscard]] virtual uint32_t GetHeight() const = 0;
+        [[nodiscard]] virtual uint32_t GetWidth() const      = 0;
+        [[nodiscard]] virtual uint32_t GetHeight() const     = 0;
+        [[nodiscard]] virtual uint32_t GetRendererID() const = 0;
 
         virtual void Bind(uint32_t slot) const                = 0;
         virtual void SetData(void* data, uint32_t size) const = 0;

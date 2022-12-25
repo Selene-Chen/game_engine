@@ -20,6 +20,7 @@ namespace Hazel
         ImGui::CreateContext();
         ImGuiIO &imgui_io = ImGui::GetIO();
         (void)imgui_io;
+
         imgui_io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
         // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad
         // Controls
@@ -38,13 +39,13 @@ namespace Hazel
         ImGuiStyle &style = ImGui::GetStyle();
         if ((imgui_io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) != 0)
         {
-            style.WindowRounding = 0.0F;
+            style.WindowRounding              = 0.0F;
             style.Colors[ImGuiCol_WindowBg].w = 1.0F;
         }
 
         // 获取窗口和设置glsl版本
-        Application &app = Application::GetInstance();
-        auto *const window = static_cast<GLFWwindow *>(app.GetWindow().GetNativeWindow());
+        Application &app               = Application::GetInstance();
+        auto *const window             = static_cast<GLFWwindow *>(app.GetWindow().GetNativeWindow());
         const auto *const glsl_version = "#version 410";
 
         // Setup Platform/Renderer backends
@@ -70,18 +71,12 @@ namespace Hazel
         ImGui::DestroyContext();
     }
 
-    void ImGuiLayer::OnImGuiRender()
-    {
-        bool show_demo_window = true;
-        if (show_demo_window)
-        {
-            ImGui::ShowDemoWindow(&show_demo_window);
-        }
-    }
+    void ImGuiLayer::OnImGuiRender() {}
 
     void ImGuiLayer::Begin()
     {
         HZ_PROFILE_FUNCTION();
+
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
@@ -90,8 +85,9 @@ namespace Hazel
     void ImGuiLayer::End()
     {
         HZ_PROFILE_FUNCTION();
+
         ImGuiIO &imgui_io = ImGui::GetIO();
-        Application &app = Application::GetInstance();
+        Application &app  = Application::GetInstance();
         imgui_io.DisplaySize =
             ImVec2(static_cast<float>(app.GetWindow().GetWidth()), static_cast<float>(app.GetWindow().GetHeight()));
 
