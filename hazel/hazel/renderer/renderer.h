@@ -1,6 +1,6 @@
 #pragma once
 #include "hazel/renderer/orthographic_camera.h"
-#include "hazel/renderer/render_api.h"
+#include "hazel/renderer/renderer_api.h"
 #include "hazel/renderer/shader.h"
 
 namespace Hazel
@@ -8,10 +8,10 @@ namespace Hazel
     class Renderer
     {
     public:
-        Renderer() = default;
+        Renderer()  = default;
         ~Renderer() = default;
 
-        static RenderAPI::API GetAPI() { return RenderAPI::GetAPI(); }
+        static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
         static void Init();
         static void Shutdown();

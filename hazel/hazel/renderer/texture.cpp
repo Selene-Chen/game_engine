@@ -9,10 +9,10 @@ namespace Hazel
     {
         switch (Renderer::GetAPI())
         {
-            case RenderAPI::API::None:
+            case RendererAPI ::API::None:
                 HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supperted!");
                 return nullptr;
-            case RenderAPI::API::OpenGL: return CreateRef<OpenGLTexture2D>(width, height);
+            case RendererAPI ::API::OpenGL: return CreateRef<OpenGLTexture2D>(width, height);
         }
         HZ_CORE_ASSERT(false, "Unknow RendererAPI!");
         return nullptr;
@@ -21,10 +21,10 @@ namespace Hazel
     {
         switch (Renderer::GetAPI())
         {
-            case RenderAPI::API::None:
+            case RendererAPI ::API::None:
                 HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supperted!");
                 return nullptr;
-            case RenderAPI::API::OpenGL: return CreateRef<OpenGLTexture2D>(path);
+            case RendererAPI ::API::OpenGL: return CreateRef<OpenGLTexture2D>(path);
         }
         HZ_CORE_ASSERT(false, "Unknow RendererAPI!");
         return nullptr;

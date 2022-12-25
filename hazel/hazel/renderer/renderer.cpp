@@ -1,7 +1,7 @@
 #include "hazel/renderer/renderer.h"
 
-#include "hazel/renderer/render_command.h"
 #include "hazel/renderer/renderer2d.h"
+#include "hazel/renderer/renderer_command.h"
 #include "platform/opengl/opengl_shader.h"
 
 #include "hzpch.h"
@@ -13,11 +13,11 @@ namespace Hazel
     void Renderer::Init()
     {
         HZ_PROFILE_FUNCTION();
-        RenderCommand::Init();
+        RendererCommand::Init();
         Renderer2D::Init();
     }
     void Renderer::Shutdown() { Renderer2D::Shutdown(); }
-    void Renderer::OnWindowResize(uint32_t width, uint32_t height) { RenderCommand ::SetViewPort(0, 0, width, height); }
+    void Renderer::OnWindowResize(uint32_t width, uint32_t height) { RendererCommand ::SetViewPort(0, 0, width, height); }
 
     void Renderer::BeginScene(OrthographicCamera& camera)
     {
@@ -35,6 +35,6 @@ namespace Hazel
         std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", transform);
 
         vertex_array->Bind();
-        RenderCommand::DrawIndexed(vertex_array);
+        RendererCommand::DrawIndexed(vertex_array);
     }
 }  // namespace Hazel

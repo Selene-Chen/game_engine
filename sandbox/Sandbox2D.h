@@ -25,6 +25,8 @@ private:
     Hazel::Ref<Hazel::VertexArray> m_square_va;
     Hazel::Ref<Hazel::Shader> m_flat_color_shader;
     Hazel::Ref<Hazel::Texture2D> m_texture;
+    Hazel::Ref<Hazel::FrameBuffer> m_framebuffer;
+
     glm::vec4 m_square_color = {0.2F, 0.3F, 0.8F, 1.0F};
 
     struct ProfileResult

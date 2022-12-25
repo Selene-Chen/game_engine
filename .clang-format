@@ -149,19 +149,18 @@ IncludeCategories:
   - Regex:           '^<.*'
     Priority:        1
     SortPriority:    0
-    CaseSensitive:   false
+    CaseSensitive:   true
   - Regex:           '^<.*\.h>'
     Priority:        1
     SortPriority:    0
-    CaseSensitive:   false
-  - Regex:           '^"(Hazel|platform)/.*\.h"'
+  - Regex:           '^"(hazel|platform)/.*\.h"'
     Priority:        2
     SortPriority:    0
-    CaseSensitive:   false
+    CaseSensitive:   true
   - Regex:           '.*'
     Priority:        3
     SortPriority:    0
-    CaseSensitive:   false
+    CaseSensitive:   true
 IncludeIsMainRegex: '([-_](test|unittest))?$'
 IncludeIsMainSourceRegex: ''
 # 访问修饰符缩进
@@ -266,7 +265,7 @@ SeparateDefinitionBlocks: Leave
 # 短命名空间行
 ShortNamespaceLines: 1
 # include排序
-SortIncludes:    CaseSensitive
+SortIncludes: CaseSensitive
 # java静态导入排序
 SortJavaStaticImport: Before
 # using声明排序
