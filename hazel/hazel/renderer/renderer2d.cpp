@@ -144,6 +144,11 @@ namespace Hazel
 
     void Renderer2D::Flush()
     {
+        // * 空场景直接返回
+        if (s_data.QuadIndexCount == 0)
+        {
+            return;
+        }
         // * 顶点、顶点索引、纹理绑定
         uint32_t data_size = reinterpret_cast<uint8_t*>(s_data.QuadVertexBufferPtr) -
                              reinterpret_cast<uint8_t*>(s_data.QuadVertexBufferBase);
