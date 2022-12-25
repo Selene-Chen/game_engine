@@ -72,12 +72,10 @@ namespace Hazel
         void WriteProfile(const ProfileResult& result)
         {
             std::stringstream json;
-            std::string name = result.Name;
-            std::replace(name.begin(), name.end(), '"', '\'');
             json << ",{";
             json << R"("cat":"function",)";
             json << "\"dur\":" << (result.End - result.Start) << ',';
-            json << R"("name":")" << name << "\",";
+            json << R"("name":")" << result.Name << "\",";
             json << R"("ph":"X",)";
             json << "\"pid\":0,";
             json << "\"tid\":" << result.ThreadID << ",";
@@ -223,12 +221,10 @@ namespace Hazel
 
     #define HZ_PROFILE_BEGIN_SESSION(name, path) ::Hazel::Instrumentor::Get().BeginSession(name, path)
     #define HZ_PROFILE_END_SESSION()             ::Hazel::Instrumentor::Get().EndSession()
-    #define HZ_PROFILE_SCOPE_LINE2(name, line)                                                              \
-        constexpr auto fixedName##line = ::Hazel::InstrumentorUtils::CleanupOutputString(name, "__cdecl "); \
-        ::Hazel::InstrumentationTimer timer##line(fixedName##line.Data)
-    #define HZ_PROFILE_SCOPE_LINE(name, line) HZ_PROFILE_SCOPE_LINE2(name, line)
-    #define HZ_PROFILE_SCOPE(name)            HZ_PROFILE_SCOPE_LINE(name, __LINE__)
-    #define HZ_PROFILE_FUNCTION()             HZ_PROFILE_SCOPE(HZ_FUNC_SIG)
+    #define HZ_PROFILE_SCOPE(name)                                                                    \
+        constexpr auto fixedName = ::Hazel::InstrumentorUtils::CleanupOutputString(name, "__cdecl "); \
+        ::Hazel::InstrumentationTimer timer##__LINE__(fixedName.Data)
+    #define HZ_PROFILE_FUNCTION() HZ_PROFILE_SCOPE(HZ_FUNC_SIG)
 #else
     #define HZ_PROFILE_BEGIN_SESSION(name, path)
     #define HZ_PROFILE_END_SESSION()
