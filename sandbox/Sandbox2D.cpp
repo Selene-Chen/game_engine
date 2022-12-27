@@ -161,8 +161,13 @@ void Sandbox2D::OnImGuiRender()
         ImGui::Text("Indices:%d", stats.GetTotalIndexCount());
 
         ImGui::ColorEdit4("Square Color", value_ptr(m_square_color));
+<<<<<<< HEAD
 
         // 从帧缓冲中获取ColorAttachmentRendererID 即纹理id
+=======
+        uint32_t id = m_texture->GetRendererID();
+
+>>>>>>> 1067f9fd7a9f3890d4afbfc187a5f31661c08ae7
         uint32_t texture_id = m_framebuffer->GetColorAttachmentRendererID();
         ImGui::Image(reinterpret_cast<void*>(texture_id), ImVec2{1280, 720});
 
