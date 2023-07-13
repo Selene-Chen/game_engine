@@ -1,5 +1,4 @@
-
-#include "engine/Application.h"
+#pragma once
 int main(int argc, char* argv[]) {
   auto app = IRIS::CreateApp();
   app->Run();
